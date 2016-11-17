@@ -5,6 +5,14 @@ import javax.persistence.Entity;
 @Entity
 public class NewsPaperInsertion extends Product {
     private BasicInsertion Insertion;
+
+    public NewsPaperInsertion(BasicInsertion Insertion, boolean premium,
+            long price) {
+        super(price);
+        
+        this.Insertion = Insertion;
+        this.premium = premium;
+    }
     
     private boolean premium;
 

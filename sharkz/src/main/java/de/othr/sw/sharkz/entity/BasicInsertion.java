@@ -24,6 +24,18 @@ public class BasicInsertion extends Product {
     @ManyToOne
     private Customer vendor;
 
+    public BasicInsertion(long pricePerMonth, OfferType offerType,
+            String description, Address address, long price,
+            List<File> images, Customer vendor) {
+        super(pricePerMonth);
+        
+        this.offerType = offerType;
+        this.description = description;
+        this.address = address;
+        this.images = images;
+        this.vendor = vendor;
+    }
+    
     public OfferType getOfferType() {
         return offerType;
     }

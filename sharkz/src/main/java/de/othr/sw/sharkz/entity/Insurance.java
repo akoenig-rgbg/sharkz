@@ -10,6 +10,11 @@ public class Insurance extends Product {
     @Enumerated(EnumType.STRING)
     private InsuranceType type;
 
+    public Insurance(InsuranceType type, long price) {
+        super(price);
+        this.type = type;
+    }
+
     public InsuranceType getType() {
         return type;
     }

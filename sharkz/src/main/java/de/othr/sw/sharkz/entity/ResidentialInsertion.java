@@ -3,6 +3,9 @@ package de.othr.sw.sharkz.entity;
 import javax.persistence.MappedSuperclass;
 
 import de.othr.sw.sharkz.entity.type.HeatingType;
+import de.othr.sw.sharkz.entity.type.OfferType;
+import java.io.File;
+import java.util.List;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
@@ -19,6 +22,26 @@ public class ResidentialInsertion extends BasicInsertion {
     private boolean garage;
     private boolean steplessEntry;
 
+    public ResidentialInsertion(long pricePerMonth, OfferType offerType,
+            String description, Address address, long price,
+            List<File> images, Customer vendor, int livingArea, int rooms,
+            HeatingType heating, boolean guestToilette, boolean basement,
+            boolean kitchen, boolean newBuild, boolean garage,
+            boolean steplessEntry) {
+        super(pricePerMonth, offerType, description, address, price, images,
+                vendor);
+        
+        this.livingArea = livingArea;
+        this.rooms = rooms;
+        this.heating = heating;
+        this.guestToilette = guestToilette;
+        this.basement = basement;
+        this.kitchen = kitchen;
+        this.newBuild = newBuild;
+        this.garage = garage;
+        this.steplessEntry = steplessEntry;
+    }
+    
     public int getLivingArea() {
         return livingArea;
     }

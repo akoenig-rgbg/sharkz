@@ -9,6 +9,10 @@ import javax.persistence.MappedSuperclass;
 public class Product extends EntityPrototype {
     private long pricePerMonth;
 
+    public Product(long price) {
+        pricePerMonth = price;
+    }
+    
     public long getPricePerMonth() {
         return pricePerMonth;
     }

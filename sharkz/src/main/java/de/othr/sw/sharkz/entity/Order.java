@@ -1,6 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -17,8 +17,16 @@ public class Order extends EntityPrototype {
     @ElementCollection
     private List<OrderItem> items;
     
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Customer getCustomer() {
         return customer;
