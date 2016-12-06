@@ -1,15 +1,17 @@
 package de.othr.sw.sharkz.entity;
 
-import javax.persistence.MappedSuperclass;
-
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class ResidentialInsertion extends BasicInsertion {
     private int livingArea;
     private int rooms;
@@ -22,6 +24,10 @@ public class ResidentialInsertion extends BasicInsertion {
     private boolean garage;
     private boolean steplessEntry;
 
+    public ResidentialInsertion() {
+        super();
+    }
+    
     public ResidentialInsertion(long pricePerMonth, OfferType offerType,
             String description, Address address, long price,
             List<File> images, Customer vendor, int livingArea, int rooms,

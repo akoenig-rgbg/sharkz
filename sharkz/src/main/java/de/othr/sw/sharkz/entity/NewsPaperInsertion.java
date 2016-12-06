@@ -1,11 +1,17 @@
 package de.othr.sw.sharkz.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class NewsPaperInsertion extends Product {
+    @OneToOne
     private BasicInsertion Insertion;
 
+    public NewsPaperInsertion() {
+        super();
+    }
+    
     public NewsPaperInsertion(BasicInsertion Insertion, boolean premium,
             long price) {
         super(price);

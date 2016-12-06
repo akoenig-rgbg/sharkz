@@ -4,12 +4,15 @@ import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
 import java.util.List;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class BasicInsertion extends Product {
     @Enumerated(EnumType.STRING)
     private OfferType offerType;
@@ -24,6 +27,10 @@ public class BasicInsertion extends Product {
     @ManyToOne
     private Customer vendor;
 
+    public BasicInsertion() {
+        super();
+    }
+    
     public BasicInsertion(long pricePerMonth, OfferType offerType,
             String description, Address address, long price,
             List<File> images, Customer vendor) {

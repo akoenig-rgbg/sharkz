@@ -15,6 +15,10 @@ public class HouseInsertion extends ResidentialInsertion {
     private HouseType type;
     private int plotArea;
 
+    public HouseInsertion() {
+        super();
+    }
+    
     public HouseInsertion(HouseType type, int plotArea, long pricePerMonth,
             OfferType offerType, String description, Address address,
             long price, List<File> images, Customer vendor, int livingArea,

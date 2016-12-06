@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 public class CommercialInsertionService extends ServicePrototype {
+    
     @Transactional(TxType.REQUIRED)
     public void createCommercialInsertion(long pricePerMonth,
             OfferType offerType, String description, Address address,

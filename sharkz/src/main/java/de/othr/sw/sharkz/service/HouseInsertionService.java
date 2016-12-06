@@ -8,10 +8,13 @@ import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 public class HouseInsertionService extends ServicePrototype {
+
     @Transactional(TxType.REQUIRED)
     public void createHouseInsertion(HouseType type, int plotArea,
             long pricePerMonth, OfferType offerType, String description,

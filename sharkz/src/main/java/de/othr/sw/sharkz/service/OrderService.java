@@ -3,14 +3,14 @@ package de.othr.sw.sharkz.service;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Order;
 import de.othr.sw.sharkz.entity.OrderItem;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 public class OrderService extends ServicePrototype {
-    
+
     @Transactional(TxType.REQUIRED)
     public void createOrder(List<OrderItem> items, Customer customer) {
         Order order = new Order();

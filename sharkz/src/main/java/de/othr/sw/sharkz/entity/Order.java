@@ -1,16 +1,20 @@
 package de.othr.sw.sharkz.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name="T_ORDER")
 public class Order extends EntityPrototype {
-    @OneToMany
+    @ManyToOne
     private Customer customer;
     
     @OneToMany
@@ -18,6 +22,7 @@ public class Order extends EntityPrototype {
     private List<OrderItem> items;
     
     @Temporal(TemporalType.DATE)
+    @Column(name="C_DATE")
     private Date date;
 
     public Date getDate() {

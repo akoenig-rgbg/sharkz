@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
+import de.othr.sw.sharkz.entity.type.ApartmentType;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
@@ -14,6 +15,10 @@ public class ApartmentInsertion extends ResidentialInsertion {
     private ApartmentType type;
     private boolean lift;
 
+    public ApartmentInsertion() {
+        super();
+    }
+    
     public ApartmentInsertion(ApartmentType type, boolean lift,
             long pricePerMonth, OfferType offerType, String description,
             Address address, long price, List<File> images, Customer vendor,

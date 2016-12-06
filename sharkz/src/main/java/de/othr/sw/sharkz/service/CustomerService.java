@@ -1,13 +1,20 @@
 package de.othr.sw.sharkz.service;
 
 import de.othr.sw.sharkz.entity.Customer;
+import java.io.Serializable;
+import java.util.List;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-public class CustomerService extends ServicePrototype {
-    
+@Named
+@RequestScoped
+public class CustomerService extends ServicePrototype implements Serializable {
+  
     @Transactional(TxType.REQUIRED)
-    public void createCustomer(String firstName, String lastName, String eMail,
+    public long createCustomer(String firstName, String lastName, String eMail,
             String password, String phoneNumber) {
         Customer customer = new Customer();
         
@@ -22,9 +29,17 @@ public class CustomerService extends ServicePrototype {
         customer.setInsertions(null);
         
         em.persist(customer);
+        em.flush();
+        
+        return customer.getID();
     }
     
     public Customer findCustomer(long id) {
         return em.find(Customer.class, id);
+    }
+    
+    public List<Customer> findAllCustomers() {
+        Query q = em.createNativeQuery("SELECT * FROM CUSTOMER");
+        return q.getResultList();
     }
 }

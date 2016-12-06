@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Customer extends EntityPrototype {
+public class Customer extends Account {
     private String firstName;
     private String lastName;
     private String eMail;

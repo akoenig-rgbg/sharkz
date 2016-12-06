@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 public class NewsPaperInsertionService extends ServicePrototype {
+    
     @Transactional(TxType.REQUIRED)
     public void createNewsPaperInsertion(BasicInsertion ins, boolean premium,
             long pricePerMonth) {

@@ -2,7 +2,7 @@ package de.othr.sw.sharkz.service;
 
 import de.othr.sw.sharkz.entity.Address;
 import de.othr.sw.sharkz.entity.ApartmentInsertion;
-import de.othr.sw.sharkz.entity.ApartmentType;
+import de.othr.sw.sharkz.entity.type.ApartmentType;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.OfferType;
@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 public class ApartmentInsertionService extends ServicePrototype {
+    
     @Transactional(TxType.REQUIRED)
     public void createApartmentInsertion(ApartmentType type, boolean lift,
             long pricePerMonth, OfferType offerType, String description,

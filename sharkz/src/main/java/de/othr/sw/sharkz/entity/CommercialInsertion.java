@@ -17,6 +17,10 @@ public class CommercialInsertion extends BasicInsertion {
     private boolean aircon;
     private boolean heavyCurrent;
     
+    public CommercialInsertion() {
+        super();
+    }
+    
     public CommercialInsertion(long pricePerMonth, OfferType offerType,
             String description, Address address, long price, List<File> images,
             Customer vendor, CommercialType type, int area, boolean aircon,
