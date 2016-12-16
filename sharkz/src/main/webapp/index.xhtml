@@ -1,40 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <h:outputStylesheet library="css" name="style.css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" /> 
-        
-        <title>Sharkz - Immobilienvergleichsportal</title>
-    </h:head>
-    <h:body>
-        <div id="wrapper">
-            <div id="menu_wrapper">
-                <div class="menu_item">
-                    <h:outputLink value="#">
-                        Wohnen
-                    </h:outputLink>
-                </div>
-                <div class="menu_item">
-                    <h:outputLink value="#">
-                        Gewerbe
-                    </h:outputLink>
-                </div>
-                <div class="menu_item">
-                    <h:outputLink value="#">
-                        Anbieten
-                    </h:outputLink>
-                </div>
-                <div class ="menu_item">
-                    <h:outputLink value="#">
-                        Versichern
-                    </h:outputLink>
-                </div>
-            </div>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/sharkzTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="main">
+
             <div id="slider">
                 <div id="search_wrapper">
                     <div id="search_heading">
@@ -44,24 +18,29 @@
                     </div>
                     <div id="search_field_wrapper">
                         <h:form>
-                            <h:selectOneMenu class="search_select_menu search_select_left">
+                            <h:selectOneMenu class="search_select_menu search_select_left" binding="#{usage}">
                                 <f:selectItem itemValue="1" itemLabel="Wohnen" />
                                 <f:selectItem itemValue="2" itemLabel="Gewerbe" />	   							
                             </h:selectOneMenu>
-                            <h:inputText class="search_input_text" a:placeholder="Wohnort oder PLZ eingeben"/>
-                            <h:selectOneMenu class="search_select_menu search_select_right">
+                            <h:inputText class="search_input_text" a:placeholder="Wohnort oder PLZ eingeben" binding="#{location}"/>
+                            <h:selectOneMenu class="search_select_menu search_select_right" binding="#{offer}">
                                 <f:selectItem itemValue="1" itemLabel="Kaufen" />
                                 <f:selectItem itemValue="2" itemLabel="Mieten" />	   							
                             </h:selectOneMenu>
-                            <h:commandButton styleClass="search_button" value="Suchen" />
+                            <h:commandButton styleClass="search_button" value="Suchen" action="#{Home.search()}">
+                                <f:param name="usage" value="#{usage}"/>
+                                <f:param name="location" value="#{location}"/>
+                                <f:param name="offer" value="#{offer}"/>
+                            </h:commandButton>
                         </h:form>
                     </div>
                 </div>
             </div>
+        
             <div id="content_wrapper">
                 
             </div>
-        </div>
-    </h:body>
-</html>
 
+    </ui:define>
+    
+</ui:composition>
