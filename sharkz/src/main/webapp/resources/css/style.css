@@ -35,6 +35,13 @@ body, p {
     overflow-y: auto;
 }
 
+#footer_wrapper {
+    margin: 0px auto;
+    width: 100%;
+    height: 300px;
+    background-color: #005e99;
+}
+
 /* Menu */
 .menu_item {
     float: left;
