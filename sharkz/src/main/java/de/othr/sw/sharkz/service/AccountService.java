@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.service;
 
+import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +12,7 @@ import javax.transaction.Transactional.TxType;
 
 @Named
 @RequestScoped
-public class CustomerService extends ServicePrototype implements Serializable {
+public class AccountService extends ServicePrototype implements Serializable {
   
     @Transactional(TxType.REQUIRED)
     public long createCustomer(String firstName, String lastName, String eMail,
@@ -32,6 +33,19 @@ public class CustomerService extends ServicePrototype implements Serializable {
         em.flush();
         
         return customer.getID();
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public long createAdministrator(String eMail, String password) {
+        Administrator admin = new Administrator();
+        
+        admin.setPassword(password);
+        admin.seteMail(eMail);
+        
+        em.persist(admin);
+        em.flush();
+        
+        return admin.getID();
     }
     
     public Customer findCustomer(long id) {

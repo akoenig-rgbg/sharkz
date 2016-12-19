@@ -8,9 +8,46 @@ body {
     margin: 0px;
 }
 
-body, p {
+body, a, p {
     font-family: 'Roboto', sans-serif;
 }
+
+a {
+    text-decoration: none;
+    color: #005e99;
+}
+
+.inputText {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 11px 15px;
+    -webkit-padding-before: 10px;
+    -webkit-padding-after: 10px;
+    font-size: 14pt;
+    box-sizing: border-box;
+}
+
+.button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #005e99;
+    border: 1px solid #00578d;
+    color: #fff;
+    border-radius: 3px;
+    padding: 10px 30px;
+    font-size: 14pt;
+}
+
+.button:hover {
+    background-color: #00578d;
+    border-color: #005e99;
+    cursor: pointer;
+}
+
 /* Layout */
 #wrapper {
     background-color: #ffffff;
@@ -108,29 +145,104 @@ body, p {
 }
 
 .search_input_text {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
     border-right: none;
     border-left: none;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    padding: 11px 15px;
-    -webkit-padding-before: 10px;
-    -webkit-padding-after: 10px;
-    font-size: 14pt;
+    border-radius: 0px;
     width: 250px;
 }
 
 .search_button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: #005e99;
-    border: 1px solid #00578d;
-    color: #fff;
-    border-radius: 3px;
-    padding: 10px 30px;
-    font-size: 14pt;
     float: right;
+}
+
+
+/* Login Screen */
+#login_back_button {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background-image: url(images/login_back_button.png);
+}
+
+#login_wrapper {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+}
+
+#login_container {
+    margin: 0px auto;
+    width: 400px;
+    padding: 40px 20px 40px 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    -webkit-box-shadow: 2px 2px 5px 0px #ccc;
+    -moz-box-shadow: 2px 2px 5px 0px #ccc;
+    box-shadow: 2px 2px 5px 0px #ccc;
+}
+
+.logo_text {
+    width: 300px;
+    height: 150px;
+    margin: 0px auto;
+    display: block;
+    margin-bottom: 40px;
+}
+
+.login_inputText {
+    width: 80%;
+    display: block;
+    margin: 0px auto;
+    margin-top: 30px;
+    transition: color 1.0s;
+    -webkit-transition: color 1.0s;
+    -moz-transition: color 1.0s;
+}
+
+#login_links {
+    width: 80%;
+    margin: 0px auto;
+    margin-bottom: 30px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+#login_links a {
+    display: block;
+    font-size: 12px;
+}
+
+.login_link_register {
+    float: left;
+    padding-left: 5px;
+}
+
+.login_link_forgot {
+    float: right;
+    padding-right: 5px;
+}
+
+@keyframes dropHeader {
+  0% {
+    transform: translateY(-100%);
+    transition: width 0%;
+  }
+  100% {
+    transform: translateY(0);
+    transition: width 100%;
+  }
+}
+
+.login_button {
+    display: block;
+    margin: 0px auto;
+    padding-left: 70px;
+    padding-right: 70px;
+    
+    animation-name: dropHeader;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    animation-duration: 0.6s;
 }

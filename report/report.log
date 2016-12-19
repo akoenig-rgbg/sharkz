@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.4.14)  8 NOV 2016 12:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.4.14)  19 DEC 2016 16:55
 entering extended mode
 **./report.tex
 (report.tex
@@ -672,12 +672,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 44--53
 
  []
 
-<pics/diagrams/gesamtsystem.png, id=70, 688.07062pt x 419.31656pt>
+<pics/diagrams/gesamtsystem.png, id=70, 741.52031pt x 451.6875pt>
 File: pics/diagrams/gesamtsystem.png Graphic file (type png)
 
 <use pics/diagrams/gesamtsystem.png>
 Package pdftex.def Info: pics/diagrams/gesamtsystem.png used on input line 56.
-(pdftex.def)             Requested size: 412.84555pt x 251.59186pt.
+(pdftex.def)             Requested size: 444.91562pt x 271.01459pt.
+
+Overfull \hbox (26.66006pt too wide) in paragraph at lines 56--57
+ [][] 
+ []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -801,9 +805,9 @@ s\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsx1200.pk> <C:\
 Users\Andreas\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsx2
 074.pk> <C:\Users\Andreas\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\
 dpi600\ecbx1440.pk>
-Output written on report.pdf (9 pages, 129388 bytes).
+Output written on report.pdf (9 pages, 130353 bytes).
 PDF statistics:
- 389 PDF objects out of 1000 (max. 8388607)
+ 388 PDF objects out of 1000 (max. 8388607)
  21 named destinations out of 1000 (max. 500000)
  78 words of extra memory for PDF output out of 10000 (max. 10000000)
 

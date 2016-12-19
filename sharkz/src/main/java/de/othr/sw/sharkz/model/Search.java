@@ -3,10 +3,12 @@ package de.othr.sw.sharkz.model;
 import de.othr.sw.sharkz.entity.BasicInsertion;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
+import de.othr.sw.sharkz.service.SearchService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @ManagedBean(name="search")
@@ -18,6 +20,9 @@ public class Search {
     private String location;
     private OfferType offer;
     
+    @Inject
+    private SearchService searchService;
+    
     public OfferType[] getOfferTypeValues() {
         return OfferType.values();
     }
@@ -26,8 +31,11 @@ public class Search {
         return UsageType.values();
     }
     
-    public String search() {
-        return "search?includeViewParams=true&faces-redirect=true";
+    public List<BasicInsertion> search() {
+        //if (location != null)
+          //  return searchService.searchInsertions(null, null, location);
+        
+        return null;
     }
     
     public List<BasicInsertion> getQuery()  {

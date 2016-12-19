@@ -8,8 +8,6 @@ import javax.persistence.OneToMany;
 public class Customer extends Account {
     private String firstName;
     private String lastName;
-    private String eMail;
-    private String password;
     private String phoneNumber;
     
     @OneToMany(mappedBy="customer")
@@ -35,22 +33,6 @@ public class Customer extends Account {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhoneNumber() {

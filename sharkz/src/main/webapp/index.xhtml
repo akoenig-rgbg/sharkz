@@ -23,7 +23,7 @@
                                 <f:selectItems var="u" value="#{search.usageTypeValues}"  itemValue="#{u}" itemLabel="#{u.label}"/>
                             </h:selectOneMenu>
                             
-                            <h:inputText class="search_input_text"
+                            <h:inputText class="inputText search_input_text"
                                          a:placeholder="Wohnort oder PLZ eingeben"
                                          value="#{search.location}" />
                             
@@ -33,9 +33,9 @@
                             </h:selectOneMenu>
                             
                             <h:commandButton
-                                styleClass="search_button"
+                                styleClass="button search_button"
                                 value="Suchen" type="submit"
-                                action="#{search.search()}" />
+                                action="#{home.search()}" />
                             
                         </h:form>
                     </div>
@@ -43,7 +43,13 @@
             </div>
         
             <div id="content_wrapper">
-                Hier kommt dann mal der Inhalt hin
+                <div id="featured_wrapper">
+                    
+                </div>
+                
+                <div id="insurance_wrapper">
+                    
+                </div>
             </div>
 
     </ui:define>

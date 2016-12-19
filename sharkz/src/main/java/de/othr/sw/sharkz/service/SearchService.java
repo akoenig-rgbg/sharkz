@@ -7,6 +7,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @RequestScoped
 public class SearchService {
@@ -19,14 +20,13 @@ public class SearchService {
     @PersistenceContext
     EntityManager em;
     
-    public String query() {
-        String answer;
+    public List<BasicInsertion> searchInsertions(UsageType usage, OfferType offer,
+            String location) {
         
-        //Query q = em.createQuery(, resultClass)
+        Query q = em.createNativeQuery("SELECT * FROM APP.BASICINSERTION WHERE"
+                + "TOWN=" + location + ";", BasicInsertion.class);
         
-        //return answer;
-        
-        return "Test";
+        return q.getResultList();
     }
 
     public List<BasicInsertion> getInsertions() {

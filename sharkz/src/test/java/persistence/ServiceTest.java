@@ -1,7 +1,7 @@
 package persistence;
 
 import de.othr.sw.sharkz.entity.Customer;
-import de.othr.sw.sharkz.service.CustomerService;
+import de.othr.sw.sharkz.service.AccountService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.embeddable.EJBContainer;
