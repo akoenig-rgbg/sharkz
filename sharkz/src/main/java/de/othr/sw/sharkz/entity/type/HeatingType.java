@@ -1,5 +1,5 @@
 package de.othr.sw.sharkz.entity.type;
 
 public enum HeatingType {
-    CENTRAL, SELF_CONTAINED
+    SOLAR, WIND, WOOD, PELLET, ELECTRICITY, OIL, GAS
 }

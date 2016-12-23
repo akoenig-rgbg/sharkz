@@ -2,31 +2,64 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:body>
         <ui:composition>
 
-        <div class="menu_item">
-            <h:outputLink value="#">
+            <h:outputLink styleClass="menu_item" value="#">
                 Wohnen
             </h:outputLink>
-        </div>
-        <div class="menu_item">
-            <h:outputLink value="#">
+            
+            <h:outputLink styleClass="menu_item" value="#">
                 Gewerbe
             </h:outputLink>
-        </div>
-        <div class="menu_item">
-            <h:outputLink value="#">
+            
+            <h:outputLink styleClass="menu_item" value="#">
                 Anbieten
             </h:outputLink>
-        </div>
-        <div class ="menu_item">
-            <h:outputLink value="#">
+            
+            <h:outputLink styleClass="menu_item" value="#">
                 Versichern
             </h:outputLink>
-        </div>
+ 
+            <h:panelGroup rendered="#{!account.isLoggedIn}">
+                <div class="menu_item menu_item_login">
+                    <div style="position:fixed">
+                        <h:outputLink value="login.xhtml">
+                            Login
+                        </h:outputLink>
+                        <div class="menu_item_login_content">
+                            <h:form>
+                                <h:inputText value="#{loginModel.email}" styleClass="inputText login_smallInputText login_smallInputText_mail" a:placeholder="E-Mail"/>
+                                <h:inputSecret value="#{loginModel.password}" styleClass="inputText login_smallInputText login_smallInputText_password" a:placeholder="Passwort"/>
+
+                                <div class="login_links_small">
+                                    <h:outputLink value="login.xhtml" styleClass="login_small_link_register">Registrieren</h:outputLink>
+                                    <h:outputLink value="login.xhtml" styleClass="login_small_link_forgot">Passwort vergessen?</h:outputLink>
+                                </div>
+
+                                <h:commandButton action="#{loginModel.loginButtonPress()}" value="Login" styleClass="button login_button_small" />
+                            </h:form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+            
+            <h:panelGroup rendered="#{account.isLoggedIn}">
+                <div class="mein_konto">
+                    <h:outputText value="#{account.name}" />
+                    <h:form>
+                        <h:commandLink action="#{account.logout()}">
+                            Ausloggen
+                        </h:commandLink>
+                    </h:form>
+                </div>
+            </h:panelGroup>
+                          
         </ui:composition>
     </h:body>
 </html>

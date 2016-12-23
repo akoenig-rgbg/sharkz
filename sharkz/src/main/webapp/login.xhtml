@@ -22,24 +22,24 @@
                 <img class="logo_text" src="images/logo_text.png" />
                 
                 <h:form id="login_form">
-                    <h:inputText id="login_input_email" value="#{login.email}" a:placeholder="E-Mail Adresse" styleClass="inputText login_inputText"/>
-                    <h:inputSecret id="login_input_password" value="#{login.password}" a:placeholder="Passwort" styleClass="inputText login_inputText"/>
+                    <h:inputText id="login_input_email" value="#{loginModel.email}" a:placeholder="E-Mail Adresse" styleClass="inputText login_inputText"/>
+                    <h:inputSecret id="login_input_password" value="#{loginModel.password}" a:placeholder="Passwort" styleClass="inputText login_inputText"/>
                     
                     <h:panelGroup id="login_name_group">
-                        <h:inputText id="login_firstName" a:placeholder="Vorname" styleClass="inputText login_inputText" rendered="#{!login.loginAction}"/>
-                        <h:inputText id="login_lastName" a:placeholder="Nachname" styleClass="inputText login_inputText" rendered="#{!login.loginAction}"/>
+                        <h:inputText id="login_firstName" a:placeholder="Vorname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
+                        <h:inputText id="login_lastName" a:placeholder="Nachname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
                     </h:panelGroup>
                     
                     <div id="login_links">
-                        <h:commandLink id="register_link" value="#{login.registerButtonText}" styleClass="login_link_register" action="#{login.toggleAction()}">
-                            <f:ajax render="register_link login_button_group login_name_group" />
+                        <h:commandLink id="register_link" value="#{loginModel.registerButtonText}" styleClass="login_link_register" action="#{loginModel.toggleAction()}">
+                            <f:ajax render="login_wrapper register_link login_button_group login_name_group" />
                         </h:commandLink>
                         <h:outputLink styleClass="login_link_forgot">Passwort vergessen?</h:outputLink>
                     </div>
                     <div style="clear:both"></div>
                     
                     <h:panelGroup id="login_button_group">
-                        <h:commandButton action="#{login.loginButtonPress()}" value="#{login.loginButtonText}" styleClass="button login_button" />
+                        <h:commandButton action="#{loginModel.loginButtonPress()}" value="#{loginModel.loginButtonText}" styleClass="button login_button" />
                     </h:panelGroup>
                     
                 </h:form>

@@ -10,6 +10,10 @@ public class Customer extends Account {
     private String lastName;
     private String phoneNumber;
     
+    public Customer() {
+        super();
+    }
+    
     @OneToMany(mappedBy="customer")
     private List<Order> orders;
     

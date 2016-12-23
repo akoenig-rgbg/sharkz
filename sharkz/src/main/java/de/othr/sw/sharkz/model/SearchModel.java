@@ -11,10 +11,9 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@ManagedBean(name="search")
 @Named(value="search")
 @RequestScoped
-public class Search {
+public class SearchModel {
     
     private UsageType usage;
     private String location;

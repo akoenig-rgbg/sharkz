@@ -6,11 +6,11 @@ import javax.transaction.Transactional;
 
 @Named(value="home")
 @RequestScoped
-public class Home {
+public class HomeModel {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public String search() {
         
-        return "search?includeViewParams=true&faces-redirect=true";
+        return "/search.xhtml?faces-redirect=true&includeViewParams=true";
     }
 }
