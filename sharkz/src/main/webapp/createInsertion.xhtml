@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/sharkzTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="main">
+        
+        Inserat erstellen
+        <h:form>
+            <div style="height:100px" />
+            <h:selectOneMenu value="#{insertionModel.offerType}">
+                <f:selectItems var="o" value="#{search.offerTypeValues}"  itemValue="#{o}" itemLabel="#{o.label}" />
+            </h:selectOneMenu>
+            
+            <h:selectOneMenu value="#{insertionModel.houseType}">
+                <f:selectItems var="h" value="#{search.houseTypeValues}" itemValue="#{h}" itemLabel="#{h.label}" />
+            </h:selectOneMenu>
+            
+            <h:inputText a:placeholder="Beschreibung" value="#{insertionModel.description}"/>
+            <h:inputText a:placeholder="Preis" value="#{insertionModel.price}"/>
+            <h:inputText a:placeholder="PLZ" value="#{insertionModel.address.postCode}"/>
+            <h:inputText a:placeholder="Stadt" value="#{insertionModel.address.town}"/>
+            <h:inputText a:placeholder="Straße" value="#{insertionModel.address.street}"/>
+            <h:inputText a:placeholder="Hausnummer" value="#{insertionModel.address.houseNumber}"/>
+            <h:inputText a:placeholder="Addresszusatz" value="#{insertionModel.address.additionalLetter}"/>
+            <h:selectBooleanCheckbox value="#{insertionModel.heavyCurrent}" />
+            
+            <h:commandButton styleClass="inputText" action="#{insertionModel.createInsertion()}" />
+            
+            <h:outputText value="#{insertionModel.test()}" />
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

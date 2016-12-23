@@ -1,37 +1,31 @@
 package de.othr.sw.sharkz.entity;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="T_ORDER")
-public class Order extends EntityPrototype {
+@Table(name="Orders")
+public class Order extends EntityPrototype implements Serializable {
+    @NotNull
     @ManyToOne
     private Customer customer;
     
-    @OneToMany
-    @ElementCollection
-    private List<OrderItem> items;
+    @NotNull
+    private Insertion insertion;
     
-    @Temporal(TemporalType.DATE)
-    @Column(name="C_DATE")
-    private Date date;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
+    
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
 
     public Customer getCustomer() {
         return customer;
@@ -41,11 +35,29 @@ public class Order extends EntityPrototype {
         this.customer = customer;
     }
 
-    public List<OrderItem> getItems() {
-        return items;
+    public Insertion getInsertion() {
+        return insertion;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
+    public void setInsertion(Insertion insertion) {
+        this.insertion = insertion;
     }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
+    
 }

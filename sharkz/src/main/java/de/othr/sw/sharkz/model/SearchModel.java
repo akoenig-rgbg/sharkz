@@ -1,6 +1,7 @@
 package de.othr.sw.sharkz.model;
 
-import de.othr.sw.sharkz.entity.BasicInsertion;
+import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
 import de.othr.sw.sharkz.service.SearchService;
@@ -26,19 +27,23 @@ public class SearchModel {
         return OfferType.values();
     }
     
+    public HouseType[] getHouseTypeValues() {
+        return HouseType.values();
+    }
+    
     public UsageType[] getUsageTypeValues() {
         return UsageType.values();
     }
     
-    public List<BasicInsertion> search() {
+    public List<Insertion> search() {
         //if (location != null)
           //  return searchService.searchInsertions(null, null, location);
         
         return null;
     }
     
-    public List<BasicInsertion> getQuery()  {
-        return new ArrayList<BasicInsertion>();
+    public List<Insertion> getQuery()  {
+        return new ArrayList<Insertion>();
     }
 
     public UsageType getUsage() {

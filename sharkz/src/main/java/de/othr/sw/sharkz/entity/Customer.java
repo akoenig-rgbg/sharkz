@@ -2,10 +2,13 @@ package de.othr.sw.sharkz.entity;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Customer extends Account {
+    
+    // Attributes
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -14,15 +17,13 @@ public class Customer extends Account {
         super();
     }
     
-    @OneToMany(mappedBy="customer")
-    private List<Order> orders;
-    
     @OneToMany
-    private List<BasicInsertion> wishList;
+    private List<Insertion> wishList;
     
     @OneToMany(mappedBy="vendor")
-    private List<BasicInsertion> insertions;
+    private List<Insertion> insertions;
 
+    // Getter & Setter
     public String getFirstName() {
         return firstName;
     }
@@ -47,27 +48,19 @@ public class Customer extends Account {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<BasicInsertion> getWishList() {
+    public List<Insertion> getWishList() {
         return wishList;
     }
 
-    public void setWishList(List<BasicInsertion> wishList) {
+    public void setWishList(List<Insertion> wishList) {
         this.wishList = wishList;
     }
 
-    public List<BasicInsertion> getInsertions() {
+    public List<Insertion> getInsertions() {
         return insertions;
     }
 
-    public void setInsertions(List<BasicInsertion> insertions) {
+    public void setInsertions(List<Insertion> insertions) {
         this.insertions = insertions;
     }
 }

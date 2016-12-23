@@ -1,39 +1,35 @@
 package de.othr.sw.sharkz.service;
 
-import de.othr.sw.sharkz.entity.BasicInsertion;
+import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
+import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @RequestScoped
-public class SearchService {
-    private List<BasicInsertion> insertions;
+public class SearchService extends ServicePrototype implements Serializable {
+    private List<Insertion> insertions;
     
     private OfferType offerType;
     private UsageType usageType;
     private String location;
     
-    @PersistenceContext
-    EntityManager em;
-    
-    public List<BasicInsertion> searchInsertions(UsageType usage, OfferType offer,
+    public List<Insertion> searchInsertions(UsageType usage, OfferType offer,
             String location) {
         
         Query q = em.createNativeQuery("SELECT * FROM APP.BASICINSERTION WHERE"
-                + "TOWN=" + location + ";", BasicInsertion.class);
+                + "TOWN=" + location + ";", Insertion.class);
         
         return q.getResultList();
     }
 
-    public List<BasicInsertion> getInsertions() {
+    public List<Insertion> getInsertions() {
         return insertions;
     }
 
-    public void setInsertions(List<BasicInsertion> insertions) {
+    public void setInsertions(List<Insertion> insertions) {
         this.insertions = insertions;
     }
 

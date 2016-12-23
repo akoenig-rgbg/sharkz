@@ -18,11 +18,8 @@ public class AccountService extends ServicePrototype implements Serializable {
   
     @Transactional(TxType.REQUIRED)
     public long createCustomer(Customer customer) {
-        System.out.println("Kunde wird persistiert");
         em.persist(customer);
-        
-        System.out.println("Kunde wurde persistiert");
-        
+  
         return customer.getID();
     }
     

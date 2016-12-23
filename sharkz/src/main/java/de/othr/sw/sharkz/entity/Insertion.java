@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
+import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
 import java.util.List;
@@ -10,10 +11,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class BasicInsertion extends Product {
+public class Insertion extends EntityPrototype {
+    
+    // Attributes
+    @Enumerated(EnumType.STRING)
+    private HouseType houseType;
+    
     @Enumerated(EnumType.STRING)
     private OfferType offerType;
 
@@ -26,23 +33,15 @@ public class BasicInsertion extends Product {
    
     @ManyToOne
     private Customer vendor;
-
-    public BasicInsertion() {
+    
+    private InsertionAttributesIF insertionAttributes;
+    
+    // Constructors
+    public Insertion() {
         super();
     }
     
-    public BasicInsertion(long pricePerMonth, OfferType offerType,
-            String description, Address address, long price,
-            List<File> images, Customer vendor) {
-        super(pricePerMonth);
-        
-        this.offerType = offerType;
-        this.description = description;
-        this.address = address;
-        this.images = images;
-        this.vendor = vendor;
-    }
-    
+    // Getters & Setters
     public OfferType getOfferType() {
         return offerType;
     }
@@ -89,5 +88,21 @@ public class BasicInsertion extends Product {
 
     public void setVendor(Customer vendor) {
         this.vendor = vendor;
+    }
+
+    public HouseType getHouseType() {
+        return houseType;
+    }
+
+    public void setHouseType(HouseType houseType) {
+        this.houseType = houseType;
+    }
+
+    public InsertionAttributesIF getInsertionAttributes() {
+        return insertionAttributes;
+    }
+
+    public void setInsertionAttributes(InsertionAttributesIF insertionAttributes) {
+        this.insertionAttributes = insertionAttributes;
     }
 }
