@@ -1,5 +1,16 @@
 package de.othr.sw.sharkz.entity.type;
 
 public enum HeatingType {
-    SOLAR, WIND, WOOD, PELLET, ELECTRICITY, OIL, GAS
+    SOLAR("Solar"), WIND("Wind"), WOOD("Holz"), PELLET("Pellet"),
+    ELECTRICITY("Elektrisch"), OIL("Öl"), GAS("Gas");
+    
+    private final String label;
+    
+    private HeatingType(String label) {
+        this.label = label;
+    }
+    
+    public String getLabel() {
+        return this.label;
+    }
 }

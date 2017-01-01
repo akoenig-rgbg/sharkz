@@ -9,31 +9,136 @@
 
     <ui:define name="main">
         
-        Inserat erstellen
-        <h:form>
-            <div style="height:100px" />
-            <h:selectOneMenu value="#{insertionModel.offerType}">
-                <f:selectItems var="o" value="#{search.offerTypeValues}"  itemValue="#{o}" itemLabel="#{o.label}" />
-            </h:selectOneMenu>
-            
-            <h:selectOneMenu value="#{insertionModel.houseType}">
-                <f:selectItems var="h" value="#{search.houseTypeValues}" itemValue="#{h}" itemLabel="#{h.label}" />
-            </h:selectOneMenu>
-            
-            <h:inputText a:placeholder="Beschreibung" value="#{insertionModel.description}"/>
-            <h:inputText a:placeholder="Preis" value="#{insertionModel.price}"/>
-            <h:inputText a:placeholder="PLZ" value="#{insertionModel.address.postCode}"/>
-            <h:inputText a:placeholder="Stadt" value="#{insertionModel.address.town}"/>
-            <h:inputText a:placeholder="Straße" value="#{insertionModel.address.street}"/>
-            <h:inputText a:placeholder="Hausnummer" value="#{insertionModel.address.houseNumber}"/>
-            <h:inputText a:placeholder="Addresszusatz" value="#{insertionModel.address.additionalLetter}"/>
-            <h:selectBooleanCheckbox value="#{insertionModel.heavyCurrent}" />
-            
-            <h:commandButton styleClass="inputText" action="#{insertionModel.createInsertion()}" />
-            
-            <h:outputText value="#{insertionModel.test()}" />
-            
-        </h:form>
+        <div class="body_padding_top" />
+        
+        <div class="insertion_form_wrapper card">
+            <h:form id="insertion_form">
+                <div class="insertion_menu_wrapper insertion_area">
+                    <div class="insertion_area_text">
+                        <p>Erwerbs- &amp; Immobilientyp*</p>
+                    </div>
+                    <div class="insertion_area_attrs">
+                        <h:selectOneMenu styleClass="search_select_menu" value="#{insertion.offerType}">
+                            <f:selectItems var="o" value="#{search.offerTypeValues}" itemValue="#{o}" itemLabel="#{o.label}" />
+                        </h:selectOneMenu>
+
+                        <h:selectOneMenu styleClass="search_select_menu" value="#{insertion.houseType}">
+                            <f:ajax render="further_attributes" event="change" listener="#{insertion.insertionTypeChanged}"/>
+                            <f:selectItems var="h" value="#{search.houseTypeValues}" itemValue="#{h}" itemLabel="#{h.label}" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="insertion_common_attrs">
+
+
+                    <div class="insertion_area">
+                        <div class="insertion_area_text">
+                            <p>Ihre Adresse*</p>
+                        </div>
+                        <div class="insertion_area_attrs">
+                            <div class="address_line1">
+                                <h:inputText styleClass="inputText street" a:placeholder="Straße" value="#{insertion.address.street}"/>
+                                <h:inputText styleClass="inputText houseNumber" a:placeholder="Hnr." value="#{insertion.houseNumber}"/>
+                                <h:inputText styleClass="inputText additionalLetter" a:placeholder="Zst." value="#{insertion.address.additionalLetter}"/>
+                            </div>
+                            <div class="address_line2">
+                                <h:inputText styleClass="inputText postCode" a:placeholder="PLZ" value="#{insertion.address.postCode}"/>
+                                <h:inputText styleClass="inputText town" a:placeholder="Ort" value="#{insertion.address.town}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insertion_area">
+                        <div class="insertion_area_text">
+                            <p>Weitere Eigenschaften</p>
+                        </div>
+                        <div class="insertion_area_attrs">
+                            <h:panelGroup id="further_attributes">
+                                <h:panelGroup rendered="#{!insertion.livingInsertion}">
+                                    <h:inputText styleClass="inputText" a:placeholder="Fläche in qm" value="#{insertion.area}" />
+                                    <div class="insertion_attr_option">
+                                        <p>Klimaanlage</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.aircon}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Starkstrom</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.heavyCurrent}" />
+                                    </div>
+                                </h:panelGroup>
+                            
+                                <h:panelGroup rendered="#{insertion.livingInsertion}">
+                                    <h:inputText styleClass="inputText" a:placeholder="Wohnfläche" value="#{insertion.livingArea}" />
+                                    <h:inputText styleClass="inputText" a:placeholder="Grundfläche" value="#{insertion.plotArea}" />
+                                    <h:inputText styleClass="inputText" a:placeholder="Zimmer" value="#{insertion.rooms}" />
+                                    <h:inputText styleClass="inputText" a:placeholder="Etagen" value="#{insertion.stages}" />
+
+                                    <h:selectOneMenu styleClass="search_select_menu" value="#{insertion.heating}">
+                                        <f:selectItems var="h" value="#{search.heatingTypeValues}"  itemValue="#{h}" itemLabel="#{h.label}" />
+                                    </h:selectOneMenu>
+
+                                    <div class="insertion_attr_option">
+                                        <p>Gästetoilette</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.guestToilette}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Keller</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.basement}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Küche</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.kitchen}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Neubau</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.newBuild}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Garage</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.garage}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Stufenloser Zugang</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.steplessEntry}" />
+                                    </div>
+                                    <div class="insertion_attr_option">
+                                        <p>Aufzug</p>
+                                        <h:selectBooleanCheckbox value="#{insertion.lift}" />
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    
+                    <div class="insertion_description insertion_area">
+                        <div class="insertion_area_text">
+                            <p>Beschreibung</p>
+                        </div>
+                        <div class="insertion_area_attrs">
+                            <h:inputTextarea styleClass="inputText" a:placeholder="Beschreibung" value="#{insertion.description}"/>
+                        </div>
+                    </div>
+                    <div class="insertion_area">
+                        <div class="insertion_area_text">
+                            <p>Preis*</p>
+                        </div>
+                        <div class="insertion_area_attrs">
+                            <h:inputText styleClass="inputText" a:placeholder="Preis" value="#{insertion.price}"/>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="insertion_area">
+                    <h:outputText styleClass="fieldsMissingMessage" id="fieldsMissingMessage" value="#{insertion.fieldsMissingMessage}" />
+
+                    <h:commandButton value="Erstellen" styleClass="button" action="#{insertion.createInsertion()}">
+                        <f:ajax render="fieldsMissingMessage" event="action" />
+                    </h:commandButton>
+                </div>
+
+            </h:form>
+        </div>
         
     </ui:define>
 

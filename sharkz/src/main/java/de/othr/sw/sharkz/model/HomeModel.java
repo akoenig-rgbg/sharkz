@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 @RequestScoped
 public class HomeModel {
 
-    @Transactional(Transactional.TxType.REQUIRED)
     public String search() {
         
         return "/search.xhtml?faces-redirect=true&includeViewParams=true";

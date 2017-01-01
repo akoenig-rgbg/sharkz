@@ -34,6 +34,11 @@
             <redirect include-view-params="true" />
         </navigation-case>
         
+        <navigation-case>
+            <from-action>publish</from-action>
+            <to-view-id>/publishInsertion.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
     
 </faces-config>

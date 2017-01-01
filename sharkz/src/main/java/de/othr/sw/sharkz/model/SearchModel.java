@@ -1,6 +1,7 @@
 package de.othr.sw.sharkz.model;
 
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
@@ -29,6 +30,10 @@ public class SearchModel {
     
     public HouseType[] getHouseTypeValues() {
         return HouseType.values();
+    }
+    
+    public HeatingType[] getHeatingTypeValues() {
+        return HeatingType.values();
     }
     
     public UsageType[] getUsageTypeValues() {

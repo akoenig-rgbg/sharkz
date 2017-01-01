@@ -13,16 +13,18 @@ import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @RequestScoped
-@Named
-@ManagedBean
+@Named(value="insertion")
 public class InsertionModel implements Serializable {
     
     // Insertion Attributes
@@ -31,15 +33,17 @@ public class InsertionModel implements Serializable {
     private OfferType offerType;
     private String description;
     private Address address = new Address();
-    private long price;
+    private String houseNumber;
+    private String price;
     private List<File> images;
     private Customer vendor;
+    private InsertionAttributesIF attributes;
     
     // Living Attributes
-    private int livingArea;
-    private int plotArea;
-    private int rooms;
-    private int stages;
+    private String livingArea;
+    private String plotArea;
+    private String rooms;
+    private String stages;
     private HeatingType heating;
     private boolean guestToilette;
     private boolean basement;
@@ -50,47 +54,67 @@ public class InsertionModel implements Serializable {
     private boolean lift;
     
     // Commercial Attributes
-    private int area;
+    private String area;
     private boolean aircon;
     private boolean heavyCurrent;
     
+    // For Ajax events and empty fields
+    private boolean livingInsertion = true;
+    private String fieldsMissingMessage;
+    List<String> emptyFields = new ArrayList<>();
     
-    @Inject
-    AccountModel accountModel;
+    // Models and Services
+    @Inject AccountModel accountModel;
+    @Inject AccountService accountService;
+    @Inject InsertionService insertionService;
     
-    @Inject
-    AccountService accountService;
+    // for /publishInsertion.xhtml -> GET parameters
+    long insertionId;
     
-    @Inject
-    InsertionService insertionService;
-    
-    private InsertionAttributesIF attributes;
-
-    public Insertion getInsertion() {
-        return insertion;
+    public InsertionModel() {
+        this.address.setPostCode("");
+        this.address.setStreet("");
+        this.address.setTown("");
+        this.houseNumber = "";
+        this.price = "";
     }
-
-    public void setInsertion(Insertion insertion) {
-        this.insertion = insertion;
+    
+    public void insertionTypeChanged(AjaxBehaviorEvent event) {
+        if (houseType.isLiving()) {
+            livingInsertion = true;
+        } else {
+            livingInsertion = false;
+        }
     }
     
-    public void createInsertion() {
+    public String createInsertion() {
+        // Check if important fields are not filled in
+        populateEmptyFields();
+        
+        if (!emptyFields.isEmpty()) {
+            return "";
+        }
+        
+        // Create new insertion and set common attributes
         insertion = new Insertion();
+        
+        address.setHouseNumber(Integer.parseInt(houseNumber));
         
         insertion.setAddress(address);
         insertion.setDescription(description);
         insertion.setHouseType(houseType);
         insertion.setImages(images);
         insertion.setOfferType(offerType);
-        insertion.setPrice(price);
+        insertion.setPrice(Integer.parseInt(price));
        
         /*
         long customerID = accountModel.getUser().getID();
         Customer customer = accountService.findCustomer(customerID);
         
         insertion.setVendor(customer);
-*/        
+        */        
 
+        // Set insertion-specific attributes
         // Living Insertion
         if (houseType.isLiving()) {
             LivingAttributes attr = new LivingAttributes();
@@ -101,11 +125,11 @@ public class InsertionModel implements Serializable {
             attr.setHeating(heating);
             attr.setKitchen(kitchen);
             attr.setLift(lift);
-            attr.setLivingArea(livingArea);
+            attr.setLivingArea(Integer.parseInt(livingArea));
             attr.setNewBuild(newBuild);
-            attr.setPlotArea(plotArea);
-            attr.setRooms(rooms);
-            attr.setStages(stages);
+            attr.setPlotArea(Integer.parseInt(plotArea));
+            attr.setRooms(Integer.parseInt(rooms));
+            attr.setStages(Integer.parseInt(stages));
             attr.setSteplessEntry(steplessEntry);
             
             attributes = attr;
@@ -115,7 +139,7 @@ public class InsertionModel implements Serializable {
             CommercialAttributes attr = new CommercialAttributes();
             
             attr.setAircon(aircon);
-            attr.setArea(area);
+            attr.setArea(Integer.parseInt(area));
             attr.setHeavyCurrent(heavyCurrent);
             
             attributes = attr;
@@ -124,6 +148,45 @@ public class InsertionModel implements Serializable {
         insertion.setInsertionAttributes(attributes);
         
         insertionService.createInsertion(insertion);
+        
+        return "/publishInsertion.xhtml?faces-redirect=true&includeViewParams=true";
+    }
+    
+    private void populateEmptyFields() {
+        emptyFields.clear();
+        
+        System.out.println(
+        this.address.getPostCode() +
+        this.address.getStreet() +
+        this.address.getTown() +
+        this.houseNumber +
+        this.price);
+        
+        // Address fields missing
+        if (address.getStreet().equals(""))
+            emptyFields.add("Straße");
+        if (houseNumber.equals(""))
+            emptyFields.add("Hausnummer");
+        if (address.getPostCode().equals(""))
+            emptyFields.add("PLZ");
+        if (address.getTown().equals(""))
+            emptyFields.add("Ort");
+        
+        // Price missing
+        if (price.equals(""))
+            emptyFields.add("Preis");
+        
+        fieldsMissingMessage = "Bitte füllen Sie folgende Felder aus: ";
+        
+        if(!emptyFields.isEmpty()) {
+            for (String s : emptyFields)
+                fieldsMissingMessage += s + ", ";
+
+            StringBuilder b = new StringBuilder(fieldsMissingMessage);
+            b.replace(fieldsMissingMessage.lastIndexOf(","),
+                    fieldsMissingMessage.lastIndexOf(",") + 1, "!" );
+            fieldsMissingMessage = b.toString();
+        }
     }
     
     public String test() {
@@ -138,11 +201,31 @@ public class InsertionModel implements Serializable {
         return "failure";
     }
 
-    // Getter & Setter
+    //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
+    public long getInsertionId() {
+        return insertionId;
+    }
+    
+    public void setInsertionId(long id) {
+        this.insertionId = id;
+    }
+    
+    public String getFieldsMissingMessage() {
+        return fieldsMissingMessage;
+    }
+    
+    public Insertion getInsertion() {
+        return insertion;
+    }
+    
+    public void setInsertion(Insertion insertion) {
+        this.insertion = insertion;
+    }
+    
     public HouseType getHouseType() {
         return houseType;
     }
-
+    
     public void setHouseType(HouseType houseType) {
         this.houseType = houseType;
     }
@@ -171,11 +254,11 @@ public class InsertionModel implements Serializable {
         this.address = address;
     }
 
-    public long getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -203,35 +286,35 @@ public class InsertionModel implements Serializable {
         this.attributes = attributes;
     }
 
-    public int getLivingArea() {
+    public String getLivingArea() {
         return livingArea;
     }
 
-    public void setLivingArea(int livingArea) {
+    public void setLivingArea(String livingArea) {
         this.livingArea = livingArea;
     }
 
-    public int getPlotArea() {
+    public String getPlotArea() {
         return plotArea;
     }
 
-    public void setPlotArea(int plotArea) {
+    public void setPlotArea(String plotArea) {
         this.plotArea = plotArea;
     }
 
-    public int getRooms() {
+    public String getRooms() {
         return rooms;
     }
 
-    public void setRooms(int rooms) {
+    public void setRooms(String rooms) {
         this.rooms = rooms;
     }
 
-    public int getStages() {
+    public String getStages() {
         return stages;
     }
 
-    public void setStages(int stages) {
+    public void setStages(String stages) {
         this.stages = stages;
     }
 
@@ -299,11 +382,11 @@ public class InsertionModel implements Serializable {
         this.lift = lift;
     }
 
-    public int getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(int area) {
+    public void setArea(String area) {
         this.area = area;
     }
 
@@ -339,5 +422,20 @@ public class InsertionModel implements Serializable {
         this.accountService = accountService;
     }
     
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
     
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+    
+    public boolean getLivingInsertion() {
+        return this.livingInsertion;
+    }
+    
+    public void setLivingInsertion(boolean value) {
+        this.livingInsertion = value;
+    }
+    //</editor-fold>
 }
