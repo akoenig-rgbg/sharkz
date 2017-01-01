@@ -133,7 +133,7 @@
                     <h:outputText styleClass="fieldsMissingMessage" id="fieldsMissingMessage" value="#{insertion.fieldsMissingMessage}" />
 
                     <h:commandButton value="Erstellen" styleClass="button" action="#{insertion.createInsertion()}">
-                        <f:ajax render="fieldsMissingMessage" event="action" />
+                        <f:ajax render="fieldsMissingMessage" event="change" />
                     </h:commandButton>
                 </div>
 
