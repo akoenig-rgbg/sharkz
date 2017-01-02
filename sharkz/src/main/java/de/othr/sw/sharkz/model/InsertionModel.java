@@ -1,11 +1,10 @@
 package de.othr.sw.sharkz.model;
 
 import de.othr.sw.sharkz.entity.Address;
-import de.othr.sw.sharkz.entity.CommercialAttributes;
+import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.entity.InsertionAttributesIF;
-import de.othr.sw.sharkz.entity.LivingAttributes;
+import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
@@ -16,9 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,16 +24,15 @@ import javax.inject.Named;
 public class InsertionModel implements Serializable {
     
     // Insertion Attributes
-    private Insertion insertion;
     private HouseType houseType;
     private OfferType offerType;
+    private String title;
     private String description;
     private Address address = new Address();
     private String houseNumber;
     private String price;
     private List<File> images;
     private Customer vendor;
-    private InsertionAttributesIF attributes;
     
     // Living Attributes
     private String livingArea;
@@ -60,8 +55,6 @@ public class InsertionModel implements Serializable {
     
     // For Ajax events and empty fields
     private boolean livingInsertion = true;
-    private String fieldsMissingMessage;
-    List<String> emptyFields = new ArrayList<>();
     
     // Models and Services
     @Inject AccountModel accountModel;
@@ -88,138 +81,78 @@ public class InsertionModel implements Serializable {
     }
     
     public String createInsertion() {
-        // Check if important fields are not filled in
-        populateEmptyFields();
-        
-        if (!emptyFields.isEmpty()) {
-            return "";
-        }
-        
+        Insertion insertion;
+
         // Create new insertion and set common attributes
         insertion = new Insertion();
         
         address.setHouseNumber(Integer.parseInt(houseNumber));
         
         insertion.setAddress(address);
+        insertion.setTitle(title);
         insertion.setDescription(description);
         insertion.setHouseType(houseType);
         insertion.setImages(images);
         insertion.setOfferType(offerType);
-        insertion.setPrice(Integer.parseInt(price));
-       
-        /*
-        long customerID = accountModel.getUser().getID();
-        Customer customer = accountService.findCustomer(customerID);
-        
-        insertion.setVendor(customer);
-        */        
+        insertion.setPrice(Integer.parseInt(price));      
 
         // Set insertion-specific attributes
         // Living Insertion
         if (houseType.isLiving()) {
-            LivingAttributes attr = new LivingAttributes();
+            LivingInsertion ins = new LivingInsertion();
             
-            attr.setBasement(basement);
-            attr.setGarage(garage);
-            attr.setGuestToilette(guestToilette);
-            attr.setHeating(heating);
-            attr.setKitchen(kitchen);
-            attr.setLift(lift);
-            attr.setLivingArea(Integer.parseInt(livingArea));
-            attr.setNewBuild(newBuild);
-            attr.setPlotArea(Integer.parseInt(plotArea));
-            attr.setRooms(Integer.parseInt(rooms));
-            attr.setStages(Integer.parseInt(stages));
-            attr.setSteplessEntry(steplessEntry);
+            ins.setBasement(basement);
+            ins.setGarage(garage);
+            ins.setGuestToilette(guestToilette);
+            ins.setHeating(heating);
+            ins.setKitchen(kitchen);
+            ins.setLift(lift);
+            ins.setLivingArea(Integer.parseInt(livingArea));
+            ins.setNewBuild(newBuild);
+            ins.setPlotArea(Integer.parseInt(plotArea));
+            ins.setRooms(Integer.parseInt(rooms));
+            ins.setStages(Integer.parseInt(stages));
+            ins.setSteplessEntry(steplessEntry);
             
-            attributes = attr;
+            insertion = ins;
        
         // Commercial Insertion
         } else {
-            CommercialAttributes attr = new CommercialAttributes();
+            CommercialInsertion ins = new CommercialInsertion();
             
-            attr.setAircon(aircon);
-            attr.setArea(Integer.parseInt(area));
-            attr.setHeavyCurrent(heavyCurrent);
+            ins.setAircon(aircon);
+            ins.setArea(Integer.parseInt(area));
+            ins.setHeavyCurrent(heavyCurrent);
             
-            attributes = attr;
+            insertion = ins;
         }
         
-        insertion.setInsertionAttributes(attributes);
+        long customerID = accountModel.getUser().getID();
+        Customer customer = accountService.findCustomer(customerID);
+        
+        insertion.setVendor(customer);
         
         insertionService.createInsertion(insertion);
         
         return "/publishInsertion.xhtml?faces-redirect=true&includeViewParams=true";
     }
-    
-    private void populateEmptyFields() {
-        emptyFields.clear();
-        
-        System.out.println(
-        this.address.getPostCode() +
-        this.address.getStreet() +
-        this.address.getTown() +
-        this.houseNumber +
-        this.price);
-        
-        // Address fields missing
-        if (address.getStreet().equals(""))
-            emptyFields.add("Straße");
-        if (houseNumber.equals(""))
-            emptyFields.add("Hausnummer");
-        if (address.getPostCode().equals(""))
-            emptyFields.add("PLZ");
-        if (address.getTown().equals(""))
-            emptyFields.add("Ort");
-        
-        // Price missing
-        if (price.equals(""))
-            emptyFields.add("Preis");
-        
-        fieldsMissingMessage = "Bitte füllen Sie folgende Felder aus: ";
-        
-        if(!emptyFields.isEmpty()) {
-            for (String s : emptyFields)
-                fieldsMissingMessage += s + ", ";
-
-            StringBuilder b = new StringBuilder(fieldsMissingMessage);
-            b.replace(fieldsMissingMessage.lastIndexOf(","),
-                    fieldsMissingMessage.lastIndexOf(",") + 1, "!" );
-            fieldsMissingMessage = b.toString();
-        }
-    }
-    
-    public String test() {
-        Insertion in = insertionService.getInsertion(1L);
-        
-        if (!in.getHouseType().isLiving()) {
-            CommercialAttributes attr = (CommercialAttributes) in.getInsertionAttributes();
-            
-            if (attr.isHeavyCurrent())
-                return "success";
-        }
-        return "failure";
-    }
 
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public long getInsertionId() {
         return insertionId;
     }
     
     public void setInsertionId(long id) {
         this.insertionId = id;
-    }
-    
-    public String getFieldsMissingMessage() {
-        return fieldsMissingMessage;
-    }
-    
-    public Insertion getInsertion() {
-        return insertion;
-    }
-    
-    public void setInsertion(Insertion insertion) {
-        this.insertion = insertion;
     }
     
     public HouseType getHouseType() {
@@ -276,14 +209,6 @@ public class InsertionModel implements Serializable {
 
     public void setVendor(Customer vendor) {
         this.vendor = vendor;
-    }
-
-    public InsertionAttributesIF getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(InsertionAttributesIF attributes) {
-        this.attributes = attributes;
     }
 
     public String getLivingArea() {

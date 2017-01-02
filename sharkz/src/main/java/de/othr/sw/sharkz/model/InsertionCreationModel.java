@@ -31,6 +31,7 @@ public class InsertionCreationModel implements Serializable {
     private Insertion insertion;
     private HouseType houseType;
     private OfferType offerType;
+    private String title;
     private String description;
     private Address address = new Address();
     private String houseNumber;
@@ -107,12 +108,11 @@ public class InsertionCreationModel implements Serializable {
         insertion.setOfferType(offerType);
         insertion.setPrice(Integer.parseInt(price));
        
-        /*
+        
         long customerID = accountModel.getUser().getID();
         Customer customer = accountService.findCustomer(customerID);
         
         insertion.setVendor(customer);
-        */        
 
         // Set insertion-specific attributes
         // Living Insertion
@@ -139,6 +139,7 @@ public class InsertionCreationModel implements Serializable {
             CommercialAttributes attr = new CommercialAttributes();
             
             attr.setAircon(aircon);
+            System.out.println(area);
             attr.setArea(Integer.parseInt(area));
             attr.setHeavyCurrent(heavyCurrent);
             
@@ -189,6 +190,15 @@ public class InsertionCreationModel implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public long getInsertionId() {
         return insertionId;
     }

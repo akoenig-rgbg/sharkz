@@ -58,6 +58,13 @@ a {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
+.requiredMessage {
+    float: left;
+    color: red;
+    padding-left: 20px;
+    width: 100%;
+}
+
 /* Layout */
 #wrapper {
     background-color: #ffffff;
@@ -398,10 +405,6 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
     width: 620px;
 }
 
-.insertion_common_attrs {
-    
-}
-
 .insertion_area_attrs .inputText,
 .insertion_area_attrs .search_select_menu {
     margin-left: 20px;
@@ -462,4 +465,10 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
     margin-bottom: 20px;
     color: red;
     font-weight: bold;
+}
+
+.insertion_area_msgs {
+    padding-top: 20px;
+    float: right;
+    width: 620px;
 }
