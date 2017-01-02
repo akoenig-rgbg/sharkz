@@ -14,20 +14,61 @@
         <title>Sharkz - Login</title>
     </h:head>
     <h:body>
-        <div id="login_back_button" />
+        <h:outputLink onclick="history.go(-1)">
+            <h:graphicImage
+                value="#{resource['img/login_back_button.png']}"
+                id="login_back_button"/>
+        </h:outputLink>
         
         <div id="login_wrapper">
             <div id="login_container">
                 
-                <img class="logo_text" src="images/logo_text.png" />
+                <h:graphicImage
+                    class="logo_text"
+                    value="#{resource['images/logo_text.png']}" />
                 
                 <h:form id="login_form">
-                    <h:inputText id="login_input_email" value="#{loginModel.email}" a:placeholder="E-Mail Adresse" styleClass="inputText login_inputText"/>
-                    <h:inputSecret id="login_input_password" value="#{loginModel.password}" a:placeholder="Passwort" styleClass="inputText login_inputText"/>
+                    
+                    <h:inputText
+                        id="login_input_email"
+                        value="#{loginModel.email}"
+                        label="E-Mail"
+                        a:placeholder="E-Mail Adresse"
+                        styleClass="inputText login_inputText">
+                        
+                        <f:validator validatorId="requiredValidator" />
+                    </h:inputText>
+                    
+                    <h:inputSecret
+                        id="login_input_password"
+                        value="#{loginModel.password}"
+                        label="Passwort"
+                        validator="#{loginModel.validatePassword}"
+                        a:placeholder="Passwort"
+                        styleClass="inputText login_inputText"/>
                     
                     <h:panelGroup id="login_name_group">
-                        <h:inputText id="login_firstName" value="#{loginModel.firstName}" a:placeholder="Vorname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
-                        <h:inputText id="login_lastName" value="#{loginModel.lastName}" a:placeholder="Nachname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
+                        <h:inputText
+                            id="login_firstName"
+                            value="#{loginModel.firstName}"
+                            label="Vorname"
+                            a:placeholder="Vorname"
+                            styleClass="inputText login_inputText"
+                            rendered="#{!loginModel.loginAction}">
+                        
+                            <f:validator validatorId="requiredValidator" />
+                        </h:inputText>
+                        
+                        <h:inputText
+                            id="login_lastName"
+                            value="#{loginModel.lastName}"
+                            label="Nachname"
+                            a:placeholder="Nachname"
+                            styleClass="inputText login_inputText"
+                            rendered="#{!loginModel.loginAction}">
+                        
+                            <f:validator validatorId="requiredValidator" />
+                        </h:inputText>
                     </h:panelGroup>
                     
                     <div id="login_links">
@@ -37,6 +78,19 @@
                         <h:outputLink styleClass="login_link_forgot">Passwort vergessen?</h:outputLink>
                     </div>
                     <div style="clear:both"></div>
+                    
+                    <h:message
+                        for="login_input_email"
+                        styleClass="requiredMessage" />
+                    <h:message
+                        for="login_input_password"
+                        styleClass="requiredMessage" />
+                    <h:message
+                        for="login_firstName"
+                        styleClass="requiredMessage" />
+                    <h:message
+                        for="login_lastName"
+                        styleClass="requiredMessage" />
                     
                     <h:panelGroup id="login_button_group">
                         <h:commandButton action="#{loginModel.loginButtonPress()}" value="#{loginModel.loginButtonText}" styleClass="button login_button" />

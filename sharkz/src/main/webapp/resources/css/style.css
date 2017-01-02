@@ -271,11 +271,8 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
 /* Login Screen */
 #login_back_button {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    background-image: url("#{resource['img/login_back_button.png']}");
+    top: 10px;
+    left: 10px;
 }
 
 #login_wrapper {
@@ -308,28 +305,12 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
     margin-bottom: 40px;
 }
 
-@keyframes loginInputFrames {
-  0% {
-    opacity: 0.0;
-  }
-  100% {
-    opacity: 1.0;
-  }
-}
 
 .login_inputText {
     width: 80%;
     display: block;
     margin: 0px auto;
     margin-top: 30px;
-    transition: color 1.0s;
-    -webkit-transition: color 1.0s;
-    -moz-transition: color 1.0s;
-    
-    animation-name: loginInputFrames;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-out;
-    animation-duration: 0.6s;
 }
 
 #login_links {
@@ -355,25 +336,11 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
     padding-right: 5px;
 }
 
-@keyframes loginButtonFrames {
-  0% {
-      width: auto;
-  }
-  100% {
-      max-width: 100%;
-  }
-}
-
 .login_button {
     display: block;
     margin: 0px auto;
     padding-left: 70px;
     padding-right: 70px;
-    
-    animation-name: loginButtonFrames;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-out;
-    animation-duration: 0.3s;
 }
 
 /* Create & Edit Insertions */

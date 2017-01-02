@@ -1,11 +1,16 @@
 package de.othr.sw.sharkz.model;
 
 import de.othr.sw.sharkz.entity.Account;
+import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
 @ViewScoped
@@ -37,9 +42,14 @@ public class LoginModel implements Serializable {
             if (accountService.checkPassword(acc.geteMail(), password)) {
                 
                 accountModel.setIsLoggedIn(true);
-                
                 accountModel.setUser(acc);
-                accountModel.setName(accountService.getNameByID(acc.getID()));
+                
+                // Set name depending on type of account
+                if (acc instanceof Customer) {
+                    accountModel.setName(accountService.getNameByID(acc.getID()));
+                } else if (acc instanceof Administrator) {
+                    accountModel.setName("Administrator");
+                }
                 
                 return "login_successful";
             }
@@ -76,6 +86,29 @@ public class LoginModel implements Serializable {
         }
         
         isLogin = !isLogin;
+    }
+    
+    public void validatePassword(FacesContext context, UIComponent component,
+            Object value) throws ValidatorException {
+        
+        if (isLogin)
+            return;
+        
+        String input = value.toString();
+
+        String label = (String) component.getAttributes().get("label");
+        
+        if (label == null)
+            label = "ERROR_NO_LABEL";
+        else
+        
+        if (input == null || input.equals(""))
+            throw new ValidatorException(new FacesMessage(
+                    "Bitte tragen Sie einen Wert für " + label + " ein!"));
+        
+        if (!input.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,}$"))
+            throw new ValidatorException(new FacesMessage(
+                    "Ihr Passwort aus mindestens 5 Zeichen bestehen und Groß- und Kleinbuchstaben, Sonderzeichen (@#$%^&+=) sowie keinen Whitespace enthalten!"));
     }
     
     public String getEmail() {
@@ -141,6 +174,4 @@ public class LoginModel implements Serializable {
     public void setIsLogin(boolean isLogin) {
         this.isLogin = isLogin;
     }
-    
-    
 }
