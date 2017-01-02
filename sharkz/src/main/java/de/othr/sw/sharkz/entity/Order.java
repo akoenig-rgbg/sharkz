@@ -7,23 +7,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="Orders")
 public class Order extends EntityPrototype implements Serializable {
-    @NotNull
     @ManyToOne
     private Customer customer;
     
-    @NotNull
     private Insertion insertion;
     
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
     
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 

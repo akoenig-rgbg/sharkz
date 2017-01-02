@@ -1,18 +1,47 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./WEB-INF/sharkzTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="metadata">
          <f:metadata>
-            <f:viewParam name="insertion_id" value="#{insertion.insertionId}"/>
-            <f:event type="preRenderView" listener="#{insertion.createInsertion()}" />
+            <f:viewParam name="insertion_id" value="#{insertionPublishment.insertionId}"/>
+            <f:event type="preRenderView" listener="#{insertionPublishment.loadInsertion()}" />
         </f:metadata>
     </ui:define>
     
     <ui:define name="main">
-        main
+        <div class="body_padding_top" />
+        
+        <div id="content_wrapper">
+            <div class="insertion_summary">
+                <div class="insertion_summary_heading">
+                    <h:outputText value="#{insertionPublishment.insertion.ID}" />
+                </div>
+                <div class="insertion_summary_description">
+                    <h:outputText value="#{insertionPublishment.insertion.description}" />
+                </div>
+                <div class="insertion_summary_attributes">
+                    Attribute
+                </div>
+            </div>
+            
+            <div class="insertion_publish_params">
+                <h:form>
+                    <h:selectOneMenu styleClass="search_select_menu">
+                        <f:selectItem itemLabel="1 Monat" />
+                        <f:selectItem itemLabel="3 Monate" />
+                        <f:selectItem itemLabel="6 Monate" />
+                    </h:selectOneMenu>
+                    
+                    <h:commandButton action="insertionPublishment.publishInsertion()" styleClass="button" value="Veröffentlichen"/>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

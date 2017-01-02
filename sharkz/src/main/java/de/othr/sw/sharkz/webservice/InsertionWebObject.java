@@ -1,5 +1,6 @@
-package de.othr.sw.sharkz.entity;
+package de.othr.sw.sharkz.webservice;
 
+import de.othr.sw.sharkz.entity.*;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
@@ -11,10 +12,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class Insertion extends EntityPrototype {
+public class InsertionWebObject extends EntityPrototype {
     
     // Attributes
     @Enumerated(EnumType.STRING)
@@ -23,7 +25,6 @@ public class Insertion extends EntityPrototype {
     @Enumerated(EnumType.STRING)
     private OfferType offerType;
 
-    private String title;
     private String description;
     private Address address;
     private long price;
@@ -34,8 +35,10 @@ public class Insertion extends EntityPrototype {
     @ManyToOne
     private Customer vendor;
     
+    private InsertionAttributesIF insertionAttributes;
+    
     // Constructors
-    public Insertion() {
+    public InsertionWebObject() {
         super();
     }
     
@@ -96,13 +99,11 @@ public class Insertion extends EntityPrototype {
         this.houseType = houseType;
     }
 
-    public String getTitle() {
-        return title;
+    public InsertionAttributesIF getInsertionAttributes() {
+        return insertionAttributes;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setInsertionAttributes(InsertionAttributesIF insertionAttributes) {
+        this.insertionAttributes = insertionAttributes;
     }
-    
-    
 }

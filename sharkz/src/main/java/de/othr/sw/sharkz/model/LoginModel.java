@@ -58,6 +58,7 @@ public class LoginModel implements Serializable {
             customer.setLastName(lastName);
             
             System.out.println("Kunde angelegt");
+            System.out.println(customer.getFirstName() + " " + customer.getLastName());
             
             accountService.createCustomer(customer);
         }

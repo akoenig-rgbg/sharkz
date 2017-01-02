@@ -26,8 +26,8 @@
                     <h:inputSecret id="login_input_password" value="#{loginModel.password}" a:placeholder="Passwort" styleClass="inputText login_inputText"/>
                     
                     <h:panelGroup id="login_name_group">
-                        <h:inputText id="login_firstName" a:placeholder="Vorname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
-                        <h:inputText id="login_lastName" a:placeholder="Nachname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
+                        <h:inputText id="login_firstName" value="#{loginModel.firstName}" a:placeholder="Vorname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
+                        <h:inputText id="login_lastName" value="#{loginModel.lastName}" a:placeholder="Nachname" styleClass="inputText login_inputText" rendered="#{!loginModel.loginAction}"/>
                     </h:panelGroup>
                     
                     <div id="login_links">

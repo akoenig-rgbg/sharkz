@@ -18,12 +18,12 @@
                         <p>Erwerbs- &amp; Immobilientyp*</p>
                     </div>
                     <div class="insertion_area_attrs">
-                        <h:selectOneMenu styleClass="search_select_menu" value="#{insertion.offerType}">
+                        <h:selectOneMenu styleClass="search_select_menu" value="#{insertionCreation.offerType}">
                             <f:selectItems var="o" value="#{search.offerTypeValues}" itemValue="#{o}" itemLabel="#{o.label}" />
                         </h:selectOneMenu>
 
-                        <h:selectOneMenu styleClass="search_select_menu" value="#{insertion.houseType}">
-                            <f:ajax render="further_attributes" event="change" listener="#{insertion.insertionTypeChanged}"/>
+                        <h:selectOneMenu styleClass="search_select_menu" value="#{insertionCreation.houseType}">
+                            <f:ajax render="further_attributes" event="change" listener="#{insertionCreation.insertionTypeChanged}"/>
                             <f:selectItems var="h" value="#{search.houseTypeValues}" itemValue="#{h}" itemLabel="#{h.label}" />
                         </h:selectOneMenu>
                     </div>
@@ -38,13 +38,13 @@
                         </div>
                         <div class="insertion_area_attrs">
                             <div class="address_line1">
-                                <h:inputText styleClass="inputText street" a:placeholder="Straße" value="#{insertion.address.street}"/>
-                                <h:inputText styleClass="inputText houseNumber" a:placeholder="Hnr." value="#{insertion.houseNumber}"/>
-                                <h:inputText styleClass="inputText additionalLetter" a:placeholder="Zst." value="#{insertion.address.additionalLetter}"/>
+                                <h:inputText styleClass="inputText street" a:placeholder="Straße" value="#{insertionCreation.address.street}"/>
+                                <h:inputText styleClass="inputText houseNumber" a:placeholder="Hnr." value="#{insertionCreation.houseNumber}"/>
+                                <h:inputText styleClass="inputText additionalLetter" a:placeholder="Zst." value="#{insertionCreation.address.additionalLetter}"/>
                             </div>
                             <div class="address_line2">
-                                <h:inputText styleClass="inputText postCode" a:placeholder="PLZ" value="#{insertion.address.postCode}"/>
-                                <h:inputText styleClass="inputText town" a:placeholder="Ort" value="#{insertion.address.town}"/>
+                                <h:inputText styleClass="inputText postCode" a:placeholder="PLZ" value="#{insertionCreation.address.postCode}"/>
+                                <h:inputText styleClass="inputText town" a:placeholder="Ort" value="#{insertionCreation.address.town}"/>
                             </div>
                         </div>
                     </div>
@@ -55,55 +55,55 @@
                         </div>
                         <div class="insertion_area_attrs">
                             <h:panelGroup id="further_attributes">
-                                <h:panelGroup rendered="#{!insertion.livingInsertion}">
-                                    <h:inputText styleClass="inputText" a:placeholder="Fläche in qm" value="#{insertion.area}" />
+                                <h:panelGroup rendered="#{!insertionCreation.livingInsertion}">
+                                    <h:inputText styleClass="inputText" a:placeholder="Fläche in qm" value="#{insertionCreation.area}" />
                                     <div class="insertion_attr_option">
                                         <p>Klimaanlage</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.aircon}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.aircon}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Starkstrom</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.heavyCurrent}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.heavyCurrent}" />
                                     </div>
                                 </h:panelGroup>
                             
-                                <h:panelGroup rendered="#{insertion.livingInsertion}">
-                                    <h:inputText styleClass="inputText" a:placeholder="Wohnfläche" value="#{insertion.livingArea}" />
-                                    <h:inputText styleClass="inputText" a:placeholder="Grundfläche" value="#{insertion.plotArea}" />
-                                    <h:inputText styleClass="inputText" a:placeholder="Zimmer" value="#{insertion.rooms}" />
-                                    <h:inputText styleClass="inputText" a:placeholder="Etagen" value="#{insertion.stages}" />
+                                <h:panelGroup rendered="#{insertionCreation.livingInsertion}">
+                                    <h:inputText styleClass="inputText" a:placeholder="Wohnfläche" value="#{insertionCreation.livingArea}" />
+                                    <h:inputText styleClass="inputText" a:placeholder="Grundfläche" value="#{insertionCreation.plotArea}" />
+                                    <h:inputText styleClass="inputText" a:placeholder="Zimmer" value="#{insertionCreation.rooms}" />
+                                    <h:inputText styleClass="inputText" a:placeholder="Etagen" value="#{insertionCreation.stages}" />
 
-                                    <h:selectOneMenu styleClass="search_select_menu" value="#{insertion.heating}">
+                                    <h:selectOneMenu styleClass="search_select_menu" value="#{insertionCreation.heating}">
                                         <f:selectItems var="h" value="#{search.heatingTypeValues}"  itemValue="#{h}" itemLabel="#{h.label}" />
                                     </h:selectOneMenu>
 
                                     <div class="insertion_attr_option">
                                         <p>Gästetoilette</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.guestToilette}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.guestToilette}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Keller</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.basement}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.basement}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Küche</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.kitchen}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.kitchen}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Neubau</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.newBuild}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.newBuild}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Garage</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.garage}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.garage}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Stufenloser Zugang</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.steplessEntry}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.steplessEntry}" />
                                     </div>
                                     <div class="insertion_attr_option">
                                         <p>Aufzug</p>
-                                        <h:selectBooleanCheckbox value="#{insertion.lift}" />
+                                        <h:selectBooleanCheckbox value="#{insertionCreation.lift}" />
                                     </div>
                                 </h:panelGroup>
                             </h:panelGroup>
@@ -115,7 +115,7 @@
                             <p>Beschreibung</p>
                         </div>
                         <div class="insertion_area_attrs">
-                            <h:inputTextarea styleClass="inputText" a:placeholder="Beschreibung" value="#{insertion.description}"/>
+                            <h:inputTextarea styleClass="inputText" a:placeholder="Beschreibung" value="#{insertionCreation.description}"/>
                         </div>
                     </div>
                     <div class="insertion_area">
@@ -123,16 +123,16 @@
                             <p>Preis*</p>
                         </div>
                         <div class="insertion_area_attrs">
-                            <h:inputText styleClass="inputText" a:placeholder="Preis" value="#{insertion.price}"/>
+                            <h:inputText styleClass="inputText" a:placeholder="Preis" value="#{insertionCreation.price}"/>
                         </div>
                     </div>
                     
                 </div>
                 
                 <div class="insertion_area">
-                    <h:outputText styleClass="fieldsMissingMessage" id="fieldsMissingMessage" value="#{insertion.fieldsMissingMessage}" />
+                    <h:outputText styleClass="fieldsMissingMessage" id="fieldsMissingMessage" value="#{insertionCreation.fieldsMissingMessage}" />
 
-                    <h:commandButton value="Erstellen" styleClass="button" action="#{insertion.createInsertion()}">
+                    <h:commandButton value="Erstellen" styleClass="button" action="#{insertionCreation.createInsertion()}">
                         <f:ajax render="fieldsMissingMessage" event="change" />
                     </h:commandButton>
                 </div>
