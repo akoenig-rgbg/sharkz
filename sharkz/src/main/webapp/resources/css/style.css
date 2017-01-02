@@ -417,6 +417,7 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
 .address_line1 {
     float: right;
     margin-bottom: 40px;
+    width: 100%;
 }
 
 .address_line1 .street {
@@ -440,12 +441,22 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
 }
 
 .insertion_attr_option {
-    overflow: hidden;
     margin-left: 20px;    
 }
 
 .insertion_attr_option p {
     float: left;
+}
+
+.inputText290 {
+    width: 290px;
+}
+
+.title_p {
+    padding-top: 10px;
+    padding-left: 20px;
+    float: left;
+    font-size: 14pt;
 }
 
 .insertion_attr_option input[type="checkbox"] {
@@ -460,15 +471,16 @@ a[ id= "scroll_button" ]:target ~ #content_wrapper {
     font-family: 'Roboto', sans-serif;
 }
 
-.fieldsMissingMessage {
-    width: 100%;
-    margin-bottom: 20px;
-    color: red;
-    font-weight: bold;
+.insertion_description .insertion_title {
+    height: auto !important;
+    margin-bottom: 40px;
 }
 
 .insertion_area_msgs {
-    padding-top: 20px;
     float: right;
     width: 620px;
+}
+
+.insertion_area_msgs .requiredMessage:first-child {
+    margin-top: 40px;
 }
