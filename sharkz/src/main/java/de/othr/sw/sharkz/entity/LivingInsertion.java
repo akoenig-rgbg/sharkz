@@ -17,6 +17,10 @@ public class LivingInsertion extends Insertion {
     private boolean garage;
     private boolean steplessEntry;
     private boolean lift;
+    
+    public LivingInsertion() {
+        super();
+    }
 
     public int getLivingArea() {
         return livingArea;

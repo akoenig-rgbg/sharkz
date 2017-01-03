@@ -5,34 +5,19 @@ import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
 import java.util.List;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
-@Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class InsertionWebObject extends EntityPrototype {
     
     // Attributes
-    @Enumerated(EnumType.STRING)
     private HouseType houseType;
-    
-    @Enumerated(EnumType.STRING)
     private OfferType offerType;
 
     private String description;
     private Address address;
     private long price;
     
-    @ElementCollection
     private List<File> images;
    
-    @ManyToOne
     private Customer vendor;
     
     private InsertionAttributesIF insertionAttributes;

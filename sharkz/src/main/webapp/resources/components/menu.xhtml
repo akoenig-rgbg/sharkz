@@ -32,15 +32,35 @@
                         </h:outputLink>
                         <div class="menu_item_login_content">
                             <h:form>
-                                <h:inputText value="#{loginModel.email}" styleClass="inputText login_smallInputText login_smallInputText_mail" a:placeholder="E-Mail"/>
-                                <h:inputSecret value="#{loginModel.password}" styleClass="inputText login_smallInputText login_smallInputText_password" a:placeholder="Passwort"/>
+                                <h:inputText
+                                    value="#{loginModel.email}"
+                                    styleClass="inputText login_smallInputText login_smallInputText_mail"
+                                    a:placeholder="E-Mail"/>
+                                
+                                <h:inputSecret
+                                    value="#{loginModel.password}"
+                                    styleClass="inputText login_smallInputText login_smallInputText_password"
+                                    a:placeholder="Passwort"/>
 
                                 <div class="login_links_small">
-                                    <h:outputLink value="login.xhtml" styleClass="login_small_link_register">Registrieren</h:outputLink>
-                                    <h:outputLink value="login.xhtml" styleClass="login_small_link_forgot">Passwort vergessen?</h:outputLink>
+                                    <h:outputLink
+                                        value="login.xhtml" 
+                                        styleClass="login_small_link_register" >
+                                            Registrieren
+                                    </h:outputLink>
+                                    
+                                    <h:outputLink
+                                        value="login.xhtml"
+                                        styleClass="login_small_link_forgot">
+                                            Passwort vergessen?
+                                    </h:outputLink>
                                 </div>
 
-                                <h:commandButton action="#{loginModel.loginButtonPress()}" value="Login" styleClass="button login_button_small" />
+                                <h:commandButton
+                                    action="#{loginModel.loginButtonPress()}"
+                                    value="Login"
+                                    styleClass="button login_button_small" />
+                                
                             </h:form>
 
 
@@ -50,14 +70,25 @@
             </h:panelGroup>
             
             <h:panelGroup rendered="#{account.isLoggedIn}">
+                
                 <div class="mein_konto">
-                    <h:outputText value="#{account.name}" />
-                    <h:form>
-                        <h:commandLink action="#{account.logout()}">
+                    
+                    <h:graphicImage
+                        value="#{resource['img/user_icon.png']}"
+                        styleClass="user_icon" />
+                         
+                    <div class="mein_konto_name">
+                        <h:outputText value="#{account.name}" />
+                    </div>
+                    
+                    <h:form style="display: none">
+                        <h:commandLink  action="#{account.logout()}">
                             Ausloggen
                         </h:commandLink>
                     </h:form>
+                    
                 </div>
+                
             </h:panelGroup>
                           
         </ui:composition>

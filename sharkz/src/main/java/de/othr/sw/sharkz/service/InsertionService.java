@@ -13,11 +13,11 @@ import javax.transaction.Transactional.TxType;
 public class InsertionService extends ServicePrototype implements Serializable {
     
     @Transactional(TxType.REQUIRED)
-    public void createInsertion(Insertion in) {
-        System.out.println("Insertion wird persistiert");
+    public long createInsertion(Insertion in) {
         em.persist(in);
-        System.out.println("Insertion wurde persistiert");
         em.flush();
+        
+        return in.getID();
     }
     
     @Transactional(TxType.REQUIRED)
