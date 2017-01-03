@@ -11,8 +11,12 @@
     </servlet>
     <servlet>
         <servlet-name>InitialDataProvider</servlet-name>
-        <servlet-class>InitialDataProvider</servlet-class>
+        <servlet-class>de.othr.sw.sharkz.util.InitialDataProvider</servlet-class>
         <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>de.othr.sw.sharkz.util.ImageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
@@ -25,6 +29,10 @@
     <servlet-mapping>
         <servlet-name>InitialDataProvider</servlet-name>
         <url-pattern>/InitialDataProvider</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/image</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

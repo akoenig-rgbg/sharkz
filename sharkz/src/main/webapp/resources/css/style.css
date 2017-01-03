@@ -65,6 +65,10 @@ a {
     width: 100%;
 }
 
+.h_messages {
+    list-style-type: none;
+}
+
 /* Layout */
 #wrapper {
     background-color: #ffffff;

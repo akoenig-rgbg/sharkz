@@ -4,6 +4,7 @@ import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,8 +30,19 @@ public class Insertion extends EntityPrototype {
     private long price;
     
     @ElementCollection
-    private List<File> images;
-   
+    @Column(length= 5 * 3200000)
+    private List<byte[]> images;
+   /*
+    private byte[] image;
+    
+    public void setImage(byte[] img) {
+        this.image = img;
+    }
+    
+    public byte[] getImage() {
+        return this.image;
+    }
+    */
     @ManyToOne
     private Customer vendor;
     
@@ -72,11 +84,11 @@ public class Insertion extends EntityPrototype {
         this.price = price;
     }
 
-    public List<File> getImages() {
+    public List<byte[]> getImages() {
         return images;
     }
 
-    public void setImages(List<File> images) {
+    public void setImages(List<byte[]> images) {
         this.images = images;
     }
 

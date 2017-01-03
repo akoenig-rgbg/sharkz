@@ -10,18 +10,28 @@ import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.servlet.http.Part;
 
 @ViewScoped
 @ManagedBean
 public class InsertionCreationModel implements Serializable {
+    
+    private final static int IMAGE_SIZE = 3145728;
     
     // Insertion Attributes
     private Insertion insertion;
@@ -32,7 +42,7 @@ public class InsertionCreationModel implements Serializable {
     private Address address = new Address();
     private String houseNumber;
     private String price;
-    private List<File> images;
+    private List<byte[]> images;
     private Customer vendor;
     
     // Living Attributes
@@ -56,8 +66,10 @@ public class InsertionCreationModel implements Serializable {
     
     // For Ajax events and empty fields
     private boolean livingInsertion = true;
-    private String fieldsMissingMessage;
-    List<String> emptyFields = new ArrayList<>();
+    private Part file;
+    private String fileContent;
+    
+    public String getFileContent() { return fileContent; }
     
     // Models and Services
     @Inject AccountModel accountModel;
@@ -71,6 +83,7 @@ public class InsertionCreationModel implements Serializable {
         this.address.setTown("");
         this.houseNumber = "";
         this.price = "";
+        this.images = new ArrayList<>();
     }
     
     public void insertionTypeChanged(AjaxBehaviorEvent event) {
@@ -116,15 +129,17 @@ public class InsertionCreationModel implements Serializable {
         insertion.setTitle(title);
         insertion.setDescription(description);
         insertion.setHouseType(houseType);
+        System.out.println("Bilder: " + images);
         insertion.setImages(images);
         insertion.setOfferType(offerType);
         insertion.setPrice(Integer.parseInt(price));
        
         // Set customer as vendor
+        /*
         long customerID = accountModel.getUser().getID();
         Customer customer = accountService.findCustomer(customerID);
         insertion.setVendor(customer);
-         
+        */
         // Write insertion to database
         insertionPublishmentModel.setInsertionId(
                 insertionService.createInsertion(insertion));
@@ -133,18 +148,58 @@ public class InsertionCreationModel implements Serializable {
         return "/publishInsertion.xhtml?faces-redirect=true&includeViewParams=true";
     }
     
+    public void uploadImage() {
+        try (InputStream input = file.getInputStream()) {
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[IMAGE_SIZE];
+            
+            for (int length = 0; (length = input.read(buffer)) > 0;)
+                output.write(buffer, 0, length);
+
+            images.add(output.toByteArray());
+
+        } catch (IOException e) {
+            
+        }
+    }
+    
+    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+        Part file = (Part) value;
+        List<FacesMessage> msgs = new ArrayList<>();
+        
+        if (file.getSize() > IMAGE_SIZE) {
+            msgs.add(new FacesMessage("Die maximale Dateigröße beträgt 3MB!"));
+        }
+        
+        String type = file.getContentType();
+        
+        if (!type.equalsIgnoreCase("image/png")
+                && !(type.equalsIgnoreCase("image/jpeg"))) {
+            msgs.add(new FacesMessage("Bitte laden Sie nur .jpeg oder .png Dateien hoch!"));
+        }
+        
+        if (!msgs.isEmpty()) {
+            throw new ValidatorException(msgs);
+        }
+
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
 
+    public Part getFile() {
+        return file;
+    }
+    
+    public void setFile(Part f) {
+        this.file = f;
+    }
+    
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-    
-    public String getFieldsMissingMessage() {
-        return fieldsMissingMessage;
     }
     
     public Insertion getInsertion() {
@@ -195,11 +250,11 @@ public class InsertionCreationModel implements Serializable {
         this.price = price;
     }
 
-    public List<File> getImages() {
+    public List<byte[]> getImages() {
         return images;
     }
 
-    public void setImages(List<File> images) {
+    public void setImages(List<byte[]> images) {
         this.images = images;
     }
 

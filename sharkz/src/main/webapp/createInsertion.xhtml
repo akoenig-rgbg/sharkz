@@ -8,20 +8,46 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="main">
-        
+
         <div class="body_padding_top" />
-        
+
         <div class="insertion_form_wrapper card">
+
+            <!--Insertion: Images-->
+            <div class="insertion_area">
+                <div class="insertion_area_text">
+                    <p>Bilder</p>
+                </div>
+                <div class="insertion_area_attrs">
+
+                    <h:form id="form" enctype="multipart/form-data">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="File:"/>
+                            <h:inputFile id="file" value="#{insertionCreationModel.file}"
+                                         validator="#{insertionCreationModel.validateFile}"/>
+                        </h:panelGrid>
+
+                        <h:commandButton
+                            value="Bild hochladen"
+                            action="#{insertionCreationModel.uploadImage}"/>
+                        
+                        <h:messages styleClass="h_messages requiredMessage"/>
+                    </h:form>
+
+                </div>
+            </div>
             
-            <h:form id="insertion_form">
-                
+            
+            
+            <h:form  id="insertion_form">
+
                 <!--Insertion Menu-->
                 <div class="insertion_menu_wrapper insertion_area">
-                    
+
                     <div class="insertion_area_text">
                         <p>Erwerbs- &amp; Immobilientyp*</p>
                     </div>
-                    
+
                     <div class="insertion_area_attrs">
                         <h:selectOneMenu
                             styleClass="search_select_menu"
@@ -46,18 +72,18 @@
                                 itemValue="#{h}"
                                 itemLabel="#{h.label}" />
                         </h:selectOneMenu>
-                        
+
                     </div>
-                    
+
                 </div>
-                    
+
                 <!--Insertion: Address-->
                 <div class="insertion_area">
-                    
+
                     <div class="insertion_area_text">
                         <p>Adresse des Objekts*</p>
                     </div>
-                    
+
                     <div class="insertion_area_attrs">
                         <div class="address_line1">
                             <h:inputText
@@ -96,7 +122,7 @@
                                 value="#{insertionCreationModel.address.town}"/>
                         </div>
                     </div>
-                    
+
                     <div class="insertion_area_msgs">
                         <h:message
                             for="street"
@@ -111,22 +137,22 @@
                             for="town"
                             styleClass="requiredMessage" />
                     </div>
-                    
+
                 </div>
 
                 <!--Insertion: Further Attributes-->
                 <div class="insertion_area">
-                    
+
                     <div class="insertion_area_text">
                         <p>Weitere Eigenschaften</p>
                     </div>
-                    
+
                     <div class="insertion_area_attrs">
                         <h:panelGroup id="further_attributes">
                             <h:panelGroup
                                 id="commercialAttributes"
                                 rendered="#{!insertionCreationModel.livingInsertion}">
-                                
+
                                 <div class="address_line1">
                                     <h:inputText
                                         id="area"
@@ -135,7 +161,7 @@
                                         a:placeholder="Fläche in qm"
                                         value="#{insertionCreationModel.area}" />
                                 </div>
-                                
+
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="aircon"
@@ -144,7 +170,7 @@
                                         value="Klimaanlage"
                                         for="aircon" />
                                 </div>
-                                
+
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="heavyCurrent"
@@ -153,13 +179,13 @@
                                         value="Starkstrom"
                                         for="heavyCurrent"/>
                                 </div>
-                                
+
                             </h:panelGroup>
 
                             <h:panelGroup
                                 id="livingAttributes"
                                 rendered="#{insertionCreationModel.livingInsertion}">
-                                
+
                                 <div class="address_line1">
                                     <h:inputText
                                         id="livingArea"
@@ -221,7 +247,7 @@
                                         value="#{insertionCreationModel.kitchen}" />
                                     <h:outputLabel
                                         value="Küche"
-                                        for="kitchne" />
+                                        for="kitchen" />
                                 </div>
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
@@ -267,68 +293,69 @@
                             styleClass="requiredMessage"/>
                     </div>
                 </div>
-                
+
                 <!--Insertion: Title & Description-->
-                    <div class="insertion_description insertion_area">
-                        <div class="insertion_area_text">
-                            <p>Titel* &amp; Beschreibung</p>
-                        </div>
-                        <div class="insertion_area_attrs">
-                            <h:inputText
-                                id="title"
-                                label="Titel"
-                                required="true"
-                                styleClass="inputText insertion_title"
-                                a:placeholder="Titel"
-                                value="#{insertionCreationModel.title}" />
-                            <h:inputTextarea
-                                styleClass="inputText"
-                                a:placeholder="Beschreibung"
-                                value="#{insertionCreationModel.description}"/>
-                        </div>
-                        
-                        <div class="insertion_area_msgs">
-                            <h:message
-                                for="title" 
-                                styleClass="requiredMessage"/>
-                        
-                        </div>
+                <div class="insertion_description insertion_area">
+                    <div class="insertion_area_text">
+                        <p>Titel* &amp; Beschreibung</p>
                     </div>
-                    
-                    <!--Insertion: Price-->
-                    <div class="insertion_area">
-                        <div class="insertion_area_text">
-                            <p>Preis*</p>
-                        </div>
-                        <div class="insertion_area_attrs">
-                            <h:inputText
-                                id="price"
-                                label="Preis"
-                                required="true"
-                                styleClass="inputText"
-                                a:placeholder="Preis"
-                                value="#{insertionCreationModel.price}"/>
-                        </div>
-
-                        <div class="insertion_area_msgs">
-                            <h:message
-                                for="price" 
-                                styleClass="requiredMessage"/>
-
-                        </div>
+                    <div class="insertion_area_attrs">
+                        <h:inputText
+                            id="title"
+                            label="Titel"
+                            required="true"
+                            styleClass="inputText insertion_title"
+                            a:placeholder="Titel"
+                            value="#{insertionCreationModel.title}" />
+                        <h:inputTextarea
+                            styleClass="inputText"
+                            a:placeholder="Beschreibung"
+                            value="#{insertionCreationModel.description}"/>
                     </div>
+
+                    <div class="insertion_area_msgs">
+                        <h:message
+                            for="title" 
+                            styleClass="requiredMessage"/>
+
+                    </div>
+                </div>
                 
+                <!--Insertion: Price-->
+                <div class="insertion_area">
+                    <div class="insertion_area_text">
+                        <p>Preis*</p>
+                    </div>
+                    <div class="insertion_area_attrs">
+                        <h:inputText
+                            id="price"
+                            label="Preis"
+                            required="true"
+                            styleClass="inputText"
+                            a:placeholder="Preis"
+                            value="#{insertionCreationModel.price}"/>
+                    </div>
+
+                    <div class="insertion_area_msgs">
+                        <h:message
+                            for="price" 
+                            styleClass="requiredMessage"/>
+
+                    </div>
+                </div>
+
                 <!--Insertion: Submission-->
                 <div class="insertion_area">
                     <h:commandButton
                         value="Erstellen"
                         styleClass="button"
-                        action="#{insertionCreationModel.createInsertion()}"/>
+                        action="#{insertionCreationModel.createInsertion()}"
+                        />
                 </div>
 
             </h:form>
         </div>
-        
+
     </ui:define>
 
 </ui:composition>

@@ -1,6 +1,9 @@
+package de.othr.sw.sharkz.util;
+
 
 
 import de.othr.sw.sharkz.entity.Administrator;
+import de.othr.sw.sharkz.entity.Customer;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,16 +28,20 @@ public class InitialDataProvider implements Servlet {
         try {
             UserTransaction transaction = (UserTransaction)
                     new InitialContext().lookup("java:comp/UserTransaction");
-            transaction.begin();
-            
-            System.out.println("InitialData!");
+            transaction.begin();  
             
             Administrator admin = new Administrator();
-            
             admin.seteMail("admin@sharkz.de");
             admin.setPassword("admin");
             
+            Customer c1 = new Customer();
+            c1.seteMail("andi@gmail.com");
+            c1.setPassword("123456");
+            c1.setFirstName("Andreas");
+            c1.setLastName("König");
+            
             em.persist(admin);
+            em.persist(c1);
             em.flush();
             
             transaction.commit();
