@@ -1,6 +1,8 @@
 package de.othr.sw.sharkz.entity;
 
 import de.othr.sw.sharkz.entity.type.HeatingType;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.Entity;
 
 @Entity
@@ -22,6 +24,33 @@ public class LivingInsertion extends Insertion {
         super();
     }
 
+    @Override
+    public Map<String, String> getFurtherAttributes() {
+        Map<String, String> attrs = getAttributes();
+        
+        // Strings
+        attrs.put("Wohnfläche", String.valueOf(this.livingArea));
+        attrs.put("Grundfläche", String.valueOf(this.plotArea));
+        attrs.put("Zimmer", String.valueOf(this.rooms));
+        attrs.put("Etagen", String.valueOf(this.stages));
+        attrs.put("heating", this.heating.getLabel());
+        
+        // Booleans
+        String s;
+        String tr = "<i class=\"fa fa-check\" aria-hidden=\"true\"/>";
+        String fa = "<i class=\"fa fa-times\" aria-hidden=\"true\"/>";
+        
+        attrs.put("Gästetoilette", s = this.guestToilette ? tr : fa);
+        attrs.put("Keller", s = this.basement ? tr : fa);
+        attrs.put("Küche", s = this.kitchen ? tr : fa);
+        attrs.put("Aufzug", s = this.lift ? tr : fa);
+        attrs.put("Neubau", s = this.newBuild ? tr : fa);
+        attrs.put("Garage", s = this.garage ? tr : fa);
+        attrs.put("Stufenloser Zugang", s = this.steplessEntry ? tr : fa);
+                
+        return attrs;
+    }
+    
     public int getLivingArea() {
         return livingArea;
     }

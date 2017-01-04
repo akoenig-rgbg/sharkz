@@ -2,6 +2,7 @@ package de.othr.sw.sharkz.model;
 
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.InsertionService;
+import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,7 +11,7 @@ import javax.inject.Named;
 @Named("insertionPublishment")
 public class InsertionPublishmentModel {
     private Insertion insertion;
-    private int size = 0;
+    private int size;
     
     @Inject
     private InsertionService insertionService;
@@ -21,6 +22,7 @@ public class InsertionPublishmentModel {
     public void loadInsertion() {
         insertion = insertionService.getInsertion(insertionId);
         size = insertion.getImages().size();
+        insertion.getFurtherAttributes();
     }
     
     // Getter & Setter

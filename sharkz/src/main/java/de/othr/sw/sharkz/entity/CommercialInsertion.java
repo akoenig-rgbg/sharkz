@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
+import java.util.Map;
 import javax.persistence.Entity;
 
 @Entity
@@ -8,6 +9,24 @@ public class CommercialInsertion extends Insertion {
     private boolean aircon;
     private boolean heavyCurrent;
 
+    @Override
+    public Map<String, String> getFurtherAttributes() {
+        Map<String, String> attrs = getAttributes();
+        
+        // Strings
+        attrs.put("Fläche", String.valueOf(this.area));
+        
+        // Booleans
+        String s;
+        String tr = "<i class=\"fa fa-check\" aria-hidden=\"true\"/>";
+        String fa = "<i class=\"fa fa-times\" aria-hidden=\"true\"/>";
+        
+        attrs.put("Klimaanlage", s = this.aircon ? tr : fa);
+        attrs.put("Starkstromanschluss", s = this.heavyCurrent ? tr : fa);
+                
+        return attrs;
+    }
+    
     public int getArea() {
         return area;
     }

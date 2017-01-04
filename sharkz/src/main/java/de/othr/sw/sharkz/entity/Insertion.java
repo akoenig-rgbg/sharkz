@@ -3,7 +3,9 @@ package de.othr.sw.sharkz.entity;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,7 +17,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public class Insertion extends EntityPrototype {
+public abstract class Insertion extends EntityPrototype {
     
     // Attributes
     @Enumerated(EnumType.STRING)
@@ -32,17 +34,7 @@ public class Insertion extends EntityPrototype {
     @ElementCollection
     @Column(length= 5 * 3200000)
     private List<byte[]> images;
-   /*
-    private byte[] image;
-    
-    public void setImage(byte[] img) {
-        this.image = img;
-    }
-    
-    public byte[] getImage() {
-        return this.image;
-    }
-    */
+   
     @ManyToOne
     private Customer vendor;
     
@@ -50,6 +42,17 @@ public class Insertion extends EntityPrototype {
     public Insertion() {
         super();
     }
+    
+    Map<String, String> getAttributes() {
+        Map<String, String> attrs = new HashMap<>();
+        
+        attrs.put("Erwerbstyp", this.getOfferType().getLabel());
+        attrs.put("Immobilientyp", this.getHouseType().getLabel());
+        
+        return attrs;
+    }
+    
+    public abstract Map<String, String> getFurtherAttributes();
     
     // Getters & Setters
     public OfferType getOfferType() {
