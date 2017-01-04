@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.Servlet;
@@ -40,9 +39,13 @@ public class InitialDataProvider implements Servlet {
             c1.setFirstName("Andreas");
             c1.setLastName("König");
             
-            em.persist(admin);
-            em.persist(c1);
-            em.flush();
+            try {
+                em.persist(admin);
+                em.persist(c1);
+                em.flush();
+            } catch (NullPointerException e) {
+                System.out.println("InitialDataProvider: fucked up...");
+            }
             
             transaction.commit();
         } catch (Exception ex) {

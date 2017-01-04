@@ -1,7 +1,7 @@
 package de.othr.sw.sharkz.util;
 
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.model.InsertionPublishmentModel;
+import de.othr.sw.sharkz.model.InsertionCreationModel;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -17,11 +17,11 @@ import net.sf.jmimemagic.MagicMatch;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
 
-@WebServlet("/images")
-public class ImageServlet extends HttpServlet {
+@WebServlet("/listImages")
+public class ImageListServlet extends HttpServlet {
 
     @Inject
-    InsertionService insertionService;
+    InsertionCreationModel insertionCreationModel;
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -36,12 +36,11 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        Long insertion_id = Long.parseLong(request.getParameter("insertion_id"));
-        int image_id = Integer.parseInt(request.getParameter("image_id"));
+        System.out.println("Aufruf des Servlets");
         
-        Insertion ins = insertionService.getInsertion(insertion_id);
+        int id = Integer.parseInt(request.getParameter("id"));
         
-        byte[] bytes = ins.getImages().get(image_id);
+        byte[] bytes = insertionCreationModel.getImages().get((id));
         
         String mimeType;
         

@@ -64,10 +64,11 @@ public class InsertionCreationModel implements Serializable {
     private boolean aircon;
     private boolean heavyCurrent;
     
-    // For Ajax events and empty fields
+    // For Ajax events
     private boolean livingInsertion = true;
     private Part file;
     private String fileContent;
+    private List<String> fileNames;
     
     public String getFileContent() { return fileContent; }
     
@@ -84,6 +85,7 @@ public class InsertionCreationModel implements Serializable {
         this.houseNumber = "";
         this.price = "";
         this.images = new ArrayList<>();
+        this.fileNames = new ArrayList<>();
     }
     
     public void insertionTypeChanged(AjaxBehaviorEvent event) {
@@ -149,6 +151,8 @@ public class InsertionCreationModel implements Serializable {
     }
     
     public void uploadImage() {
+        fileNames.add(file.getSubmittedFileName());
+        
         try (InputStream input = file.getInputStream()) {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[IMAGE_SIZE];
@@ -186,6 +190,14 @@ public class InsertionCreationModel implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
 
+    public void setFileNames(List<String> names) {
+        this.fileNames = names;
+    }
+    
+    public List<String> getFileNames() {
+        return this.fileNames;
+    }
+    
     public Part getFile() {
         return file;
     }

@@ -10,6 +10,7 @@ import javax.inject.Named;
 @Named("insertionPublishment")
 public class InsertionPublishmentModel {
     private Insertion insertion;
+    private int size = 0;
     
     @Inject
     private InsertionService insertionService;
@@ -19,6 +20,7 @@ public class InsertionPublishmentModel {
     
     public void loadInsertion() {
         insertion = insertionService.getInsertion(insertionId);
+        size = insertion.getImages().size();
     }
     
     // Getter & Setter
@@ -36,6 +38,14 @@ public class InsertionPublishmentModel {
 
     public void setInsertionId(long insertionId) {
         this.insertionId = insertionId;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
     
 }
