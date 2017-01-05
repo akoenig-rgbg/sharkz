@@ -1,7 +1,6 @@
 package de.othr.sw.sharkz.util;
 
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.model.InsertionPublishmentModel;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.IOException;
 import java.io.OutputStream;

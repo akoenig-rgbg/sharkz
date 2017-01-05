@@ -10,64 +10,110 @@
 
     <ui:define name="metadata">
          <f:metadata>
-            <f:viewParam name="insertion_id" value="#{insertionPublishment.insertionId}"/>
-            <f:event type="preRenderView" listener="#{insertionPublishment.loadInsertion()}" />
+            <f:viewParam
+                name="insertion_id"
+                value="#{insertionPublishment.insertionId}"/>
+            <f:event
+                type="preRenderView"
+                listener="#{insertionPublishment.loadInsertion()}" />
         </f:metadata>
     </ui:define>
     
     <ui:define name="main">
-        <div class="body_padding_top" />
-        
-        <div id="content_wrapper">
+        <div id="main">
             
             <!--Insertion: Attributes-->
-            <div class="insertion_area insertion_summary">
+            <div>
                 
-                <!--Title-->
+                <!--Insertion: Title & Address-->
                 <div class="insertion_summary_heading">
-                    <h:outputText value="#{insertionPublishment.insertion.title}" />
+                    
+                    <div class="title">#{insertionPublishment.insertion.title}</div>
+                    
+                    <i class="fa fa-map-marker" aria-hidden="true"/>
+                    <h:outputText escape="false" value="&ensp;" />
+                    <h:outputText
+                        escape="false"
+                        value="#{insertionPublishment.insertion.address}"
+                        converter="addressConverter"/>
+                    
                 </div>
                 
-                <!--Common Attributes-->
-                <div class="insertion_summary_description">
-                    <c:forEach
-                        items="#{insertionPublishment.insertion.furtherAttributes.entrySet.toArray}"
+                <!--Insertion: Important Attributes-->
+                <div class="important_attributes">
+                    <ui:repeat
+                        value="#{insertionPublishment.importantAttributes.entrySet().toArray()}"
                         var="attr">
-                        <div>
-                            #{attr.key}->
-                            #{attr.value}
+
+                        <div class="element">
+                            <div class="value">
+                                <h:outputText
+                                    escape="false"
+                                    value="#{attr.value}" />
+                            </div>
+                            <div class="key">#{attr.key}</div>
                         </div>
-                    </c:forEach>
+
+                    </ui:repeat>
+                </div>
+                
+                <!--Insertion: Images & Description-->
+                <div class="images_description">
+                    <div id="ajax_img" class="img">
+                        <div class="image thin_border">
+                            <h:graphicImage
+                                id="featImg"
+                                value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{insertionPublishment.featImgId}" />
+                        </div>
+
+                        
+                        <div class="image_row">
+                            <c:forEach
+                                end="#{insertionPublishment.size + 1}"
+                                varStatus="status">
+
+                                <div class="small_image">
+                                    
+                                    <h:form>
+                                        <h:commandLink id="test#{status.index}" action="#{insertionPublishment.changeFeaturedImage(status.index)}">
+                                            <f:viewParam name="insertion_id" value="#{insertionPublishment.insertionId}" />
+
+                                            <h:graphicImage value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{status.index}" />
+                                        </h:commandLink>
+                                        <h:messages/>
+                                    </h:form>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        
+                    </div>
                     
-                    <h:dataTable value="#{insertionPublishment.insertion.furtherAttributes.entrySet().toArray()}" var="entry">
+                    <!--Description-->
+                    <div class="descr">
+                        <h:outputText value="#{insertionPublishment.insertion.description}" />
+                    </div>
+                    
+                </div>
+                
+                <!--Insertion: Common Attributes-->
+                <div class="insertion_attributes">
+                    <h:dataTable styleClass="attribute_table"
+                        value="#{insertionPublishment.insertion.furtherAttributes.entrySet().toArray()}"
+                        var="entry">
+                        
                         <h:column>#{entry.key}</h:column>
-                        <h:column><h:outputText value="#{entry.value}" escape="false"/></h:column>
+                        
+                        <h:column>
+                            <h:outputText value="#{entry.value}" escape="false"/>
+                        </h:column>
                     </h:dataTable>
                 </div>
                 
-                <!--Further Attributes-->
-                <div class="insertion_summary_attributes">
-                    Attribute
-                </div>
                 
-                <!--Description-->
-                <div>
-                    <h:outputText value="#{insertionPublishment.insertion.description}" />
-                </div>
-            </div>
-            
-            <!--Insertion: Images-->
-            <div class="insertion_area">
-                <c:forEach
-                    end="#{insertionPublishment.size + 1}"
-                    varStatus="status">
-
-                    <h:graphicImage value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{status.index}" />
-                </c:forEach>
             </div>
             
             <!--Insertion: Publishment-->
-            <div class="insertion_area insertion_publish_params">
+            <div class="grey_box insertion_publish_params">
                 <h:form>
                     <h:selectOneMenu styleClass="search_select_menu">
                         <f:selectItem itemLabel="1 Monat" />

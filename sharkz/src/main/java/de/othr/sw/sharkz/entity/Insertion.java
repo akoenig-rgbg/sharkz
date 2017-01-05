@@ -2,8 +2,7 @@ package de.othr.sw.sharkz.entity;
 
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
-import java.io.File;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Column;
@@ -44,7 +43,7 @@ public abstract class Insertion extends EntityPrototype {
     }
     
     Map<String, String> getAttributes() {
-        Map<String, String> attrs = new HashMap<>();
+        Map<String, String> attrs = new LinkedHashMap<>();
         
         attrs.put("Erwerbstyp", this.getOfferType().getLabel());
         attrs.put("Immobilientyp", this.getHouseType().getLabel());
@@ -53,6 +52,8 @@ public abstract class Insertion extends EntityPrototype {
     }
     
     public abstract Map<String, String> getFurtherAttributes();
+    
+    public abstract boolean isLivingInsertion();
     
     // Getters & Setters
     public OfferType getOfferType() {

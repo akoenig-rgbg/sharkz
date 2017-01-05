@@ -27,6 +27,11 @@ public class CommercialInsertion extends Insertion {
         return attrs;
     }
     
+    @Override
+    public boolean isLivingInsertion() {
+        return false;
+    }
+    
     public int getArea() {
         return area;
     }

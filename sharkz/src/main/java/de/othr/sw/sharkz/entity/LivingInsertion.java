@@ -1,7 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
 import de.othr.sw.sharkz.entity.type.HeatingType;
-import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Entity;
 
@@ -29,11 +28,11 @@ public class LivingInsertion extends Insertion {
         Map<String, String> attrs = getAttributes();
         
         // Strings
-        attrs.put("Wohnfläche", String.valueOf(this.livingArea));
-        attrs.put("Grundfläche", String.valueOf(this.plotArea));
+        attrs.put("Wohnfläche", String.valueOf(this.livingArea) + " m&sup2;");
+        attrs.put("Grundfläche", String.valueOf(this.plotArea) + " m&sup2;");
         attrs.put("Zimmer", String.valueOf(this.rooms));
         attrs.put("Etagen", String.valueOf(this.stages));
-        attrs.put("heating", this.heating.getLabel());
+        attrs.put("Heizung", this.heating.getLabel());
         
         // Booleans
         String s;
@@ -49,6 +48,11 @@ public class LivingInsertion extends Insertion {
         attrs.put("Stufenloser Zugang", s = this.steplessEntry ? tr : fa);
                 
         return attrs;
+    }
+    
+    @Override
+    public boolean isLivingInsertion() {
+        return true;
     }
     
     public int getLivingArea() {

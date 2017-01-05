@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.model.validator;
+package de.othr.sw.sharkz.util;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

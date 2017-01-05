@@ -25,7 +25,7 @@ public class InsertionService extends ServicePrototype implements Serializable {
     @Transactional(TxType.REQUIRED)
     public void deleteInsertion(Insertion in) {
         em.merge(in);
-        em.remove(in); 
+        em.remove(in);
     }
     
     public Insertion getInsertion(long id) {
