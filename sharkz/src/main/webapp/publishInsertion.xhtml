@@ -59,7 +59,7 @@
                 
                 <!--Insertion: Images & Description-->
                 <div class="images_description">
-                    <div id="ajax_img" class="img">
+                    <div class="img">
                         <div class="image thin_border">
                             <h:graphicImage
                                 id="featImg"
@@ -75,9 +75,11 @@
                                 <div class="small_image">
                                     
                                     <h:form>
-                                        <h:commandLink id="test#{status.index}" action="#{insertionPublishment.changeFeaturedImage(status.index)}">
-                                            <f:viewParam name="insertion_id" value="#{insertionPublishment.insertionId}" />
-
+                                        <h:commandLink
+                                            id="test#{status.index}"
+                                            action="#{insertionPublishment.changeFeaturedImage(status.index)}">
+                                            
+                                            <f:ajax render="featImg" /> 
                                             <h:graphicImage value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{status.index}" />
                                         </h:commandLink>
                                         <h:messages/>
