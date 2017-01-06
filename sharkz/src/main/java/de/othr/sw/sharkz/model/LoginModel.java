@@ -100,7 +100,6 @@ public class LoginModel implements Serializable {
         
         if (label == null)
             label = "ERROR_NO_LABEL";
-        else
         
         if (input == null || input.equals(""))
             throw new ValidatorException(new FacesMessage(

@@ -13,9 +13,7 @@
             <f:viewParam
                 name="insertion_id"
                 value="#{insertionPublishment.insertionId}"/>
-            <f:event
-                type="preRenderView"
-                listener="#{insertionPublishment.loadInsertion()}" />
+            <f:viewAction action="#{insertionPublishment.loadInsertion()}" />
         </f:metadata>
     </ui:define>
     
@@ -68,7 +66,8 @@
 
                         <div class="image_row">
                             <c:forEach
-                                end="#{insertionPublishment.size + 2}"
+                                begin="0"
+                                end="#{insertionPublishment.size - 1}"
                                 varStatus="status">
 
                                 <div class="small_image">
@@ -77,7 +76,7 @@
                                             id="test#{status.index}"
                                             action="#{insertionPublishment.changeFeaturedImage(status.index)}">
 
-                                            <f:ajax render="featImg" /> 
+                                            <f:ajax render="featImg" />
                                             <h:graphicImage value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{status.index}" />
                                         </h:commandLink>
                                         <h:messages/>

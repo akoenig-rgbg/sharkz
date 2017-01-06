@@ -33,7 +33,7 @@ public class InsertionPublishmentModel implements Serializable {
     public InsertionPublishmentModel() {
         super();
     }
-    
+
     public void loadInsertion() {
         if (FacesContext.getCurrentInstance().isPostback())
             return;
@@ -41,8 +41,6 @@ public class InsertionPublishmentModel implements Serializable {
         insertion = insertionService.getInsertion(insertionId);
         importantAttributes = this.fetchImportantAttributes();
         size = insertion.getImages().size();
-        
-        System.out.println("loadInsertion() wurde aufgerufen");
     }
     
     private Map<String, String> fetchImportantAttributes() {

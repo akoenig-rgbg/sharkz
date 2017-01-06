@@ -170,12 +170,20 @@ public class InsertionCreationModel implements Serializable {
         Part file = (Part) value;
         List<FacesMessage> msgs = new ArrayList<>();
         
+        // Too many pictures
+        if (images.size() > 4) {
+            msgs.add(new FacesMessage("Sie können nur 5 Bilder hochladen"));
+            throw new ValidatorException(msgs);
+        }
+        
+        // Picture size > 3MB
         if (file.getSize() > IMAGE_SIZE) {
             msgs.add(new FacesMessage("Die maximale Dateigröße beträgt 3MB!"));
         }
         
         String type = file.getContentType();
         
+        // File is no picture
         if (!type.equalsIgnoreCase("image/png")
                 && !(type.equalsIgnoreCase("image/jpeg"))) {
             msgs.add(new FacesMessage("Bitte laden Sie nur .jpeg oder .png Dateien hoch!"));
