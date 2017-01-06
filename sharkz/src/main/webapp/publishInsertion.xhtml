@@ -23,7 +23,7 @@
         <div id="main">
             
             <!--Insertion: Attributes-->
-            <div>
+            <div class="publ_attributes">
                 
                 <!--Insertion: Title & Address-->
                 <div class="insertion_summary_heading">
@@ -66,19 +66,17 @@
                                 value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{insertionPublishment.featImgId}" />
                         </div>
 
-                        
                         <div class="image_row">
                             <c:forEach
-                                end="#{insertionPublishment.size + 1}"
+                                end="#{insertionPublishment.size + 2}"
                                 varStatus="status">
 
                                 <div class="small_image">
-                                    
                                     <h:form>
                                         <h:commandLink
                                             id="test#{status.index}"
                                             action="#{insertionPublishment.changeFeaturedImage(status.index)}">
-                                            
+
                                             <f:ajax render="featImg" /> 
                                             <h:graphicImage value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{status.index}" />
                                         </h:commandLink>

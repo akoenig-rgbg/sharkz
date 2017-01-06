@@ -545,7 +545,7 @@ a[ id= "scroll_button" ]:target ~ #main {
 
 .important_attributes {
     overflow: auto;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .important_attributes .element {
@@ -574,32 +574,79 @@ a[ id= "scroll_button" ]:target ~ #main {
     font-size: 0.9em;
 }
 
+.publ_attributes {
+    overflow: auto;
+    margin-bottom: 50px;
+}
+
 .images_description {
     float: left;
     width: 600px;
+    padding-top: 20px;
+}
+
+.images_description .img {
+    margin-bottom: 40px;
 }
 
 .images_description .img .image {
     overflow: auto;
     width: 600px;
     height: 600px;
+    text-align:center;
+}
+
+.images_description .img .image:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
 
 .images_description .img .image img {
-    width: 100%;
-}
-
-.images_description .img .small_image img {
-    width: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .images_description .img .image_row {
     width: 100%;
-    overflow: auto;
+    height: 100px;
+    text-align: center;
+    display: flex;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top: none;
 }
 
-.images_description .img .image_row .small_image {
-    float: left;
+.images_description .small_image {
+    border-left: 1px solid rgba(0,0,0,.15);
+    flex: 1;
+    padding: 10px;
+}
+
+.images_description .small_image:first-child {
+    border-left: none;
+}
+
+.small_image a {
+    height: 100%;
+    overflow: auto;
+    display: inline-block;
+}
+
+.small_image a:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.small_image a img {
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .insertion_attributes {

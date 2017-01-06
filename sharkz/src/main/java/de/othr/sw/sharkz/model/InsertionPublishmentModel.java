@@ -6,16 +6,17 @@ import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @ViewScoped
-@ManagedBean(name="insertionPublishment")
+@Named(value="insertionPublishment")
 public class InsertionPublishmentModel implements Serializable {
     private Insertion insertion;
     private int size;
@@ -28,6 +29,10 @@ public class InsertionPublishmentModel implements Serializable {
     
     // GET parameters
     private long insertionId;
+    
+    public InsertionPublishmentModel() {
+        super();
+    }
     
     public void loadInsertion() {
         if (FacesContext.getCurrentInstance().isPostback())
@@ -52,7 +57,11 @@ public class InsertionPublishmentModel implements Serializable {
         if (insertion.isLivingInsertion()) {
             LivingInsertion ins = (LivingInsertion) insertion;
             
-            attrs.put(priceLabel, String.valueOf(insertion.getPrice()) + " &euro;");
+            
+            String price = NumberFormat.getNumberInstance(
+                    Locale.GERMAN).format(insertion.getPrice());
+            
+            attrs.put(priceLabel, price + " &euro;");
             attrs.put("Zi.", String.valueOf(ins.getRooms()));
             attrs.put("Wohnfläche", String.valueOf(ins.getLivingArea()) + " m&sup2;");
             attrs.put("Grundfläche", String.valueOf(ins.getPlotArea()) + " m&sup2;");

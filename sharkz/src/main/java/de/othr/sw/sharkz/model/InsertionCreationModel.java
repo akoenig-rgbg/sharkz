@@ -16,19 +16,18 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.Part;
 
 @ViewScoped
-@ManagedBean
+@Named
 public class InsertionCreationModel implements Serializable {
     
     private final static int IMAGE_SIZE = 3145728;

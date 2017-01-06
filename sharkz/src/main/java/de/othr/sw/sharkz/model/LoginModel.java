@@ -6,15 +6,15 @@ import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @ViewScoped
-@ManagedBean
+@Named
 public class LoginModel implements Serializable {
     private String email;
     private String password;
