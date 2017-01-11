@@ -18,35 +18,47 @@
                     <p>Bilder</p>
                 </div>
                 <div class="insertion_area_attrs">
+                    
+                    <h:form id="inputFileForm" enctype="multipart/form-data">
+                            <h:inputFile
+                                styleClass="inputFile"
+                                id="file"
+                                value="#{insertionCreationModel.file}"
+                                validator="#{insertionCreationModel.validateFile}"/>
+                            
+                            <div class="inputFileName"></div>
+                            
+                            <label
+                                class="button"
+                                for="inputFileForm:file">
 
-                    <h:form id="form" enctype="multipart/form-data">
-                        <h:panelGrid columns="2">
-                            <h:outputText value="File:"/>
-                            <h:inputFile id="file" value="#{insertionCreationModel.file}"
-                                         validator="#{insertionCreationModel.validateFile}"/>
-                        </h:panelGrid>
+                                Durchsuchen
+                            </label>
 
                         <h:commandButton
+                            styleClass="button uploadButton"
                             value="Bild hochladen"
                             action="#{insertionCreationModel.uploadImage}">
                         </h:commandButton>
-                        
-                         <ui:repeat
-                            id="imageNames"
-                            value="#{insertionCreationModel.fileNames}"
-                            var="name">
                             
-                            <p>#{name}</p>
-                        </ui:repeat>
-
-                        <h:messages styleClass="h_messages requiredMessage"/>
+                        <h:messages styleClass="h_messages requiredMessage uploadMessages"/>
                     </h:form>
 
+                    <div id="imageNames">    
+                        <ui:repeat
+                            value="#{insertionCreationModel.fileNames}"
+                            var="name">
+
+                            <p>#{name}</p>
+                        </ui:repeat>
+                    </div>
+                    
                 </div>
             </div>
             
-            
-            
+            <!--Java Script for styling file input-->
+            <h:outputScript library="js" name="inputFile.js" />
+             
             <h:form id="insertion_form">
 
                 <!--Insertion Menu-->
