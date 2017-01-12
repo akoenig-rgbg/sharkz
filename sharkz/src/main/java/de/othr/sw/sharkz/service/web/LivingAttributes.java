@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.webservice;
+package de.othr.sw.sharkz.service.web;
 
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import java.io.Serializable;

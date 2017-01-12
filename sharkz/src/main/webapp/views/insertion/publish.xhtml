@@ -2,7 +2,7 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./WEB-INF/sharkzTemplate.xhtml"
+                template="./../../WEB-INF/sharkzTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -12,8 +12,8 @@
          <f:metadata>
             <f:viewParam
                 name="insertion_id"
-                value="#{insertionPublishment.insertionId}"/>
-            <f:viewAction action="#{insertionPublishment.loadInsertion()}" />
+                value="#{publish.insertionId}"/>
+            <f:viewAction action="#{publish.loadInsertion()}" />
         </f:metadata>
     </ui:define>
     
@@ -26,13 +26,13 @@
                 <!--Insertion: Title & Address-->
                 <div class="insertion_summary_heading">
                     
-                    <div class="title">#{insertionPublishment.insertion.title}</div>
+                    <div class="title">#{publish.insertion.title}</div>
                     
                     <i class="fa fa-map-marker" aria-hidden="true"/>
                     <h:outputText escape="false" value="&ensp;" />
                     <h:outputText
                         escape="false"
-                        value="#{insertionPublishment.insertion.address}"
+                        value="#{publish.insertion.address}"
                         converter="addressConverter"/>
                     
                 </div>
@@ -40,7 +40,7 @@
                 <!--Insertion: Important Attributes-->
                 <div class="important_attributes">
                     <ui:repeat
-                        value="#{insertionPublishment.importantAttributes.entrySet().toArray()}"
+                        value="#{publish.importantAttributes.entrySet().toArray()}"
                         var="attr">
 
                         <div class="element">
@@ -61,25 +61,24 @@
                         <div class="image thin_border">
                             <h:graphicImage
                                 id="featImg"
-                                value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{insertionPublishment.featImgId}" />
+                                value="/images?insertion_id=#{publish.insertionId}&amp;image_id=#{publish.featImgId}" />
                         </div>
 
                         <div class="image_row">
                             <c:forEach
                                 begin="0"
-                                end="#{insertionPublishment.size - 1}"
+                                end="#{publish.size - 1}"
                                 varStatus="status">
 
                                 <div class="small_image">
                                     <h:form>
                                         <h:commandLink
                                             id="test#{status.index}"
-                                            action="#{insertionPublishment.changeFeaturedImage(status.index)}">
+                                            action="#{publish.changeFeaturedImage(status.index)}">
 
                                             <f:ajax render="featImg" />
-                                            <h:graphicImage value="/images?insertion_id=#{insertionPublishment.insertionId}&amp;image_id=#{status.index}" />
+                                            <h:graphicImage value="/images?insertion_id=#{publish.insertionId}&amp;image_id=#{status.index}" />
                                         </h:commandLink>
-                                        <h:messages/>
                                     </h:form>
                                 </div>
                             </c:forEach>
@@ -89,7 +88,7 @@
                     
                     <!--Description-->
                     <div class="descr">
-                        <h:outputText value="#{insertionPublishment.insertion.description}" />
+                        <h:outputText value="#{publish.insertion.description}" />
                     </div>
                     
                 </div>
@@ -97,7 +96,7 @@
                 <!--Insertion: Common Attributes-->
                 <div class="insertion_attributes">
                     <h:dataTable styleClass="attribute_table"
-                        value="#{insertionPublishment.insertion.furtherAttributes.entrySet().toArray()}"
+                        value="#{publish.insertion.furtherAttributes.entrySet().toArray()}"
                         var="entry">
                         
                         <h:column>#{entry.key}</h:column>
@@ -113,14 +112,22 @@
             
             <!--Insertion: Publishment-->
             <div class="grey_box insertion_publish_params">
-                <h:form>
-                    <h:selectOneMenu styleClass="search_select_menu">
-                        <f:selectItem itemLabel="1 Monat" />
-                        <f:selectItem itemLabel="3 Monate" />
-                        <f:selectItem itemLabel="6 Monate" />
+                <h:form id="publishmentForm">
+                    <h:selectOneMenu
+                        validator="#{publish.validatePublishment}"
+                        value="#{publish.duration}"
+                        styleClass="search_select_menu">
+                        <f:selectItem itemValue="1" itemLabel="1 Monat" />
+                        <f:selectItem itemValue="3" itemLabel="3 Monate" />
+                        <f:selectItem itemValue="6" itemLabel="6 Monate" />
                     </h:selectOneMenu>
                     
-                    <h:commandButton action="insertionPublishment.publishInsertion()" styleClass="button" value="Veröffentlichen"/>
+                    <h:commandButton
+                        action="#{publish.publishInsertion()}"
+                        styleClass="button"
+                        value="Veröffentlichen" />
+                        
+                    <h:messages styleClass="h_messages requiredMessage" />
                 </h:form>
             </div>  
             

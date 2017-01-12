@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.webservice;
+package de.othr.sw.sharkz.service.web;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;

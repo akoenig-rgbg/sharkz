@@ -1,5 +1,6 @@
-package de.othr.sw.sharkz.model;
+package de.othr.sw.sharkz.model.insertion;
 
+import de.othr.sw.sharkz.model.account.AccountModel;
 import de.othr.sw.sharkz.entity.Address;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
@@ -27,8 +28,8 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 
 @ViewScoped
-@Named
-public class InsertionCreationModel implements Serializable {
+@Named("create")
+public class CreateModel implements Serializable {
     
     private final static int IMAGE_SIZE = 3145728;
     
@@ -74,10 +75,10 @@ public class InsertionCreationModel implements Serializable {
     // Models and Services
     @Inject AccountModel accountModel;
     @Inject AccountService accountService;
-    @Inject InsertionPublishmentModel insertionPublishmentModel;
+    @Inject PublishModel insertionPublishmentModel;
     @Inject InsertionService insertionService;
     
-    public InsertionCreationModel() {
+    public CreateModel() {
         this.address.setPostCode("");
         this.address.setStreet("");
         this.address.setTown("");
@@ -89,6 +90,16 @@ public class InsertionCreationModel implements Serializable {
     
     public void insertionTypeChanged(AjaxBehaviorEvent event) {
         livingInsertion = houseType.isLiving();
+    }
+    
+    public void validateCreation(FacesContext ctx, UIComponent comp,
+            Object value) {
+        
+        List<FacesMessage> msgs = new ArrayList<>();
+        
+        if (!accountModel.isIsLoggedIn())
+            ;
+        
     }
     
     public String createInsertion() {
@@ -142,11 +153,15 @@ public class InsertionCreationModel implements Serializable {
         insertion.setVendor(customer);
         */
         // Write insertion to database
+        if (!accountModel.isIsLoggedIn()) {
+            return "logon";
+        }
+        
         insertionPublishmentModel.setInsertionId(
                 insertionService.createInsertion(insertion));
         
         // Forward to publishment page
-        return "/publishInsertion.xhtml?faces-redirect=true&includeViewParams=true";
+        return "success";
     }
     
     public void uploadImage() {

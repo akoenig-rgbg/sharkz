@@ -1,8 +1,9 @@
-package de.othr.sw.sharkz.model;
+package de.othr.sw.sharkz.model.account;
 
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
+import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
@@ -14,25 +15,27 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @ViewScoped
-@Named
+@Named("login")
 public class LoginModel implements Serializable {
+    // Form fields
     private String email;
     private String password;
     private String firstName;
     private String lastName;
     
+    // Register/Login toggle fields
     private String loginButtonText = "Login";
     private String registerButtonText = "Registrieren";
-    
     private boolean isLogin = true;
     
-    @Inject
-    AccountService accountService;
+    // Login required fields
+    Insertion insertion;
     
-    @Inject
-    AccountModel accountModel;
+    // Models & Services
+    @Inject AccountService accountService;
+    @Inject AccountModel accountModel;
 
-    public String loginButtonPress() {
+    public String login() {
         
         // Login
         if (isLogin) {
@@ -51,7 +54,10 @@ public class LoginModel implements Serializable {
                     accountModel.setName("Administrator");
                 }
                 
-                return "login_successful";
+                if (insertion == null)
+                    return "login_normal";
+                else
+                    return "login_createInsertion";
             }
             else {
                 return "";
@@ -73,7 +79,7 @@ public class LoginModel implements Serializable {
             accountService.createCustomer(customer);
         }
         
-        return "index?faces-redirect=true";
+        return "index";
     }
     
     public void toggleAction() {

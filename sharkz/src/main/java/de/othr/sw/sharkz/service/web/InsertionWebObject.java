@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.webservice;
+package de.othr.sw.sharkz.service.web;
 
 import de.othr.sw.sharkz.entity.*;
 import de.othr.sw.sharkz.entity.type.HouseType;

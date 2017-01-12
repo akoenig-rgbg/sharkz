@@ -2,14 +2,13 @@ package de.othr.sw.sharkz.model;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import javax.transaction.Transactional;
 
-@Named(value="home")
 @RequestScoped
-public class HomeModel {
+@Named(value="home")
+public class IndexModel {
 
     public String search() {
         
-        return "/search.xhtml?faces-redirect=true&includeViewParams=true";
+        return "search";
     }
 }

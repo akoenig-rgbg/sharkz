@@ -1,12 +1,12 @@
-package de.othr.sw.sharkz.model;
+package de.othr.sw.sharkz.model.account;
 
 import de.othr.sw.sharkz.entity.Account;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-@Named(value="account")
 @SessionScoped
+@Named(value="account")
 public class AccountModel implements Serializable {
     private Account user;
     private String name;

@@ -4,41 +4,79 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
+    <!-- Navigation rules -->
+    
+    <!-- General rules -->
     <navigation-rule>
-        <description>Navigation rules</description>
-        
+        <!-- index.xhtml -->
         <navigation-case>
             <from-outcome>index</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <to-view-id>/views/index.xhtml</to-view-id>
         </navigation-case>
         
-        <navigation-case>
-            <from-outcome>login</from-outcome>
-            <to-view-id>/login.xhtml</to-view-id>
-        </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>login_successful</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>logout</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
-        </navigation-case>
-        
+        <!-- search.xhtml -->
         <navigation-case>
             <from-outcome>search</from-outcome>
-            <to-view-id>/search.xhtml</to-view-id>
+            <to-view-id>/views/insertion/search.xhtml</to-view-id>
             <redirect include-view-params="true" />
         </navigation-case>
         
+        <!-- account/login.xhtml -->
         <navigation-case>
-            <from-action>publish</from-action>
-            <to-view-id>/publishInsertion.xhtml</to-view-id>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/views/account/login.xhtml</to-view-id>
         </navigation-case>
         
+        <!-- account/index.xhtml -->
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/views/index.xhtml</to-view-id>
+        </navigation-case>
+        
+        <!-- insertion/create.xhtml -->
+        <navigation-case>
+            <from-outcome>create</from-outcome>
+            <to-view-id>/views/insertion/create.xhtml</to-view-id>
+        </navigation-case>
+        
+        <!-- insure.xhtml -->
+        <navigation-case>
+            <from-outcome>insure</from-outcome>
+            <to-view-id>/views/insure.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>insertion</from-outcome>
+            <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Rules for insertion/create.xhtml -->
+    <navigation-rule>
+        <from-view-id>/insertion/create.xhtml</from-view-id>
+        
+        <navigation-case>
+            <from-action>#{create.createInsertion}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/views/insertion/publish.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-action>#{create.createInsertion}</from-action>
+            <from-outcome>logon</from-outcome>
+            <to-view-id>/account/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Rules for account/login.xhtml -->
+    <navigation-rule>
+        <from-view-id>/views/account/login.xhtml</from-view-id>
+        
+        <navigation-case>
+            <from-action>#{login.login}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/views/index.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
 </faces-config>

@@ -1,6 +1,6 @@
 package de.othr.sw.sharkz.util;
 
-import de.othr.sw.sharkz.model.InsertionPublishmentModel;
+import de.othr.sw.sharkz.model.insertion.PublishModel;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.inject.Inject;
@@ -31,7 +31,7 @@ public class ImageUploadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        InsertionPublishmentModel publModel = (InsertionPublishmentModel) request.getSession().getAttribute("insertionPublishment");
+        PublishModel publModel = (PublishModel) request.getSession().getAttribute("insertionPublishment");
         
         int image_id = Integer.parseInt(request.getParameter("image_id"));
         

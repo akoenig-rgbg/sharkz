@@ -1,5 +1,6 @@
-package de.othr.sw.sharkz.model;
+package de.othr.sw.sharkz.model.insertion;
 
+import de.othr.sw.sharkz.model.account.AccountModel;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.LivingInsertion;
@@ -7,30 +8,39 @@ import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @ViewScoped
-@Named(value="insertionPublishment")
-public class InsertionPublishmentModel implements Serializable {
+@Named(value="publish")
+public class PublishModel implements Serializable {
     private Insertion insertion;
     private int size;
     private Map<String, String> importantAttributes;
+    
+    private int duration;
     
     private int featImgId;
     
     @Inject
     private InsertionService insertionService;
+    @Inject
+    private AccountModel accountModel;
     
     // GET parameters
     private long insertionId;
     
-    public InsertionPublishmentModel() {
+    public PublishModel() {
         super();
     }
 
@@ -74,17 +84,55 @@ public class InsertionPublishmentModel implements Serializable {
     
     public String changeFeaturedImage(int id) {
         this.featImgId = id;
-        System.out.println("clicked on img with id " + id);
         
         return "";
     }
     
-    public String foo(int id) {
-        System.out.println("Foo(" + id + ") wurde aufgerufen");
-        return "";
+    public void validatePublishment(FacesContext ctx, UIComponent comp,
+            Object value) {
+        
+        List<FacesMessage> msgs = new ArrayList<>();
+        
+        int dur = (int) value;
+        
+        // validate input
+        if (dur <= 0)
+            msgs.add(new FacesMessage("Die Dauer der "
+                    + "Veröffentlichung muss <= 0 sein!"));
+        
+        if (insertion == null)
+            msgs.add(new FacesMessage("Das Inserat mit ID " + insertionId
+                    + "existiert nicht!"));
+        
+        if (!accountModel.isIsLoggedIn())
+            msgs.add(new FacesMessage("Sie müssen eingeloggt sein, um das "
+                    + "Inserat zu veröffentlichen!"));
+        
+        else if (!accountModel.getUser().equals(insertion.getVendor()));
+            msgs.add(new FacesMessage("Sie können nur Ihre eigenen Inserate "
+                    + "veröffentlichen!"));
+        
+        if (!msgs.isEmpty())
+            throw new ValidatorException(msgs);
+    }
+    
+    public String publishInsertion() {
+        // publish insertion
+        insertionService.publishInsertion(insertion, duration);
+        
+        // redirect
+        return "?includeViewParams=true";/*insertion.xhtml?faces-redirect=true*/
     }
     
     // Getter & Setter
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+    
     public int getFeatImgId() {
         return this.featImgId;
     }

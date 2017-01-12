@@ -8,37 +8,42 @@
     <h:body>
         <ui:composition>
 
-            <h:outputLink styleClass="menu_item" value="#">
+            <!-- Wohnen -->
+            <h:link styleClass="menu_item" outcome="search">
                 Wohnen
-            </h:outputLink>
+            </h:link>
             
-            <h:outputLink styleClass="menu_item" value="#">
+            <!-- Gewerbe -->
+            <h:link styleClass="menu_item" outcome="search">
                 Gewerbe
-            </h:outputLink>
+            </h:link>
             
-            <h:outputLink styleClass="menu_item" value="#">
+            <!-- Anbieten -->
+            <h:link styleClass="menu_item" outcome="create">
                 Anbieten
-            </h:outputLink>
+            </h:link>
             
-            <h:outputLink styleClass="menu_item" value="#">
+            <!-- Versichern -->
+            <h:link styleClass="menu_item" outcome="insure">
                 Versichern
-            </h:outputLink>
- 
+            </h:link>
+
+            <!-- Login: Form -->
             <h:panelGroup rendered="#{!account.isLoggedIn}">
                 <div class="menu_item menu_item_login">
                     <div style="position:fixed">
-                        <h:outputLink value="login.xhtml">
+                        <h:link outcome="login">
                             Login
-                        </h:outputLink>
+                        </h:link>
                         <div class="menu_item_login_content">
                             <h:form>
                                 <h:inputText
-                                    value="#{loginModel.email}"
+                                    value="#{login.email}"
                                     styleClass="inputText login_smallInputText login_smallInputText_mail"
                                     a:placeholder="E-Mail"/>
-                                
+
                                 <h:inputSecret
-                                    value="#{loginModel.password}"
+                                    value="#{login.password}"
                                     styleClass="inputText login_smallInputText login_smallInputText_password"
                                     a:placeholder="Passwort"/>
 
@@ -46,21 +51,21 @@
                                     <h:outputLink
                                         value="login.xhtml" 
                                         styleClass="login_small_link_register" >
-                                            Registrieren
+                                        Registrieren
                                     </h:outputLink>
-                                    
+
                                     <h:outputLink
                                         value="login.xhtml"
                                         styleClass="login_small_link_forgot">
-                                            Passwort vergessen?
+                                        Passwort vergessen?
                                     </h:outputLink>
                                 </div>
 
                                 <h:commandButton
-                                    action="#{loginModel.loginButtonPress()}"
+                                    action="#{login.login}"
                                     value="Login"
                                     styleClass="button login_button_small" />
-                                
+
                             </h:form>
 
 
@@ -68,29 +73,30 @@
                     </div>
                 </div>
             </h:panelGroup>
-            
+
+            <!-- Login: Account -->
             <h:panelGroup rendered="#{account.isLoggedIn}">
-                
+
                 <div class="mein_konto">
-                    
+
                     <h:graphicImage
                         value="#{resource['img/user_icon.png']}"
                         styleClass="user_icon" />
-                         
+
                     <div class="mein_konto_name">
                         <h:outputText value="#{account.name}" />
                     </div>
-                    
+
                     <h:form style="display: none">
-                        <h:commandLink  action="#{account.logout()}">
+                        <h:commandLink action="#{account.logout}">
                             Ausloggen
                         </h:commandLink>
                     </h:form>
-                    
+
                 </div>
-                
+
             </h:panelGroup>
-                          
+
         </ui:composition>
     </h:body>
 </html>

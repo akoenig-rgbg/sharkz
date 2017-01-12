@@ -2,7 +2,7 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./WEB-INF/sharkzTemplate.xhtml"
+                template="./../../WEB-INF/sharkzTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -23,8 +23,8 @@
                             <h:inputFile
                                 styleClass="inputFile"
                                 id="file"
-                                value="#{insertionCreationModel.file}"
-                                validator="#{insertionCreationModel.validateFile}"/>
+                                value="#{create.file}"
+                                validator="#{create.validateFile}"/>
                             
                             <div class="inputFileName"></div>
                             
@@ -38,7 +38,7 @@
                         <h:commandButton
                             styleClass="button uploadButton"
                             value="Bild hochladen"
-                            action="#{insertionCreationModel.uploadImage}">
+                            action="#{create.uploadImage}">
                         </h:commandButton>
                             
                         <h:messages styleClass="h_messages requiredMessage uploadMessages"/>
@@ -46,7 +46,7 @@
 
                     <div id="imageNames">    
                         <ui:repeat
-                            value="#{insertionCreationModel.fileNames}"
+                            value="#{create.fileNames}"
                             var="name">
 
                             <p>#{name}</p>
@@ -71,7 +71,7 @@
                     <div class="insertion_area_attrs">
                         <h:selectOneMenu
                             styleClass="search_select_menu"
-                            value="#{insertionCreationModel.offerType}">
+                            value="#{create.offerType}">
                             <f:selectItems
                                 var="o"
                                 value="#{search.offerTypeValues}"
@@ -81,11 +81,11 @@
 
                         <h:selectOneMenu
                             styleClass="search_select_menu"
-                            value="#{insertionCreationModel.houseType}">
+                            value="#{create.houseType}">
                             <f:ajax
                                 render="further_attributes"
                                 event="change"
-                                listener="#{insertionCreationModel.insertionTypeChanged}"/>
+                                listener="#{create.insertionTypeChanged}"/>
                             <f:selectItems
                                 var="h"
                                 value="#{search.houseTypeValues}"
@@ -112,18 +112,18 @@
                                 required="true"
                                 styleClass="inputText street"
                                 a:placeholder="Straße"
-                                value="#{insertionCreationModel.address.street}"/>
+                                value="#{create.address.street}"/>
                             <h:inputText
                                 id="houseNumber"
                                 label="Hausnummer"
                                 required="true"
                                 styleClass="inputText houseNumber"
                                 a:placeholder="Hnr."
-                                value="#{insertionCreationModel.houseNumber}"/>
+                                value="#{create.houseNumber}"/>
                             <h:inputText
                                 styleClass="inputText additionalLetter"
                                 a:placeholder="Zst."
-                                value="#{insertionCreationModel.address.additionalLetter}"/>
+                                value="#{create.address.additionalLetter}"/>
                         </div>
                         <div class="address_line2">
                             <h:inputText
@@ -132,14 +132,14 @@
                                 required="true"
                                 styleClass="inputText postCode"
                                 a:placeholder="PLZ"
-                                value="#{insertionCreationModel.address.postCode}"/>
+                                value="#{create.address.postCode}"/>
                             <h:inputText
                                 id="town"
                                 label="Ort"
                                 required="true"
                                 styleClass="inputText town"
                                 a:placeholder="Ort"
-                                value="#{insertionCreationModel.address.town}"/>
+                                value="#{create.address.town}"/>
                         </div>
                     </div>
 
@@ -171,7 +171,7 @@
                         <h:panelGroup id="further_attributes">
                             <h:panelGroup
                                 id="commercialAttributes"
-                                rendered="#{!insertionCreationModel.livingInsertion}">
+                                rendered="#{!create.livingInsertion}">
 
                                 <div class="address_line1">
                                     <h:inputText
@@ -179,13 +179,13 @@
                                         required="true"
                                         styleClass="inputText"
                                         a:placeholder="Fläche in qm"
-                                        value="#{insertionCreationModel.area}" />
+                                        value="#{create.area}" />
                                 </div>
 
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="aircon"
-                                        value="#{insertionCreationModel.aircon}" />
+                                        value="#{create.aircon}" />
                                     <h:outputLabel
                                         value="Klimaanlage"
                                         for="aircon" />
@@ -194,7 +194,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="heavyCurrent"
-                                        value="#{insertionCreationModel.heavyCurrent}" />
+                                        value="#{create.heavyCurrent}" />
                                     <h:outputLabel
                                         value="Starkstrom"
                                         for="heavyCurrent"/>
@@ -204,7 +204,7 @@
 
                             <h:panelGroup
                                 id="livingAttributes"
-                                rendered="#{insertionCreationModel.livingInsertion}">
+                                rendered="#{create.livingInsertion}">
 
                                 <div class="address_line1">
                                     <h:inputText
@@ -213,21 +213,21 @@
                                         required="true"
                                         styleClass="inputText inputText290"
                                         a:placeholder="Wohnfläche"
-                                        value="#{insertionCreationModel.livingArea}" />
+                                        value="#{create.livingArea}" />
                                     <h:inputText
                                         styleClass="inputText inputText290"
                                         a:placeholder="Grundfläche"
-                                        value="#{insertionCreationModel.plotArea}" />
+                                        value="#{create.plotArea}" />
                                 </div>
                                 <div class="address_line1">
                                     <h:inputText
                                         styleClass="inputText inputText290"
                                         a:placeholder="Zimmer"
-                                        value="#{insertionCreationModel.rooms}" />
+                                        value="#{create.rooms}" />
                                     <h:inputText
                                         styleClass="inputText inputText290"
                                         a:placeholder="Etagen"
-                                        value="#{insertionCreationModel.stages}" />
+                                        value="#{create.stages}" />
                                 </div>
 
                                 <div class="address_line1">
@@ -236,7 +236,7 @@
                                     </p>
                                     <h:selectOneMenu
                                         styleClass="search_select_menu"
-                                        value="#{insertionCreationModel.heating}">
+                                        value="#{create.heating}">
                                         <f:selectItems
                                             var="h"
                                             value="#{search.heatingTypeValues}"
@@ -248,7 +248,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="guestToilette"
-                                        value="#{insertionCreationModel.guestToilette}" />
+                                        value="#{create.guestToilette}" />
                                     <h:outputLabel
                                         value="Gästetoilette"
                                         for="guestToilette" />
@@ -256,7 +256,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="basement"
-                                        value="#{insertionCreationModel.basement}" />
+                                        value="#{create.basement}" />
                                     <h:outputLabel
                                         value="Keller"
                                         for="basement" />
@@ -264,7 +264,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="kitchen"
-                                        value="#{insertionCreationModel.kitchen}" />
+                                        value="#{create.kitchen}" />
                                     <h:outputLabel
                                         value="Küche"
                                         for="kitchen" />
@@ -272,7 +272,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="newBuild"
-                                        value="#{insertionCreationModel.newBuild}" />
+                                        value="#{create.newBuild}" />
                                     <h:outputLabel
                                         value="Neubau"
                                         for="newBuild" />
@@ -280,7 +280,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="garage"
-                                        value="#{insertionCreationModel.garage}" />
+                                        value="#{create.garage}" />
                                     <h:outputLabel
                                         value="Garage"
                                         for="garage" />
@@ -288,7 +288,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="steplessEntry"
-                                        value="#{insertionCreationModel.steplessEntry}" />
+                                        value="#{create.steplessEntry}" />
                                     <h:outputLabel
                                         value="Stufenloser Eingang"
                                         for="steplessEntry" />
@@ -296,7 +296,7 @@
                                 <div class="insertion_attr_option">
                                     <h:selectBooleanCheckbox
                                         id="lift"
-                                        value="#{insertionCreationModel.lift}" />
+                                        value="#{create.lift}" />
                                     <h:outputLabel
                                         value="Aufzug"
                                         for="lift" />
@@ -326,11 +326,11 @@
                             required="true"
                             styleClass="inputText insertion_title"
                             a:placeholder="Titel"
-                            value="#{insertionCreationModel.title}" />
+                            value="#{create.title}" />
                         <h:inputTextarea
                             styleClass="inputText"
                             a:placeholder="Beschreibung"
-                            value="#{insertionCreationModel.description}"/>
+                            value="#{create.description}"/>
                     </div>
 
                     <div class="insertion_area_msgs">
@@ -353,7 +353,7 @@
                             required="true"
                             styleClass="inputText"
                             a:placeholder="Preis"
-                            value="#{insertionCreationModel.price}"/>
+                            value="#{create.price}"/>
                     </div>
 
                     <div class="insertion_area_msgs">
@@ -367,9 +367,9 @@
                 <!--Insertion: Submission-->
                 <div class="grey_box">
                     <h:commandButton
-                        value="Erstellen"
+                        value="Inserat erstellen"
                         styleClass="button"
-                        action="#{insertionCreationModel.createInsertion()}"
+                        action="#{create.createInsertion()}"
                         />
                 </div>
 

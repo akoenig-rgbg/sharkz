@@ -3,7 +3,10 @@ package de.othr.sw.sharkz.service;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.LivingInsertion;
+import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.Query;
@@ -41,5 +44,24 @@ public class InsertionService extends ServicePrototype implements Serializable {
     public void deleteAllInsertions() {
         Query q = em.createNativeQuery("DELETE * FROM Insertion");
         q.executeUpdate();
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public long publishInsertion(Insertion insertion, int duration) {
+        Order order = new Order();
+        
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, duration);
+        
+        order.setCustomer(insertion.getVendor());
+        order.setInsertion(insertion);
+        order.setStartDate(new Date());
+        order.setEndDate(c.getTime());
+        
+        em.persist(order);
+        em.flush();
+        
+        return insertion.getID();
     }
 }

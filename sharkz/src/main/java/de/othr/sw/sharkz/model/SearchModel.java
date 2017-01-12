@@ -12,8 +12,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@Named(value="search")
 @RequestScoped
+@Named(value="search")
 public class SearchModel {
     
     private UsageType usage;
