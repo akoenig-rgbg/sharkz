@@ -62,7 +62,8 @@ public class AccountService extends ServicePrototype implements Serializable {
     public Account getAccountByEmail(String email) {
         Query q = em.createNativeQuery("SELECT * FROM ACCOUNT WHERE EMAIL='"
                 + email + "'", Account.class);
-        return (Account) q.getResultList().get(0);
+        
+        return (Account) q.getSingleResult();
     }
     
     public String getNameByID(long id) {        

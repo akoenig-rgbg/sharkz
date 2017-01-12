@@ -8,21 +8,22 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <ui:define name="main">
-        <h:outputLink onclick="history.go(-1)">
-            <h:graphicImage
-                value="#{resource['img/login_back_button.png']}"
-                id="login_back_button"/>
-        </h:outputLink>
         
         <div id="login_wrapper">
+            
+            <!-- Login Box -->
             <div id="login_container">
                 
+                <!-- Sharkz logo -->
                 <h:graphicImage
                     class="logo_text"
                     value="#{resource['images/logo_text.png']}" />
                 
+                <!-- Login form -->
                 <h:form id="login_form">
                     
+                    
+                    <!-- E-Mail text field -->
                     <h:inputText
                         id="login_input_email"
                         value="#{login.email}"
@@ -30,18 +31,20 @@
                         a:placeholder="E-Mail Adresse"
                         styleClass="inputText login_inputText">
                         
-                        <f:validator validatorId="requiredValidator" />
                     </h:inputText>
                     
+                    <!-- Password text field -->
                     <h:inputSecret
                         id="login_input_password"
                         value="#{login.password}"
                         label="Passwort"
-                        validator="#{login.validatePassword}"
                         a:placeholder="Passwort"
                         styleClass="inputText login_inputText"/>
                     
+                    <!-- Registration text fields -->
                     <h:panelGroup id="login_name_group">
+                        
+                        <!-- First Name text field -->
                         <h:inputText
                             id="login_firstName"
                             value="#{login.firstName}"
@@ -50,9 +53,9 @@
                             styleClass="inputText login_inputText"
                             rendered="#{!login.loginAction}">
                         
-                            <f:validator validatorId="requiredValidator" />
                         </h:inputText>
                         
+                        <!-- Last Name text field -->
                         <h:inputText
                             id="login_lastName"
                             value="#{login.lastName}"
@@ -61,33 +64,36 @@
                             styleClass="inputText login_inputText"
                             rendered="#{!login.loginAction}">
                         
-                            <f:validator validatorId="requiredValidator" />
                         </h:inputText>
                     </h:panelGroup>
                     
+                    <!-- Forgot & Register/Login links -->
                     <div id="login_links">
-                        <h:commandLink id="register_link" value="#{login.registerButtonText}" styleClass="login_link_register" action="#{login.toggleAction()}">
+                        <h:commandLink
+                            id="register_link"
+                            value="#{login.registerButtonText}"
+                            styleClass="login_link_register"
+                            action="#{login.toggleAction()}">
+                            
                             <f:ajax render="login_wrapper register_link login_button_group login_name_group" />
                         </h:commandLink>
-                        <h:outputLink styleClass="login_link_forgot">Passwort vergessen?</h:outputLink>
+                        
+                        <h:outputLink styleClass="login_link_forgot">
+                            Passwort vergessen?
+                        </h:outputLink>
+                        
                     </div>
-                    <div style="clear:both"></div>
+                    <div style="clear:both"/>
                     
-                    <h:message
-                        for="login_input_email"
-                        styleClass="requiredMessage" />
-                    <h:message
-                        for="login_input_password"
-                        styleClass="requiredMessage" />
-                    <h:message
-                        for="login_firstName"
-                        styleClass="requiredMessage" />
-                    <h:message
-                        for="login_lastName"
-                        styleClass="requiredMessage" />
+                    <!-- Validation messages -->
+                    <h:messages styleClass="h_messages" />
                     
+                    <!-- Login button -->
                     <h:panelGroup id="login_button_group">
-                        <h:commandButton action="#{login.login()}" value="#{login.loginButtonText}" styleClass="button login_button" />
+                        <h:commandButton
+                            action="#{login.login()}"
+                            value="#{login.loginButtonText}"
+                            styleClass="button login_button" />
                     </h:panelGroup>
                     
                 </h:form>

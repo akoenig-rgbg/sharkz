@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,6 +25,12 @@ public class InitialDataProvider implements Servlet {
     
     @Override
     public void init(ServletConfig config) throws ServletException {
+        Query q = em.createNativeQuery("SELECT COUNT(*) FROM Account");
+        
+        if ((Integer) q.getSingleResult() != 0) {
+            return;
+        }
+        
         try {
             UserTransaction transaction = (UserTransaction)
                     new InitialContext().lookup("java:comp/UserTransaction");

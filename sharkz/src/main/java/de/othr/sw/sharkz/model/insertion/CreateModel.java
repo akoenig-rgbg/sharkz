@@ -31,6 +31,7 @@ import javax.servlet.http.Part;
 @Named("create")
 public class CreateModel implements Serializable {
     
+    //<editor-fold defaultstate="collapsed" desc="Attributes">
     private final static int IMAGE_SIZE = 3145728;
     
     // Insertion Attributes
@@ -63,22 +64,22 @@ public class CreateModel implements Serializable {
     private String area;
     private boolean aircon;
     private boolean heavyCurrent;
-    
     // For Ajax events
-    private boolean livingInsertion = true;
+    private boolean livingInsertion;
     private Part file;
-    private String fileContent;
     private List<String> fileNames;
-    
-    public String getFileContent() { return fileContent; }
-    
+
     // Models and Services
     @Inject AccountModel accountModel;
     @Inject AccountService accountService;
-    @Inject PublishModel insertionPublishmentModel;
+    @Inject PublishModel publishModel;
     @Inject InsertionService insertionService;
     
+    //</editor-fold>
+    
+    // Constructor
     public CreateModel() {
+        this.livingInsertion = true;
         this.address.setPostCode("");
         this.address.setStreet("");
         this.address.setTown("");
@@ -88,10 +89,16 @@ public class CreateModel implements Serializable {
         this.fileNames = new ArrayList<>();
     }
     
+    /**
+     * Changes the insertion type depending on the houseType.
+     */
     public void insertionTypeChanged(AjaxBehaviorEvent event) {
         livingInsertion = houseType.isLiving();
     }
     
+    /**
+     * Validates the entered values of the insertion to create
+     */
     public void validateCreation(FacesContext ctx, UIComponent comp,
             Object value) {
         
@@ -102,6 +109,11 @@ public class CreateModel implements Serializable {
         
     }
     
+    /**
+     * Creates a new <code>Insertion</code> from the entered inputs and persists
+     * it in the database.
+     * @return the <code>ID<code> of the insertion created
+     */
     public String createInsertion() {
         // Set insertion-specific attributes
         // Living Insertion
@@ -146,24 +158,25 @@ public class CreateModel implements Serializable {
         insertion.setOfferType(offerType);
         insertion.setPrice(Integer.parseInt(price));
        
-        // Set customer as vendor
-        /*
-        long customerID = accountModel.getUser().getID();
-        Customer customer = accountService.findCustomer(customerID);
-        insertion.setVendor(customer);
-        */
         // Write insertion to database
         if (!accountModel.isIsLoggedIn()) {
+            FacesContext.getCurrentInstance().getExternalContext().getFlash()
+                    .put("insertion", insertion);
             return "logon";
         }
         
-        insertionPublishmentModel.setInsertionId(
+        insertion.setVendor((Customer) accountModel.getUser());
+        
+        publishModel.setInsertionId(
                 insertionService.createInsertion(insertion));
         
         // Forward to publishment page
         return "success";
     }
     
+    /**
+     * Uploads an image to the model and saves it as <code>byte[]</code>
+     */
     public void uploadImage() {
         fileNames.add(file.getSubmittedFileName());
         
@@ -181,6 +194,10 @@ public class CreateModel implements Serializable {
         }
     }
     
+    /**
+     * Validates the files, the user wants to upload as an image for the
+     * insertion.
+     */
     public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
         Part file = (Part) value;
         List<FacesMessage> msgs = new ArrayList<>();

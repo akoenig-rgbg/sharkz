@@ -4,20 +4,27 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.model.insertion.PublishModel;
 import de.othr.sw.sharkz.service.AccountService;
+import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 @ViewScoped
 @Named("login")
 public class LoginModel implements Serializable {
-    // Form fields
+    
+    //<editor-fold defaultstate="collapsed" desc="Attributes">
+    
+    Account account;
+    
+    // Form inputs
     private String email;
     private String password;
     private String firstName;
@@ -28,60 +35,165 @@ public class LoginModel implements Serializable {
     private String registerButtonText = "Registrieren";
     private boolean isLogin = true;
     
-    // Login required fields
+    // Login validation
+    FacesContext context;
+    
+    // If login is required from insertion/create.xhtml
     Insertion insertion;
     
     // Models & Services
+    @Inject InsertionService insertionService;
     @Inject AccountService accountService;
     @Inject AccountModel accountModel;
+    @Inject PublishModel publishModel;
 
+    //</editor-fold>
+
+    @PostConstruct
+    public void getInsertion() {
+        insertion = (Insertion) FacesContext.getCurrentInstance()
+                .getExternalContext().getFlash().get("insertion");
+    }
+    
+    /**
+     * Login to the sharkz website.
+     * @return 
+     */
     public String login() {
         
-        // Login
+        // Validate the form data
+        if (!validateData())
+            return "";
+        
+        // Process is a login
         if (isLogin) {
-            
-            Account acc = accountService.getAccountByEmail(email);
-            
-            if (accountService.checkPassword(acc.geteMail(), password)) {
-                
+            if (accountService.checkPassword(account.geteMail(), password)) {
                 accountModel.setIsLoggedIn(true);
-                accountModel.setUser(acc);
-                
-                // Set name depending on type of account
-                if (acc instanceof Customer) {
-                    accountModel.setName(accountService.getNameByID(acc.getID()));
-                } else if (acc instanceof Administrator) {
-                    accountModel.setName("Administrator");
-                }
-                
-                if (insertion == null)
-                    return "login_normal";
-                else
-                    return "login_createInsertion";
+                accountModel.setUser(account);
             }
             else {
+                context.addMessage(null, new FacesMessage(
+                    "Falsche E-Mail oder falsches Passwort!"));
                 return "";
             }
         }
         
-        // Register
+        // Process is a registration
         else if (!isLogin) {
-            Customer customer = new Customer();
+            createCustomer();
             
-            customer.seteMail(email);
-            customer.setPassword(password);
-            customer.setFirstName(firstName);
-            customer.setLastName(lastName);
-            
-            System.out.println("Kunde angelegt");
-            System.out.println(customer.getFirstName() + " " + customer.getLastName());
-            
-            accountService.createCustomer(customer);
+            accountModel.setIsLoggedIn(true);
+            accountModel.setUser(account);
         }
         
-        return "index";
+        // Set name depending on type of account
+        if (account instanceof Customer) {
+            accountModel.setName(accountService.getNameByID(
+                    account.getID()));
+        } else if (account instanceof Administrator) {
+            accountModel.setName("Administrator");
+        }
+        
+        // Normal login
+        if (insertion == null)
+            return "index";
+        
+        // Login is required for insertion creation
+        insertion.setVendor((Customer) accountModel.getUser());
+        publishModel.setInsertionId(insertionService.createInsertion(insertion));
+        
+        return "publish";
     }
     
+    /**
+     * Validates if the login data is correct.
+     * @return <b>true</b> if data is correct
+     *         <b>false</b> otherwise
+     */
+    public boolean validateData() {
+        context = FacesContext.getCurrentInstance();
+        
+        validateEmail();
+        validatePassword();
+        
+        if (!isLogin)
+            validateName();
+        
+        return context.getMessageList().isEmpty();
+    }
+    
+    private void createCustomer() {
+        Customer customer = new Customer();
+            
+        customer.seteMail(email);
+        customer.setPassword(password);
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+
+        System.out.println("Kunde angelegt");
+        System.out.println(customer.getFirstName() + " " + customer.getLastName());
+
+        accountService.createCustomer(customer);
+    }
+
+    private void validateEmail() {
+        if (email == null || email.equals("")) {
+            context.addMessage(null, new FacesMessage(
+                    "Bitte tragen Sie Ihre E-Mail-Addresse ein!"));
+        }
+        
+        // Login: If email does not exist -> account does not exist
+        if (isLogin) {
+            try {
+                account = accountService.getAccountByEmail(email);
+            } catch (NoResultException e) {
+                context.addMessage(null, new FacesMessage(
+                        "Falsche E-Mail oder falsches Passwort!"));
+            }
+            
+        // Registration: If account exists -> choose other email
+        } else {
+            try {
+                account = accountService.getAccountByEmail(email);
+            } catch (NoResultException e) {
+                // email can be chosen
+            }
+            
+            context.addMessage(null, new FacesMessage(
+                "Diese E-Mail Addresse ist bereits registriert!"));
+        }
+    }
+    
+    private void validatePassword() {
+        // No password entered
+        if (password == null || password.equals("")) {
+            context.addMessage(null, new FacesMessage(
+                    "Bitte tragen Sie Ihr Passwort ein!"));
+        }
+
+        if (!isLogin) {
+            // Other unfullfilled criteria
+            if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,}$"))
+                context.addMessage(null, new FacesMessage(
+                        "Ihr Passwort aus mindestens 5 Zeichen bestehen und "
+                                + "Groß- und Kleinbuchstaben, Sonderzeichen "
+                                + "(@#$%^&+=) sowie keinen Whitespace enthalten!"));
+        }
+    }
+    
+    private void validateName() {
+        if (firstName == null || firstName.equals(""))
+            context.addMessage(null, new FacesMessage(
+                "Bitte tragen Sie Ihren Vornamen ein!"));
+        
+        if (lastName == null || lastName.equals(""))
+            context.addMessage(null, new FacesMessage(
+                "Bitte tragen Sie Ihren Nachnamen ein!"));
+    }
+    
+    /**
+     * Toggles between login and registration functionality.
+     */
     public void toggleAction() {
         if (isLogin) {
             loginButtonText = "Registrieren";
@@ -94,89 +206,69 @@ public class LoginModel implements Serializable {
         isLogin = !isLogin;
     }
     
-    public void validatePassword(FacesContext context, UIComponent component,
-            Object value) throws ValidatorException {
-        
-        if (isLogin)
-            return;
-        
-        String input = value.toString();
-
-        String label = (String) component.getAttributes().get("label");
-        
-        if (label == null)
-            label = "ERROR_NO_LABEL";
-        
-        if (input == null || input.equals(""))
-            throw new ValidatorException(new FacesMessage(
-                    "Bitte tragen Sie einen Wert für " + label + " ein!"));
-        
-        if (!input.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,}$"))
-            throw new ValidatorException(new FacesMessage(
-                    "Ihr Passwort aus mindestens 5 Zeichen bestehen und Groß- und Kleinbuchstaben, Sonderzeichen (@#$%^&+=) sowie keinen Whitespace enthalten!"));
-    }
-    
+    //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
     public String getEmail() {
-        return email;
+    return email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+    this.email = email;
     }
 
     public String getPassword() {
-        return password;
+    return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+    this.password = password;
     }
-    
-     public String getLoginButtonText() {
-        return loginButtonText;
+
+    public String getLoginButtonText() {
+    return loginButtonText;
     }
 
     public void setLoginButtonText(String loginButtonText) {
-        this.loginButtonText = loginButtonText;
+    this.loginButtonText = loginButtonText;
     }
 
     public String getRegisterButtonText() {
-        return registerButtonText;
+    return registerButtonText;
     }
 
     public void setRegisterButtonText(String registerButtonText) {
-        this.registerButtonText = registerButtonText;
+    this.registerButtonText = registerButtonText;
     }
 
     public boolean isLoginAction() {
-        return isLogin;
+    return isLogin;
     }
 
     public void setLoginAction(boolean loginAction) {
-        this.isLogin = loginAction;
+    this.isLogin = loginAction;
     }
 
     public String getFirstName() {
-        return firstName;
+    return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+    return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+    this.lastName = lastName;
     }
 
     public boolean isIsLogin() {
-        return isLogin;
+    return isLogin;
     }
 
     public void setIsLogin(boolean isLogin) {
-        this.isLogin = isLogin;
+    this.isLogin = isLogin;
     }
+    //</editor-fold>
 }
