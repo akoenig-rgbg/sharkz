@@ -44,7 +44,7 @@ public class LoginModel implements Serializable {
     // Models & Services
     @Inject InsertionService insertionService;
     @Inject AccountService accountService;
-    @Inject AccountModel accountModel;
+    @Inject @Named("account") AccountModel accountModel;
     @Inject PublishModel publishModel;
 
     //</editor-fold>

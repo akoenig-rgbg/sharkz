@@ -60,6 +60,7 @@
             <from-action>#{create.createInsertion()}</from-action>
             <from-outcome>success</from-outcome>
             <to-view-id>/views/insertion/publish.xhtml</to-view-id>
+            <redirect include-view-params="true" />
         </navigation-case>
         
         <navigation-case>
@@ -83,6 +84,25 @@
             <from-action>#{login.login()}</from-action>
             <from-outcome>publish</from-outcome>
             <to-view-id>/views/insertion/publish.xhtml</to-view-id>
+            <redirect include-view-params="true" />
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Rules for insertion/publish.xhtml -->
+    <navigation-rule>
+        <from-view-id>/views/insertion/publish.xhtml</from-view-id>
+        
+        <navigation-case>
+            <from-action>#{publish.publishInsertion()}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
+            <redirect include-view-params="true" />
+        </navigation-case>
+        
+        <navigation-case>
+            <from-action>#{publish.publishInsertion()}</from-action>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
             <redirect include-view-params="true" />
         </navigation-case>
     </navigation-rule>

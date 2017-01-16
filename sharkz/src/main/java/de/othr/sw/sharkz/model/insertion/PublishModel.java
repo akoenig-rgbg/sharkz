@@ -28,14 +28,16 @@ public class PublishModel implements Serializable {
     private int size;
     private Map<String, String> importantAttributes;
     
-    private int duration;
+    private int duration = 1;
     
     private int featImgId;
     
-    @Inject
-    private InsertionService insertionService;
-    @Inject
-    private AccountModel accountModel;
+    private boolean successfulValidation = false;
+    
+    // Services & Models
+    @Inject private InsertionService insertionService;
+    @Inject private AccountModel accountModel;
+    @Inject private InsertionModel insertionModel;
     
     // GET parameters
     private long insertionId;
@@ -91,12 +93,18 @@ public class PublishModel implements Serializable {
     public void validatePublishment(FacesContext ctx, UIComponent comp,
             Object value) {
         
+        try {
+        System.out.println("accountModel: " + accountModel.getUser().getID());
+        
+        System.out.println("insertion: " + insertion.getVendor().getID());
+        } catch (NullPointerException e) {
+            System.out.println("Nullpointerexception beim Vendor/User");
+        }
+        
         List<FacesMessage> msgs = new ArrayList<>();
         
-        int dur = (int) value;
-        
         // validate input
-        if (dur <= 0)
+        if (duration <= 0)
             msgs.add(new FacesMessage("Die Dauer der "
                     + "Veröffentlichung muss <= 0 sein!"));
         
@@ -108,20 +116,29 @@ public class PublishModel implements Serializable {
             msgs.add(new FacesMessage("Sie müssen eingeloggt sein, um das "
                     + "Inserat zu veröffentlichen!"));
         
-        else if (!accountModel.getUser().equals(insertion.getVendor()));
+        else if (!accountModel.getUser().equals(insertion.getVendor()))
             msgs.add(new FacesMessage("Sie können nur Ihre eigenen Inserate "
                     + "veröffentlichen!"));
         
         if (!msgs.isEmpty())
             throw new ValidatorException(msgs);
+        
+        else
+            successfulValidation = true;
     }
     
     public String publishInsertion() {
         // publish insertion
         insertionService.publishInsertion(insertion, duration);
+       
+        // Propagate GET parameters
+        insertionModel.setInsertionId(insertionId);
         
         // redirect
-        return "?includeViewParams=true";/*insertion.xhtml?faces-redirect=true*/
+        if (successfulValidation)
+            return "success";
+        
+        return "failure";
     }
     
     // Getter & Setter

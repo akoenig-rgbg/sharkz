@@ -8,7 +8,6 @@ import javax.inject.Named;
 public class IndexModel {
 
     public String search() {
-        
         return "search";
     }
 }

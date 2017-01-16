@@ -5,12 +5,9 @@ import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class EntityPrototype implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -33,11 +30,14 @@ public abstract class EntityPrototype implements Serializable {
         
         final EntityPrototype other = (EntityPrototype) o;
         
-        if (!Objects.equals(id, other.getID())) {
-            return false;
-        }
+        int result = Long.compare(id, other.getID());
         
-        return true;
+        boolean res = false;
+        
+        if (result == 0)
+            res = true;
+            
+        return res;
     }
     
     public long getID() {
