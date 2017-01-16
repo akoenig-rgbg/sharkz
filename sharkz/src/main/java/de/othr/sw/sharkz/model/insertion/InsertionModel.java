@@ -37,6 +37,4 @@ public class InsertionModel {
     public void setInsertionId(long insertionId) {
         this.insertionId = insertionId;
     }
-    
-    
 }

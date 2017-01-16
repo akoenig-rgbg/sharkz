@@ -1,23 +1,86 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../WEB-INF/sharkzTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="metadata">
         <f:metadata>
             <f:viewParam name="location" value="#{search.location}"/>
             <f:viewParam name="offer" value="#{search.offer}" />
             <f:viewParam name="usage" value="#{search.usage}" />
-            <f:event type="preRenderView" listener="#{search.search()}" />
+            <f:viewAction action="#{search.search}" />
         </f:metadata>
     </ui:define>
     
     <ui:define name="main">
-        <h:outputText value="#{search.location}" />
-        <h:outputText value="#{search.usage}" />
-        <h:outputText value="#{search.offer}" />
+        
+        
+        <!-- Iterate through search results -->
+        <!-- Commercial Insertions -->
+        <c:if test="#{search.usage eq 'COMMERCIAL'}">
+            <c:forEach
+                items="#{search.results}"
+                var="ins"
+                varStatus="status">
+
+                <div class="ins_res card">
+                    <div class="header">
+                        #{ins.title}
+                    </div>
+                    <div class="content">
+                        <div class="address">
+                            <h:outputText converter="addressConverter" escape="false">
+                                #{ins.address}
+                            </h:outputText>
+                        </div>
+                        <div class="images">
+                            <h:graphicImage
+                                value="/images?insertion_id=#{ins.ID}&amp;image_id=0" />
+                        </div>
+                        <div class="information">
+                            Information
+                        </div>
+                    </div>
+                </div>
+        
+            </c:forEach>
+        </c:if>
+        
+        <!-- Living Insertions -->
+        <c:if test="#{search.usage eq 'LIVING'}">
+            <c:forEach
+                items="#{search.results}"
+                var="ins"
+                varStatus="status">
+
+                <div class="ins_res card">
+                    <div class="header">
+                        #{ins.title}
+                    </div>
+                    <div class="content">
+                        <div class="address">
+                            <h:outputText converter="addressConverter" escape="false">
+                                #{ins.address}
+                            </h:outputText>
+                        </div>
+                        <div class="images">
+                            <h:graphicImage
+                                value="/images?insertion_id=#{ins.ID}&amp;image_id=0" />
+                        </div>
+                        <div class="information">
+                            Information
+                        </div>
+                    </div>
+                </div>
+        
+            </c:forEach>
+        </c:if>
+     
     </ui:define>
 
 </ui:composition>

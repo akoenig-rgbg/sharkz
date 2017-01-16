@@ -1,12 +1,13 @@
 package de.othr.sw.sharkz.model;
 
+import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
 import de.othr.sw.sharkz.service.SearchService;
-import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -16,13 +17,27 @@ import javax.inject.Named;
 @Named(value="search")
 public class SearchModel {
     
+    // GET parameters (used to search)
     private UsageType usage;
     private String location;
     private OfferType offer;
     
-    @Inject
-    private SearchService searchService;
+    // List of search results
+    private List<Insertion> results;
     
+    // Models & Services
+    @Inject private SearchService searchService;
+    
+    public void search() {
+        if (usage == null)
+            ;// TODO: Error handling
+        else
+            results = searchService.search(offer, location);
+        
+        System.out.println("Ergebnisse: " + results);
+    }
+    
+    // Enum Values to Array -> SelectOneMenu
     public OfferType[] getOfferTypeValues() {
         return OfferType.values();
     }
@@ -39,17 +54,7 @@ public class SearchModel {
         return UsageType.values();
     }
     
-    public List<Insertion> search() {
-        //if (location != null)
-          //  return searchService.searchInsertions(null, null, location);
-        
-        return null;
-    }
-    
-    public List<Insertion> getQuery()  {
-        return new ArrayList<Insertion>();
-    }
-
+    // Getter & Setter
     public UsageType getUsage() {
         return usage;
     }
@@ -72,5 +77,13 @@ public class SearchModel {
 
     public void setOffer(OfferType offer) {
         this.offer = offer;
+    }
+
+    public List<Insertion> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Insertion> results) {
+        this.results = results;
     }
 }

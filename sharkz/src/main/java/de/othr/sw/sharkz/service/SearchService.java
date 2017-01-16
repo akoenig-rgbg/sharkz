@@ -1,12 +1,14 @@
 package de.othr.sw.sharkz.service;
 
+import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
 import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @RequestScoped
 public class SearchService extends ServicePrototype implements Serializable {
@@ -16,11 +18,15 @@ public class SearchService extends ServicePrototype implements Serializable {
     private UsageType usageType;
     private String location;
     
-    public List<Insertion> searchInsertions(UsageType usage, OfferType offer,
+    public List<Insertion> search(OfferType offer,
             String location) {
-        
-        Query q = em.createNativeQuery("SELECT * FROM APP.BASICINSERTION WHERE"
-                + "TOWN=" + location + ";", Insertion.class);
+
+         TypedQuery<Insertion> q = em.createQuery(
+                "SELECT ins FROM Insertion AS ins WHERE ins.offerType "
+                        + "= :offer AND ins.address.town = :location",
+                Insertion.class)
+                .setParameter("offer", offer)
+                .setParameter("location", location);
         
         return q.getResultList();
     }
