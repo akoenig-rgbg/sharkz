@@ -3,6 +3,8 @@ package de.othr.sw.sharkz.service;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.LivingInsertion;
+import de.othr.sw.sharkz.entity.Order;
+import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.entity.type.UsageType;
 import java.io.Serializable;
@@ -14,23 +16,23 @@ import javax.persistence.TypedQuery;
 public class SearchService extends ServicePrototype implements Serializable {
     private List<Insertion> insertions;
     
-    private OfferType offerType;
-    private UsageType usageType;
-    private String location;
-    
-    public List<Insertion> search(OfferType offer,
+    public List<Order> search(OfferType offer, UsageType usage,
             String location) {
+        
+        List<HouseType> types = HouseType.getTypesOf(usage);
 
-         TypedQuery<Insertion> q = em.createQuery(
-                "SELECT ins FROM Insertion AS ins WHERE ins.offerType "
-                        + "= :offer AND ins.address.town = :location",
-                Insertion.class)
+        TypedQuery<Order> q = em.createQuery(
+                "SELECT ord FROM Order AS ord WHERE ord.insertion.offerType"
+                        + "= :offer AND ord.insertion.address.town = :location"
+                        + " AND ord.insertion.houseType IN :types",
+                Order.class)
                 .setParameter("offer", offer)
-                .setParameter("location", location);
+                .setParameter("location", location)
+                .setParameter("types", types);
         
         return q.getResultList();
     }
-
+    
     public List<Insertion> getInsertions() {
         return insertions;
     }
@@ -38,30 +40,4 @@ public class SearchService extends ServicePrototype implements Serializable {
     public void setInsertions(List<Insertion> insertions) {
         this.insertions = insertions;
     }
-
-    public OfferType getOfferType() {
-        return offerType;
-    }
-
-    public void setOfferType(OfferType offerType) {
-        this.offerType = offerType;
-    }
-
-    public UsageType getUsageType() {
-        return usageType;
-    }
-
-    public void setUsageType(UsageType usageType) {
-        this.usageType = usageType;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-    
-    
 }

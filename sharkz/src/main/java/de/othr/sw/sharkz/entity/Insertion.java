@@ -53,8 +53,6 @@ public abstract class Insertion extends EntityPrototype {
     
     public abstract Map<String, String> getFurtherAttributes();
     
-    public abstract boolean isLivingInsertion();
-    
     // Getters & Setters
     public OfferType getOfferType() {
         return offerType;

@@ -65,6 +65,12 @@
         
         <navigation-case>
             <from-action>#{create.createInsertion()}</from-action>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/views/insertion/create.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-action>#{create.createInsertion()}</from-action>
             <from-outcome>logon</from-outcome>
             <to-view-id>/views/account/login.xhtml</to-view-id>
         </navigation-case>

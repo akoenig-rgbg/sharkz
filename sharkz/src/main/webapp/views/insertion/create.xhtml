@@ -24,6 +24,7 @@
                                 styleClass="inputFile"
                                 id="file"
                                 value="#{create.file}"
+                                required="true"
                                 validator="#{create.validateFile}"/>
                             
                             <div class="inputFileName"></div>
@@ -40,8 +41,14 @@
                             value="Bild hochladen"
                             action="#{create.uploadImage}">
                         </h:commandButton>
-                            
-                        <h:messages styleClass="h_messages requiredMessage uploadMessages"/>
+                        
+                        <h:message
+                            for="insertion_form"
+                            styleClass="requiredMessage uploadMessages"/>
+                        <h:message for="file" />
+                        <h:messages
+                            for="inputFileForm" 
+                            styleClass="h_messages requiredMessage uploadMessages"/>
                     </h:form>
 
                     <div id="imageNames">    
@@ -369,8 +376,7 @@
                     <h:commandButton
                         value="Inserat erstellen"
                         styleClass="button"
-                        action="#{create.createInsertion()}"
-                        />
+                        action="#{create.createInsertion()}"/>
                 </div>
 
             </h:form>

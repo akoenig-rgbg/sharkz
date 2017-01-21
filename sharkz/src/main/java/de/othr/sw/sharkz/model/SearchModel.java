@@ -1,8 +1,7 @@
 package de.othr.sw.sharkz.model;
 
-import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.entity.LivingInsertion;
+import de.othr.sw.sharkz.entity.Order;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
@@ -23,7 +22,7 @@ public class SearchModel {
     private OfferType offer;
     
     // List of search results
-    private List<Insertion> results;
+    private List<Order> results;
     
     // Models & Services
     @Inject private SearchService searchService;
@@ -32,7 +31,7 @@ public class SearchModel {
         if (usage == null)
             ;// TODO: Error handling
         else
-            results = searchService.search(offer, location);
+            results = searchService.search(offer, usage, location);
         
         System.out.println("Ergebnisse: " + results);
     }
@@ -79,11 +78,11 @@ public class SearchModel {
         this.offer = offer;
     }
 
-    public List<Insertion> getResults() {
+    public List<Order> getResults() {
         return results;
     }
 
-    public void setResults(List<Insertion> results) {
+    public void setResults(List<Order> results) {
         this.results = results;
     }
 }

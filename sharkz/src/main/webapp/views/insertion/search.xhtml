@@ -25,22 +25,22 @@
         <c:if test="#{search.usage eq 'COMMERCIAL'}">
             <c:forEach
                 items="#{search.results}"
-                var="ins"
+                var="order"
                 varStatus="status">
 
                 <div class="ins_res card">
                     <div class="header">
-                        #{ins.title}
+                        #{order.insertion.title}
                     </div>
                     <div class="content">
                         <div class="address">
                             <h:outputText converter="addressConverter" escape="false">
-                                #{ins.address}
+                                #{order.insertion.address}
                             </h:outputText>
                         </div>
                         <div class="images">
                             <h:graphicImage
-                                value="/images?insertion_id=#{ins.ID}&amp;image_id=0" />
+                                value="/images?insertion_id=#{order.insertion.ID}&amp;image_id=0" />
                         </div>
                         <div class="information">
                             Information
@@ -55,22 +55,25 @@
         <c:if test="#{search.usage eq 'LIVING'}">
             <c:forEach
                 items="#{search.results}"
-                var="ins"
+                var="order"
                 varStatus="status">
 
                 <div class="ins_res card">
                     <div class="header">
-                        #{ins.title}
+                        #{order.insertion.title}
                     </div>
                     <div class="content">
                         <div class="address">
-                            <h:outputText converter="addressConverter" escape="false">
-                                #{ins.address}
-                            </h:outputText>
+                            <i class="fa fa-map-marker" aria-hidden="true"/>
+                            <h:outputText escape="false" value="&ensp;" />
+                            <h:outputText
+                                value="#{order.insertion.address}"
+                                converter="addressConverter"
+                                escape="false"/>
                         </div>
                         <div class="images">
                             <h:graphicImage
-                                value="/images?insertion_id=#{ins.ID}&amp;image_id=0" />
+                                value="/images?insertion_id=#{order.insertion.ID}&amp;image_id=0" />
                         </div>
                         <div class="information">
                             Information

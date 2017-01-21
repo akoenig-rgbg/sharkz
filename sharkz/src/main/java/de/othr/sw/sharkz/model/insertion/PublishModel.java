@@ -64,7 +64,7 @@ public class PublishModel implements Serializable {
         else
             priceLabel = "Kaltmiete";
         
-        if (insertion.isLivingInsertion()) {
+        if (insertion instanceof LivingInsertion) {
             LivingInsertion ins = (LivingInsertion) insertion;
             
             

@@ -17,11 +17,14 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -69,11 +72,11 @@ public class CreateModel implements Serializable {
     private Part file;
     private List<String> fileNames;
 
-    // Models and Services
-    @Inject AccountModel accountModel;
-    @Inject AccountService accountService;
-    @Inject PublishModel publishModel;
-    @Inject InsertionService insertionService;
+    // Models, Services, Util
+    @Inject private AccountModel accountModel;
+    @Inject private AccountService accountService;
+    @Inject private PublishModel publishModel;
+    @Inject private InsertionService insertionService;
     
     //</editor-fold>
     
@@ -99,22 +102,28 @@ public class CreateModel implements Serializable {
     /**
      * Validates the entered values of the insertion to create
      */
-    public void validateCreation(FacesContext ctx, UIComponent comp,
-            Object value) {
+    public boolean validateCreation() {
+        if (images.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("insertion_form",
+                    new FacesMessage("Bitte laden Sie mindestens ein Foto von"
+                            + "ihrem Objekt hoch!"));
+            
+            return false;
+        }
         
-        List<FacesMessage> msgs = new ArrayList<>();
-        
-        if (!accountModel.isIsLoggedIn())
-            ;
-        
+        return true;
     }
     
     /**
      * Creates a new <code>Insertion</code> from the entered inputs and persists
      * it in the database.
-     * @return the <code>ID<code> of the insertion created
+     * @return the <code>ID</code> of the insertion created
      */
     public String createInsertion() {
+        if (!validateCreation()) {
+            return "failure";
+        }
+        
         // Set insertion-specific attributes
         // Living Insertion
         if (houseType.isLiving()) {
@@ -153,7 +162,6 @@ public class CreateModel implements Serializable {
         insertion.setTitle(title);
         insertion.setDescription(description);
         insertion.setHouseType(houseType);
-        System.out.println("Bilder: " + images);
         insertion.setImages(images);
         insertion.setOfferType(offerType);
         insertion.setPrice(Integer.parseInt(price));
@@ -162,11 +170,17 @@ public class CreateModel implements Serializable {
         if (!accountModel.isIsLoggedIn()) {
             FacesContext.getCurrentInstance().getExternalContext().getFlash()
                     .put("insertion", insertion);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    "Bitte loggen Sie sich ein oder legen Sie einen Account an"
+                            + " bevor Sie ein Inserat anlegen!"));
+            
             return "logon";
         }
         
         insertion.setVendor((Customer) accountModel.getUser());
         
+        // Persist insertion
         publishModel.setInsertionId(
                 insertionService.createInsertion(insertion));
         

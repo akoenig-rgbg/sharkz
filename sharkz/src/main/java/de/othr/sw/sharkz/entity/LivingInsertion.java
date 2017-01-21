@@ -49,12 +49,7 @@ public class LivingInsertion extends Insertion {
                 
         return attrs;
     }
-    
-    @Override
-    public boolean isLivingInsertion() {
-        return true;
-    }
-    
+
     public int getLivingArea() {
         return livingArea;
     }

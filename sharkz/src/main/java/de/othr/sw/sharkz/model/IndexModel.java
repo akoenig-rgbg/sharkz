@@ -6,8 +6,10 @@ import javax.inject.Named;
 @RequestScoped
 @Named(value="home")
 public class IndexModel {
-
+    
     public String search() {
         return "search";
     }
+    
+    
 }
