@@ -1,6 +1,5 @@
 package de.othr.sw.sharkz.model;
 
-import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Order;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.HouseType;

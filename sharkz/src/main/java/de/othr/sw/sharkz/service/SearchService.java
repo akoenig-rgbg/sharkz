@@ -33,6 +33,15 @@ public class SearchService extends ServicePrototype implements Serializable {
         return q.getResultList();
     }
     
+    public List<Order> fetchLuxury(int amount) {
+        
+        TypedQuery<Order> q = em.createQuery(
+                "SELECT ord FROM Order AS ord ORDER BY ord.insertion.price DESC",
+                Order.class).setMaxResults(amount);
+        
+        return q.getResultList();
+    }
+    
     public List<Insertion> getInsertions() {
         return insertions;
     }

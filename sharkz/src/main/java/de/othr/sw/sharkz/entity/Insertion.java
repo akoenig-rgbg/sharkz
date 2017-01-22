@@ -51,6 +51,8 @@ public abstract class Insertion extends EntityPrototype {
         return attrs;
     }
     
+    public abstract Map<String, String> getImportantAttributes();
+    
     public abstract Map<String, String> getFurtherAttributes();
     
     // Getters & Setters

@@ -1,6 +1,10 @@
 package de.othr.sw.sharkz.entity;
 
 import de.othr.sw.sharkz.entity.type.HeatingType;
+import de.othr.sw.sharkz.entity.type.OfferType;
+import java.text.NumberFormat;
+import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import javax.persistence.Entity;
 
@@ -24,8 +28,31 @@ public class LivingInsertion extends Insertion {
     }
 
     @Override
+    public Map<String, String> getImportantAttributes() {
+        
+        Map<String, String> attrs = new LinkedHashMap<>();
+
+        String priceLabel;
+        if (this.getOfferType() == OfferType.PURCHASE)
+            priceLabel = "Kaufpreis";
+        else
+            priceLabel = "Kaltmiete";
+            
+        String price = NumberFormat.getNumberInstance(
+                Locale.GERMAN).format(this.getPrice());
+
+        attrs.put(priceLabel, price + " &euro;");
+        attrs.put("Zi.", String.valueOf(this.getRooms()));
+        attrs.put("Wohnfläche", String.valueOf(this.getLivingArea()) + " m&sup2;");
+        attrs.put("Grundfläche", String.valueOf(this.getPlotArea()) + " m&sup2;");
+        
+        return attrs;
+    }
+    
+    @Override
     public Map<String, String> getFurtherAttributes() {
-        Map<String, String> attrs = getAttributes();
+                
+        Map<String, String> attrs = new LinkedHashMap<>();
         
         // Strings
         attrs.put("Wohnfläche", String.valueOf(this.livingArea) + " m&sup2;");
@@ -145,6 +172,4 @@ public class LivingInsertion extends Insertion {
     public void setLift(boolean lift) {
         this.lift = lift;
     }
-    
-    
 }

@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.persistence.Entity;
 
@@ -9,6 +10,15 @@ public class CommercialInsertion extends Insertion {
     private boolean aircon;
     private boolean heavyCurrent;
 
+    @Override
+    public Map<String, String> getImportantAttributes() {
+        Map<String, String> attrs = new LinkedHashMap<>();
+        
+        attrs.put("Fläche", String.valueOf(this.getArea()));
+        
+        return attrs;
+    }
+    
     @Override
     public Map<String, String> getFurtherAttributes() {
         Map<String, String> attrs = getAttributes();

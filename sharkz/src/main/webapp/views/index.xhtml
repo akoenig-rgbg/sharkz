@@ -5,9 +5,13 @@
                 template="./../WEB-INF/sharkzTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="main">
+        
+        <!-- Scroll down script -->
+        <h:outputScript library="js" name="scrollToAnchor.js" />
         
         <!-- Slider -->
             <div id="slider">
@@ -55,7 +59,7 @@
                             <!-- Search button -->
                             <h:commandButton
                                 styleClass="button search_button"
-                                value="Suchen"
+                                value="SUCHEN"
                                 type="submit"
                                 action="#{home.search}" />
                             
@@ -64,14 +68,83 @@
                 </div>
                 
                 <!-- Scroll button -->
-                <a id="scroll_button" href="#content_wrapper"/>
+                <a id="scroll_button" onclick="scrollToAnchor('main');">
+                    <i class="fa fa-angle-down" aria-hidden="true" />
+                </a>
                 
             </div>
         
+            <a name="main" />
             <div id="main">
-                <div id="featured_wrapper">
+                <div class="featured_wrapper">
                     
+                    <c:forEach
+                        items="#{home.fetchLuxury()}" 
+                        var="item">
+                    
+                        <div class="card" style="width: #{home.calcCardWidth()}">
+                            <h:graphicImage
+                                class="feat_img"
+                                value="/images?insertion_id=#{item.insertion.ID}" />
+                            
+                            <div class="description">
+                                #{item.insertion.title}
+                            </div>
+                            
+                            <div class="button_wrapper">
+                                <h:link class="button_flat" outcome="insertion">
+                                    <f:param
+                                        name="insertion_id"
+                                        value="#{item.insertion.ID}"/>
+                                    
+                                    BETRACHTEN
+                                </h:link>
+                            </div>
+                        </div>
+                    
+                    </c:forEach>
                 </div>
+                
+                <div class="card_wrapper">
+                    <c:forEach
+                        items="#{home.luxuries}" 
+                        var="item">
+
+                        <div class="card_element feat_img" style="width: #{home.calcCardWidth()}">
+                            <h:graphicImage
+                                value="/images?insertion_id=#{item.insertion.ID}" />
+                        </div>
+                    </c:forEach>
+                </div>
+                
+                <div class="card_wrapper">
+                    <c:forEach
+                        items="#{home.luxuries}" 
+                        var="item">
+
+                        <div class="card_element description" style="width: #{home.calcCardWidth()}">
+                            #{item.insertion.title}
+                        </div>
+
+                    </c:forEach>
+                </div>
+                
+                <div class="card_wrapper">
+                    <c:forEach
+                        items="#{home.luxuries}" 
+                        var="item">
+                        <div class="card_element button" style="width: #{home.calcCardWidth()}">
+                            <h:link class="button_flat" outcome="insertion">
+                                <f:param
+                                    name="insertion_id"
+                                    value="#{item.insertion.ID}"/>
+
+                                BETRACHTEN
+                            </h:link>
+                        </div>
+                    </c:forEach>
+                </div>
+                
                 
                 <div id="insurance_wrapper">
                     

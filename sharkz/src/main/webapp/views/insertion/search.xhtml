@@ -19,7 +19,6 @@
     
     <ui:define name="main">
         
-        
         <!-- Iterate through search results -->
         <!-- Commercial Insertions -->
         <c:if test="#{search.usage eq 'COMMERCIAL'}">
@@ -58,11 +57,48 @@
                 var="order"
                 varStatus="status">
 
+                <!-- Search result card -->
                 <div class="ins_res card">
-                    <div class="header">
-                        #{order.insertion.title}
-                    </div>
+                    
+                    <!-- Header bar -->
+                    <h:link outcome="insertion">
+                        <f:param name="insertion_id" value="#{order.insertion.ID}"/>
+                        <div class="header">
+                            #{order.insertion.title}
+                        </div>
+                    </h:link>
+                    
+                    <!-- Content -->
                     <div class="content">
+                        
+                        <!-- Image -->
+                        <h:graphicImage value="/images?insertion_id=#{order.insertion.ID}&amp;image_id=0" />
+                        
+                        <!-- Information -->
+                        <div class="information">
+                            
+                            <!--Insertion: Important Attributes-->
+                            <div class="important_attributes">
+                                
+                                <c:forEach
+                                    items="#{order.insertion.importantAttributes}"
+                                    var="attr">
+                                    
+                                    <div class="element">
+                                        <div class="value">
+                                            <h:outputText
+                                                escape="false"
+                                                value="#{attr.value}" />
+                                        </div>
+                                        <div class="key">#{attr.key}</div>
+                                    </div>
+                                    
+                                </c:forEach>
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- Address -->
                         <div class="address">
                             <i class="fa fa-map-marker" aria-hidden="true"/>
                             <h:outputText escape="false" value="&ensp;" />
@@ -70,14 +106,12 @@
                                 value="#{order.insertion.address}"
                                 converter="addressConverter"
                                 escape="false"/>
+                        </div>  
+                        
+                        <div class="description">
+                            #{order.insertion.description}
                         </div>
-                        <div class="images">
-                            <h:graphicImage
-                                value="/images?insertion_id=#{order.insertion.ID}&amp;image_id=0" />
-                        </div>
-                        <div class="information">
-                            Information
-                        </div>
+                        
                     </div>
                 </div>
         

@@ -46,10 +46,18 @@
             <to-view-id>/views/insure.xhtml</to-view-id>
         </navigation-case>
         
+        <!-- insertion/insertion.xhtml -->
         <navigation-case>
             <from-outcome>insertion</from-outcome>
             <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
         </navigation-case>
+        
+        <!-- account/account.xhtml -->
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/views/account/account.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
     
     <!-- Rules for insertion/create.xhtml -->

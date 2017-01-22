@@ -10,66 +10,65 @@
 
             <!-- Wohnen -->
             <h:link styleClass="menu_item" outcome="search">
-                <i class="fa fa-home" aria-hidden="true" />&nbsp;&nbsp;Wohnen
+                <i class="fa fa-home" aria-hidden="true" />&nbsp;&nbsp;WOHNEN
             </h:link>
             
             <!-- Gewerbe -->
             <h:link styleClass="menu_item" outcome="search">
-                <i class="fa fa-building" aria-hidden="true" />&nbsp;&nbsp;Gewerbe
+                <i class="fa fa-building" aria-hidden="true" />&nbsp;&nbsp;GEWERBE
             </h:link>
             
             <!-- Anbieten -->
             <h:link styleClass="menu_item" outcome="create">
-                <i class="fa fa-money" aria-hidden="true" />&nbsp;&nbsp;Anbieten
+                <i class="fa fa-money" aria-hidden="true" />&nbsp;&nbsp;ANBIETEN
             </h:link>
             
             <!-- Versichern -->
             <h:link styleClass="menu_item" outcome="insure">
-                Versichern
+                VERSICHERN
             </h:link>
 
             <!-- Login: Form -->
             <h:panelGroup rendered="#{!account.isLoggedIn}">
-                <div class="menu_item menu_item_login">
-                    <div style="position:fixed">
-                        <h:link outcome="login">
-                            Login
-                        </h:link>
-                        <div class="menu_item_login_content">
-                            <h:form>
-                                <h:inputText
-                                    value="#{login.email}"
-                                    styleClass="inputText login_smallInputText login_smallInputText_mail"
-                                    a:placeholder="E-Mail"/>
+                <div class="menu_item_login">
+                    
+                    <h:link class="menu_item" outcome="login">
+                        <i class="fa fa-user" aria-hidden="true" />&nbsp;&nbsp;LOGIN
+                    </h:link>
 
-                                <h:inputSecret
-                                    value="#{login.password}"
-                                    styleClass="inputText login_smallInputText login_smallInputText_password"
-                                    a:placeholder="Passwort"/>
+                    <div class="menu_item_login_content">
+                        <h:form>
+                            <h:inputText
+                                value="#{login.email}"
+                                styleClass="inputText login_smallInputText login_smallInputText_mail"
+                                a:placeholder="E-Mail"/>
 
-                                <div class="login_links_small">
-                                    <h:outputLink
-                                        value="login.xhtml" 
-                                        styleClass="login_small_link_register" >
-                                        Registrieren
-                                    </h:outputLink>
+                            <h:inputSecret
+                                value="#{login.password}"
+                                styleClass="inputText login_smallInputText login_smallInputText_password"
+                                a:placeholder="Passwort"/>
 
-                                    <h:outputLink
-                                        value="login.xhtml"
-                                        styleClass="login_small_link_forgot">
-                                        Passwort vergessen?
-                                    </h:outputLink>
-                                </div>
+                            <div class="login_links_small">
+                                <h:outputLink
+                                    value="login.xhtml" 
+                                    styleClass="login_small_link_register" >
+                                    Registrieren
+                                </h:outputLink>
 
-                                <h:commandButton
-                                    action="#{login.login}"
-                                    value="Login"
-                                    styleClass="button login_button_small" />
+                                <h:outputLink
+                                    value="login.xhtml"
+                                    styleClass="login_small_link_forgot">
+                                    Passwort vergessen?
+                                </h:outputLink>
+                            </div>
 
-                            </h:form>
+                            <h:commandButton
+                                action="#{login.login}"
+                                value="LOGIN"
+                                styleClass="button login_button_small" />
 
+                        </h:form>
 
-                        </div>
                     </div>
                 </div>
             </h:panelGroup>
@@ -77,23 +76,10 @@
             <!-- Login: Account -->
             <h:panelGroup rendered="#{account.isLoggedIn}">
 
-                <div class="mein_konto">
-
-                    <h:graphicImage
-                        value="#{resource['img/user_icon.png']}"
-                        styleClass="user_icon" />
-
-                    <div class="mein_konto_name">
-                        <h:outputText value="#{account.name}" />
-                    </div>
-
-                    <h:form style="display: none">
-                        <h:commandLink action="#{account.logout}">
-                            Ausloggen
-                        </h:commandLink>
-                    </h:form>
-
-                </div>
+                <h:link styleClass="menu_item mein_konto" outcome="account">
+                    <i class="fa fa-user" aria-hidden="true" />&nbsp;&nbsp;
+                    <h:outputText value="#{account.name}" />
+                </h:link>
 
             </h:panelGroup>
 

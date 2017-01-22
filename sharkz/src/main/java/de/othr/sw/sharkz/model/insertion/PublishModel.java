@@ -51,37 +51,8 @@ public class PublishModel implements Serializable {
             return;
         
         insertion = insertionService.getInsertion(insertionId);
-        importantAttributes = this.fetchImportantAttributes();
+        importantAttributes = insertion.getImportantAttributes();
         size = insertion.getImages().size();
-    }
-    
-    private Map<String, String> fetchImportantAttributes() {
-        Map<String, String> attrs = new LinkedHashMap<>();
-
-        String priceLabel;
-        if (insertion.getOfferType() == OfferType.PURCHASE)
-            priceLabel = "Kaufpreis";
-        else
-            priceLabel = "Kaltmiete";
-        
-        if (insertion instanceof LivingInsertion) {
-            LivingInsertion ins = (LivingInsertion) insertion;
-            
-            
-            String price = NumberFormat.getNumberInstance(
-                    Locale.GERMAN).format(insertion.getPrice());
-            
-            attrs.put(priceLabel, price + " &euro;");
-            attrs.put("Zi.", String.valueOf(ins.getRooms()));
-            attrs.put("Wohnfläche", String.valueOf(ins.getLivingArea()) + " m&sup2;");
-            attrs.put("Grundfläche", String.valueOf(ins.getPlotArea()) + " m&sup2;");
-        } else {
-            CommercialInsertion ins = (CommercialInsertion) insertion;
-            
-            attrs.put("Fläche", String.valueOf(ins.getArea()));
-        }
-        
-        return attrs;
     }
     
     public String changeFeaturedImage(int id) {

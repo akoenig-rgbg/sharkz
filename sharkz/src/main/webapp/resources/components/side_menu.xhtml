@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <h:body>
+        
+        <!-- Side menu header -->
+        <div class="side_menu_header">
+
+            <!-- Profile pic -->
+            <div class="profile_pic_wrapper">
+                <h:graphicImage library="img" name="profile_pic.jpg" />
+            </div>
+
+            <!-- Name & email -->
+            <div class="name">#{account.name}</div>
+            <div class="email">#{account.user.geteMail()}</div>
+        </div>
+
+        <!-- Mein Konto -->
+        <h:link class="side_menu_item" outcome="account">
+            <div class="icon">
+                <i class="fa fa-user" aria-hidden="true"/>
+            </div>
+            <div class="label">
+                Mein Konto
+            </div>
+        </h:link>
+
+        <!-- Meine Bankverbindung -->
+        <h:link class="side_menu_item" outcome="account">
+            <div class="icon">
+                <i class="fa fa-credit-card-alt" aria-hidden="true"/>
+            </div>
+            <div class="label">
+                Meine Bankverbindung
+            </div>
+        </h:link>
+
+        <!-- Meine Inserate -->
+        <h:link class="side_menu_item" outcome="account">
+            <div class="icon">
+                <i class="fa fa-home" aria-hidden="true"/>
+            </div>
+            <div class="label">
+                Meine Inserate
+            </div>
+        </h:link>
+
+        <!-- Wunschzettel -->
+        <h:link class="side_menu_item" outcome="account">
+            <div class="icon">
+                <i class="fa fa-sticky-note" aria-hidden="true"/>
+            </div>
+            <div class="label">
+                Wunschzettel
+            </div>
+        </h:link>
+        
+    </h:body>
+</html>
+

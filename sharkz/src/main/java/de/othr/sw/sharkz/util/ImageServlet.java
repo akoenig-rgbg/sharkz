@@ -35,8 +35,16 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        int image_id = 0;
+        
         Long insertion_id = Long.parseLong(request.getParameter("insertion_id"));
-        int image_id = Integer.parseInt(request.getParameter("image_id"));
+        
+        try {
+            image_id = Integer.parseInt(request.getParameter("image_id"));
+        } catch (NumberFormatException e) {
+            // image_id parameter can be left out. Default is '0' as there is
+            // at least one image per insertion.
+        }
         
         Insertion ins = insertionService.getInsertion(insertion_id);
         
