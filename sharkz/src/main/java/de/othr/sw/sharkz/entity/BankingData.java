@@ -9,8 +9,8 @@ import javax.persistence.Embeddable;
 public class BankingData implements Serializable {
     private String iban;
     private String bic;
-    private String password;
-    private String salt;
+    private String bankingPassword;
+    private String bankingSalt;
     
     public BankingData() {
         super();
@@ -33,23 +33,23 @@ public class BankingData implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        return bankingPassword;
     }
 
     public void setPassword(String password) {
-        this.salt = EntityUtils.createRandomString(4);
+        this.bankingSalt = EntityUtils.createRandomString(4);
         try {
-            this.password = EntityUtils.hashPassword(password, this.salt, HASH_ALGORITHM);
+            this.bankingPassword = EntityUtils.hashPassword(password, this.bankingSalt, HASH_ALGORITHM);
         } catch (EntityUtils.EntityUtilException ex) {
             throw new RuntimeException("password can not be hashed", ex);
         }
     }
 
     public String getSalt() {
-        return salt;
+        return bankingSalt;
     }
 
     public void setSalt(String salt) {
-        this.salt = salt;
+        this.bankingSalt = salt;
     } 
 }
