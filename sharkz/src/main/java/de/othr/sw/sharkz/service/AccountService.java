@@ -75,4 +75,10 @@ public class AccountService extends ServicePrototype implements Serializable {
             return "Administrator";
         }
     }
+    
+    @Transactional(TxType.REQUIRED)
+    public void updateAccount(Account c) {
+        em.merge(c);
+        em.flush();
+    }
 }

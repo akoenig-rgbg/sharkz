@@ -20,6 +20,8 @@ body, a, p {
     line-height: 1.5;
 }
 
+/* Headings */
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
@@ -59,6 +61,8 @@ a {
     color: #1D4E89;
 }
 
+/* Boxes & Containers */
+
 .grey_box {
     background-color: #f6f6f6;
     padding: 40px;
@@ -81,27 +85,63 @@ a {
     border: 1px solid rgba(0,0,0,.15) !important;
 }
 
+/* Input Fields */
+
+.inputContainer {
+    position: relative;
+    padding-top: 20px;
+    float: left;
+    clear: both;
+    margin-bottom: 10px;
+}
+
+.inputLabel {
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    font-size: 0.8em;
+    color: rgb(158, 158, 158);
+    top: 8px;
+    font-weight: 400;
+}
+
 .inputText {
+    width: 300px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border: none;
-    background: none;
-    border-bottom: 1px solid #ccc;
-    padding: 11px 1px;
-    -webkit-padding-before: 10px;
-    -webkit-padding-after: 10px;
-    font-size: 1.15em;
-    box-sizing: border-box;
-    transition: 0.2s;
+    border-bottom: 1px solid #D7D7D7;
+    padding: 12px 0px 12px 0px;
+    font-size: 1em;
+    margin-top: 1px;
 }
 
-.inputText:hover, inputText:focus {
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-    background-color: #fff;
-    transition: 0.2s;
+.inputText:hover, .inputText:focus {
+    border-bottom: 2px solid #1691F3;
+    margin-top: 0px;
+    padding: 13px 0px 11px 0px;
 }
+
+.inputText:focus + .inputLabel {
+    visibility: visible;
+}
+
+.inputFloatLeft {
+    display: flex;
+    clear: both;
+}
+
+.inputFloatLeft .inputContainer {
+    margin-right: 70px;
+    clear: none;
+}
+
+.inputFloatLeft .inputContainer:last-child {
+    margin-right: 0px;
+}
+
+/* Buttons */
 
 .button {
     -webkit-appearance: none;
@@ -225,20 +265,8 @@ a {
     float: right;
 }
 
-.login_smallInputText {
-    font-size: 14px;
-    padding: 8px 11px;
-    float: left;
-    clear: both;
-    width: 250px
-}
-
-.login_smallInputText_mail {
-    margin-bottom: 14px;
-}
-
-.login_smallInputText_password {
-    margin-bottom: 5px;
+.inputLoginSmall {
+    margin-bottom: 10px;
 }
 
 .login_links_small {

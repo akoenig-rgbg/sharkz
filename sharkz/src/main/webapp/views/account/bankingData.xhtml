@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/accountTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="main">
+        
+        <h:form>
+        
+            <!-- First and last name -->
+            <div class="inputFloatLeft">
+                <div class="inputContainer">
+                    <h:inputText
+                        value="#{account.iban}"
+                        class="inputText"
+                        a:placeholder="IBAN"/>
+                    <h:outputLabel
+                        value="IBAN"
+                        class="inputLabel" />
+                </div>
+                <div class="inputContainer">
+                    <h:inputText
+                        value="#{account.bic}"
+                        class="inputText"
+                        a:placeholder="BIC"/>
+                    <h:outputLabel
+                        value="BIC"
+                        class="inputLabel" />
+                </div>
+            </div>
+            
+            <h:commandButton
+                value="BANKVERBINDUNG SPEICHERN"
+                class="button"
+                action="#{account.changeBankingData()}" />
+                
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

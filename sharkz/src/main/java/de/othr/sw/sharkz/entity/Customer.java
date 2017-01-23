@@ -3,6 +3,7 @@ package de.othr.sw.sharkz.entity;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Customer extends Account {
@@ -11,6 +12,11 @@ public class Customer extends Account {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    
+    private BankingData bankingData;
+    
+    @OneToOne
+    private Inbox inbox;
     
     public Customer() {
         super();
@@ -61,5 +67,21 @@ public class Customer extends Account {
 
     public void setInsertions(List<Insertion> insertions) {
         this.insertions = insertions;
+    }
+
+    public BankingData getBankingData() {
+        return bankingData;
+    }
+
+    public void setBankingData(BankingData bankingData) {
+        this.bankingData = bankingData;
+    }
+
+    public Inbox getInbox() {
+        return inbox;
+    }
+
+    public void setInbox(Inbox inbox) {
+        this.inbox = inbox;
     }
 }

@@ -38,15 +38,25 @@
 
                     <div class="menu_item_login_content">
                         <h:form>
-                            <h:inputText
-                                value="#{login.email}"
-                                styleClass="inputText login_smallInputText login_smallInputText_mail"
-                                a:placeholder="E-Mail"/>
+                            <div class="inputContainer inputLoginSmall">
+                                <h:inputText
+                                    value="#{login.email}"
+                                    styleClass="inputText"
+                                    a:placeholder="E-Mail"/>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="E-Mail"/>
+                            </div>
 
-                            <h:inputSecret
-                                value="#{login.password}"
-                                styleClass="inputText login_smallInputText login_smallInputText_password"
-                                a:placeholder="Passwort"/>
+                            <div class="inputContainer inputLoginSmall">
+                                <h:inputSecret
+                                    value="#{login.password}"
+                                    styleClass="inputText"
+                                    a:placeholder="Passwort"/>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Passwort"/>
+                            </div>
 
                             <div class="login_links_small">
                                 <h:outputLink

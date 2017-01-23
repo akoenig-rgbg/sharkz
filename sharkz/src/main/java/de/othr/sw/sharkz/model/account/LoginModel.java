@@ -90,6 +90,9 @@ public class LoginModel implements Serializable {
         if (account instanceof Customer) {
             accountModel.setName(accountService.getNameByID(
                     account.getID()));
+            
+            accountModel.init();
+            
         } else if (account instanceof Administrator) {
             accountModel.setName("Administrator");
         }
