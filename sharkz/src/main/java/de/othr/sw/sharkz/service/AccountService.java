@@ -3,6 +3,7 @@ package de.othr.sw.sharkz.service;
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
+import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.util.EntityUtils;
 import java.io.Serializable;
 import java.util.List;
@@ -79,6 +80,18 @@ public class AccountService extends ServicePrototype implements Serializable {
     @Transactional(TxType.REQUIRED)
     public void updateAccount(Account c) {
         em.merge(c);
+        em.flush();
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public void addToWishlist(Customer acc, Insertion ins) {
+        List<Insertion> wishlist = acc.getWishList();
+        wishlist.add(ins);
+        acc.setWishList(wishlist);
+        
+        System.out.println("Wunschzettel aktualisiert!");
+        
+        em.merge(acc);
         em.flush();
     }
 }

@@ -4,15 +4,16 @@ import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.InsertionService;
 import de.othr.sw.sharkz.service.SearchService;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@RequestScoped
+@ViewScoped
 @Named("myInsertions")
-public class MyInsertionsModel {
+public class MyInsertionsModel implements Serializable {
     
     // Attributes
     private List<Insertion> insertions;
@@ -39,7 +40,7 @@ public class MyInsertionsModel {
     public String delete(Insertion ins) {
         insertionService.deleteInsertion(ins);
         
-        return null;
+        return "myInsertions";
     }
     
     public List<Insertion> getInsertions() {

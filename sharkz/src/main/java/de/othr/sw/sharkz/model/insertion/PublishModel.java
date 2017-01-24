@@ -103,7 +103,7 @@ public class PublishModel implements Serializable {
         insertionService.publishInsertion(insertion, duration);
        
         // Propagate GET parameters
-        insertionModel.setInsertionId(insertionId);
+        insertionModel.setInsertion(insertion);
         
         // redirect
         if (successfulValidation)

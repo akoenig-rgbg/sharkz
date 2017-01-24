@@ -1,16 +1,18 @@
 package de.othr.sw.sharkz.service;
 
+import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
+import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.Query;
-import javax.persistence.RollbackException;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
@@ -28,24 +30,14 @@ public class InsertionService extends ServicePrototype implements Serializable {
     
     @Transactional(TxType.REQUIRED)
     public void deleteInsertion(Insertion in) {
-        /*
-        EntityManagerFactory factory = new EntityManagerFactory();
-        EntityManager newEm = factory.createEntityManager();
+        Query q = em.createQuery(
+                "DELETE FROM Order o WHERE o.insertion = :insertion")
+                .setParameter("insertion", in);
         
-        newEm.merge(in);
-        newEm.remove(in);
-        /**/
+        q.executeUpdate();
         
-        em.getTransaction().begin();
-        
-        System.out.println(in);
-        em.merge(in);
-        System.out.println("Nach dem mergen");
-        em.remove(in);
-        System.out.println("Nach dem Removen");
-        
-        em.getTransaction().commit();
-
+        em.remove(em.merge(in));
+        em.flush();
     }
     
     public Insertion getInsertion(long id) {

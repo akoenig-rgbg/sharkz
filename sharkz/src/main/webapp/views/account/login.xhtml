@@ -24,22 +24,32 @@
                     
                     
                     <!-- E-Mail text field -->
-                    <h:inputText
-                        id="login_input_email"
-                        value="#{login.email}"
-                        label="E-Mail"
-                        a:placeholder="E-Mail Adresse"
-                        styleClass="inputText login_inputText">
-                        
-                    </h:inputText>
+                    <div class="inputContainer login_inputText">
+                        <h:inputText
+                            id="login_input_email"
+                            value="#{login.email}"
+                            label="E-Mail"
+                            a:placeholder="E-Mail"
+                            styleClass="inputText">
+
+                        </h:inputText>
+                        <h:outputLabel
+                            class="inputLabel"
+                            value="E-Mail" />
+                    </div>
                     
                     <!-- Password text field -->
-                    <h:inputSecret
-                        id="login_input_password"
-                        value="#{login.password}"
-                        label="Passwort"
-                        a:placeholder="Passwort"
-                        styleClass="inputText login_inputText"/>
+                    <div class="inputContainer login_inputText">
+                        <h:inputSecret
+                            id="login_input_password"
+                            value="#{login.password}"
+                            label="Passwort"
+                            a:placeholder="Passwort"
+                            styleClass="inputText"/>
+                        <h:outputLabel
+                            class="inputLabel"
+                            value="Passwort" />
+                    </div>
                     
                     <!-- Registration text fields -->
                     <h:panelGroup id="login_name_group">

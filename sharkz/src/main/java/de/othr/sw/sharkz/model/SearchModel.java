@@ -27,12 +27,13 @@ public class SearchModel {
     @Inject private SearchService searchService;
     
     public void search() {
-        if (usage == null)
-            ;// TODO: Error handling
-        else
+
+        if (offer == null && location == null && usage != null) {
+            results = searchService.search(usage);
+        } else {
             results = searchService.search(offer, usage, location);
-        
-        System.out.println("Ergebnisse: " + results);
+            System.out.println("Ergebnisse: " + results);
+        }
     }
     
     // Enum Values to Array -> SelectOneMenu

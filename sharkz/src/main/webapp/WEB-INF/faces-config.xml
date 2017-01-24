@@ -68,6 +68,12 @@
         <navigation-case>
             <from-outcome>myInsertions</from-outcome>
             <to-view-id>/views/account/myInsertions</to-view-id>
+            <redirect />
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>contact</from-outcome>
+            <to-view-id>/views/account/contact.xhtml</to-view-id>
         </navigation-case>
         
     </navigation-rule>

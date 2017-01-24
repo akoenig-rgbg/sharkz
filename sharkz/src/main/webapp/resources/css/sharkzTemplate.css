@@ -173,12 +173,13 @@
     margin-bottom: 40px;
 }
 
+#login_form {
+    text-align: center;
+}
 
 .login_inputText {
-    width: 80%;
-    display: block;
-    margin: 0px auto;
-    margin-top: 30px;
+    display: inline-block;
+    float: none !important;
 }
 
 #login_links {
@@ -480,6 +481,7 @@
 
 .insertion_attributes {
     float: right;
+    padding-top: 20px;
 }
 
 .attribute_table {

@@ -1,9 +1,7 @@
 package de.othr.sw.sharkz.service;
 
-import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.Order;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
@@ -26,8 +24,20 @@ public class SearchService extends ServicePrototype implements Serializable {
                         + "= :offer AND ord.insertion.address.town = :location"
                         + " AND ord.insertion.houseType IN :types",
                 Order.class)
-                .setParameter("offer", offer)
+                .setParameter("types", types)
                 .setParameter("location", location)
+                .setParameter("offer", offer);
+        
+        return q.getResultList();
+    }
+    
+    public List<Order> search(UsageType usage) {
+        List<HouseType> types = HouseType.getTypesOf(usage);
+        
+        TypedQuery<Order> q = em.createQuery(
+                "SELECT ord FROM Order AS ord WHERE ord.insertion.houseType "
+                        + "IN :types",
+                Order.class)
                 .setParameter("types", types);
         
         return q.getResultList();
