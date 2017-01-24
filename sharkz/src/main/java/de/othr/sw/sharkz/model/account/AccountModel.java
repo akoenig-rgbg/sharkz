@@ -24,10 +24,6 @@ public class AccountModel implements Serializable {
     private String oldPassword;
     private String newPassword;
     
-    private String iban;
-    private String bic;
-    private String bankingPassword;
-    
     private boolean isLoggedIn;
     
     // Models & Services
@@ -60,19 +56,6 @@ public class AccountModel implements Serializable {
             user.setPassword(newPassword);
             accountService.updateAccount(user);
         }
-    }
-    
-    public void changeBankingData() {
-        BankingData bankingData = new BankingData();
-        
-        bankingData.setIban(iban);
-        bankingData.setBic(bic);
-        bankingData.setPassword(oldPassword);
-        
-        Customer c = (Customer) user;
-        
-        c.setBankingData(bankingData);
-        accountService.updateAccount(c);
     }
     
     public String logout() {
@@ -154,29 +137,5 @@ public class AccountModel implements Serializable {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
-    }
-
-    public String getIban() {
-        return iban;
-    }
-
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    public String getBic() {
-        return bic;
-    }
-
-    public void setBic(String bic) {
-        this.bic = bic;
-    }
-
-    public String getBankingPassword() {
-        return bankingPassword;
-    }
-
-    public void setBankingPassword(String bankingPassword) {
-        this.bankingPassword = bankingPassword;
     }
 }

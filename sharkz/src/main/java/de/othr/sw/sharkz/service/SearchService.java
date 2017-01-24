@@ -1,6 +1,7 @@
 package de.othr.sw.sharkz.service;
 
 import de.othr.sw.sharkz.entity.CommercialInsertion;
+import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.Order;
@@ -14,7 +15,6 @@ import javax.persistence.TypedQuery;
 
 @RequestScoped
 public class SearchService extends ServicePrototype implements Serializable {
-    private List<Insertion> insertions;
     
     public List<Order> search(OfferType offer, UsageType usage,
             String location) {
@@ -33,6 +33,16 @@ public class SearchService extends ServicePrototype implements Serializable {
         return q.getResultList();
     }
     
+    public List<Insertion> getInsertionsByCustomer(Customer customer) {
+        
+        TypedQuery<Insertion> q = em.createQuery(
+                "SELECT ins FROM Insertion AS ins WHERE ins.vendor = :customer",
+                Insertion.class)
+                .setParameter("customer", customer);
+        
+        return q.getResultList();
+    }
+    
     public List<Order> fetchLuxury(int amount) {
         
         TypedQuery<Order> q = em.createQuery(
@@ -40,13 +50,5 @@ public class SearchService extends ServicePrototype implements Serializable {
                 Order.class).setMaxResults(amount);
         
         return q.getResultList();
-    }
-    
-    public List<Insertion> getInsertions() {
-        return insertions;
-    }
-
-    public void setInsertions(List<Insertion> insertions) {
-        this.insertions = insertions;
     }
 }

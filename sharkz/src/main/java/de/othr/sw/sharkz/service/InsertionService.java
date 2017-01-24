@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
@@ -27,8 +28,24 @@ public class InsertionService extends ServicePrototype implements Serializable {
     
     @Transactional(TxType.REQUIRED)
     public void deleteInsertion(Insertion in) {
+        /*
+        EntityManagerFactory factory = new EntityManagerFactory();
+        EntityManager newEm = factory.createEntityManager();
+        
+        newEm.merge(in);
+        newEm.remove(in);
+        /**/
+        
+        em.getTransaction().begin();
+        
+        System.out.println(in);
         em.merge(in);
+        System.out.println("Nach dem mergen");
         em.remove(in);
+        System.out.println("Nach dem Removen");
+        
+        em.getTransaction().commit();
+
     }
     
     public Insertion getInsertion(long id) {

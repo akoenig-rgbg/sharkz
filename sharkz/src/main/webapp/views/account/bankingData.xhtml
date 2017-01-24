@@ -9,36 +9,49 @@
 
     <ui:define name="main">
         
-        <h:form>
-        
-            <!-- First and last name -->
-            <div class="inputFloatLeft">
-                <div class="inputContainer">
-                    <h:inputText
-                        value="#{account.iban}"
-                        class="inputText"
-                        a:placeholder="IBAN"/>
-                    <h:outputLabel
-                        value="IBAN"
-                        class="inputLabel" />
+        <div id="main">
+            <h:form>
+
+                <!-- First and last name -->
+                <div class="inputFloatLeft">
+                    <div class="inputContainer">
+                        <h:inputText
+                            value="#{bankingData.iban}"
+                            class="inputText"
+                            a:placeholder="IBAN"/>
+                        <h:outputLabel
+                            value="IBAN"
+                            class="inputLabel" />
+                    </div>
+                    <div class="inputContainer">
+                        <h:inputText
+                            value="#{bankingData.bic}"
+                            class="inputText"
+                            a:placeholder="BIC"/>
+                        <h:outputLabel
+                            value="BIC"
+                            class="inputLabel" />
+                    </div>
                 </div>
+
                 <div class="inputContainer">
-                    <h:inputText
-                        value="#{account.bic}"
+                    <h:inputSecret
+                        a:placeholder="Bank-Passwort"
                         class="inputText"
-                        a:placeholder="BIC"/>
+                        value="#{bankingData.bankingPassword}"/>
                     <h:outputLabel
-                        value="BIC"
-                        class="inputLabel" />
+                        value="Bank-Passwort"
+                        class="inputLabel"/>
                 </div>
-            </div>
+
+                <h:commandButton
+                    value="BANKVERBINDUNG SPEICHERN"
+                    class="button"
+                    action="#{bankingData.changeBankingData()}" />
+
+            </h:form>
             
-            <h:commandButton
-                value="BANKVERBINDUNG SPEICHERN"
-                class="button"
-                action="#{account.changeBankingData()}" />
-                
-        </h:form>
+        </div>
         
     </ui:define>
 

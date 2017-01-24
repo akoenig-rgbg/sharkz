@@ -1,0 +1,54 @@
+package de.othr.sw.sharkz.model.account;
+
+import de.othr.sw.sharkz.entity.Customer;
+import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.service.InsertionService;
+import de.othr.sw.sharkz.service.SearchService;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@RequestScoped
+@Named("myInsertions")
+public class MyInsertionsModel {
+    
+    // Attributes
+    private List<Insertion> insertions;
+    
+    // Models & Services
+    @Inject private AccountModel accountModel;
+    @Inject private SearchService searchService;
+    @Inject private InsertionService insertionService;
+    
+    @PostConstruct
+    public void init() {
+        insertions = searchService.getInsertionsByCustomer(
+                (Customer) accountModel.getUser());
+        
+        System.out.println("Meine Inserate: " + insertions);
+    }
+
+    public String edit(long insertionId) {
+        // TODO: Create edit insertion page or use create page
+        
+        return null;
+    }
+    
+    public String delete(Insertion ins) {
+        insertionService.deleteInsertion(ins);
+        
+        return null;
+    }
+    
+    public List<Insertion> getInsertions() {
+        return insertions;
+    }
+
+    public void setInsertions(List<Insertion> insertions) {
+        this.insertions = insertions;
+    }
+    
+    
+}
