@@ -1,3 +1,7 @@
+body {
+    padding-top: 72px !important;
+}
+
 /* Layout */
 #side_menu {
     position: fixed;
@@ -148,16 +152,59 @@
     padding: 0px 20px;
 }
 
-.myInsertionWrapper .footer {
+.myInsertionWrapper .footer, .message_wrapper .footer {
     clear: both;
     background-color: #eee;
     overflow: hidden;
     padding-right: 20px;
 }
 
-.myInsertionWrapper .icon {
+.myInsertionWrapper .icon, .message_wrapper .icon {
     float: right;
     padding: 20px;
     color: #1d4e89;
     font-size: 1.6em;
+}
+
+/* Inbox */
+.message_wrapper {
+
+}
+
+.message_wrapper .header {
+    padding: 20px;
+    font-size: 1.5em;
+    font-weight: 400;
+    background-color: #1d4e89;
+    color: #fff;
+}
+
+.message_wrapper .content {
+    padding: 20px;
+}
+
+.message_wrapper .left {
+    float: left;
+    width: 13%;
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.message_wrapper .right a, .message_wrapper .sender .right {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.message_wrapper .title {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.message_wrapper .sender {
+    margin-bottom: 30px;
+}
+
+.message_wrapper .message_content {
+    font-size: 1.2em;
+    font-weight: 300;
 }

@@ -5,11 +5,103 @@
                 template="./../../WEB-INF/accountTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="main">
-        <div id="main">
-            Inbox
+        <div id="inboxWrapper">
+            <c:forEach
+                items="#{inbox.messages}"
+                var="msg">
+            
+                <!-- Message -->
+                <div class="message_wrapper">
+                    
+                    <!-- Message title -->
+                    <div class="header">
+                        #{msg.title}
+                    </div>
+
+                    <!-- Message Content -->
+                    <div class="content">
+                        
+                        <!-- Insertion -->
+                        <div class="insertion">
+                            
+                            <!-- Insertion title -->
+                            <div class="title">
+                                
+                                <div class="left">
+                                    Inserat:
+                                </div>
+                                
+                                <div class="right">
+                                    <h:link outcome="insertion">
+                                        <f:param name="insertion_id" value="#{msg.insertion.ID}"/>
+                                        #{msg.insertion.title}
+                                     </h:link>
+                                    
+                                    <!-- Insertion address -->
+                                    <div class="address">
+                                        <i class="fa fa-map-marker" aria-hidden="true"/>
+                                        <h:outputText escape="false" value="&ensp;" />
+                                        <h:outputText
+                                            escape="false"
+                                            value="#{msg.insertion.address}"
+                                            converter="addressConverter"/>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            
+                        </div>
+                        
+                        <!-- Sender -->
+                        <div class="sender">
+                            <div class="left">
+                                Von:
+                            </div>
+                            
+                            <div class="right">
+                                <h:outputText
+                                    escape="false"
+                                    value="#{msg.sender}"
+                                    converter="accountConverter" />
+                            </div>
+                        </div>
+                        
+                        <!-- Message Content -->
+                        <div class="message_content">
+                            #{msg.content}
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Footer -->
+                        <div class="footer">
+                            <h:form>
+                                <h:commandLink
+                                    action="#{inbox.reply(msg)}"
+                                    class="icon">
+
+                                    <i class="fa fa-reply" aria-hidden="true" />
+                                </h:commandLink>
+
+                                <h:commandLink
+                                    class="icon"
+                                    action="#{inbox.delete(msg)}">
+
+                                    <i class="fa fa-trash" aria-hidden="true" />
+                                </h:commandLink>
+
+                            </h:form>
+                        </div>
+                    
+                </div>
+            
+            </c:forEach>
         </div>
     </ui:define>
 

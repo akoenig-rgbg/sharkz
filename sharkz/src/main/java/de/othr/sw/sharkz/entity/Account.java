@@ -20,7 +20,7 @@ public class Account extends EntityPrototype {
     public Account() {
         super();
     }
-
+    
     public String geteMail() {
         return eMail;
     }
@@ -49,6 +49,4 @@ public class Account extends EntityPrototype {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
-    
 }

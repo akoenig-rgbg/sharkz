@@ -20,6 +20,16 @@ body, a, p {
     line-height: 1.5;
 }
 
+#footer_wrapper {
+    color: #fff;
+    text-align: center;
+    padding: 20px 0px;
+    font-weight: 300;
+    background-color: #1D4E89;
+    width: 100%;
+    position: absolute;
+}
+
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {

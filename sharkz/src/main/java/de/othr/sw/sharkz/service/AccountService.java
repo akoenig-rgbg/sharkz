@@ -4,6 +4,7 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.entity.util.EntityUtils;
 import java.io.Serializable;
 import java.util.List;
@@ -89,9 +90,20 @@ public class AccountService extends ServicePrototype implements Serializable {
         wishlist.add(ins);
         acc.setWishList(wishlist);
         
-        System.out.println("Wunschzettel aktualisiert!");
-        
         em.merge(acc);
         em.flush();
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public void deleteMessage(Customer cust, Message msg) {
+        cust = em.merge(cust);
+        cust.getInbox().getMessages().remove(msg);
+        cust = em.merge(cust);
+        
+        em.remove(em.merge(msg));
+    }
+    
+    public Message findMessage(long msgId) {
+        return em.find(Message.class, msgId);
     }
 }

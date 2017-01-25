@@ -26,8 +26,6 @@ public class InitialDataProvider implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         
-        System.out.println("INITIALISIERUNG SERVLET GEHT!");
-        
         Query q = em.createNativeQuery("SELECT COUNT(*) FROM Account");
         
         if ((Integer) q.getSingleResult() != 0) {
@@ -54,7 +52,6 @@ public class InitialDataProvider implements Servlet {
                 em.persist(c1);
                 em.flush();
             } catch (NullPointerException e) {
-                System.out.println("InitialDataProvider: fucked up...");
             }
             
             transaction.commit();

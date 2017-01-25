@@ -1,13 +1,12 @@
-package de.othr.sw.sharkz.model.account;
+package de.othr.sw.sharkz.model.insertion;
 
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
-import de.othr.sw.sharkz.model.insertion.InsertionModel;
+import de.othr.sw.sharkz.model.account.AccountModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
 import java.util.Date;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -48,8 +47,6 @@ public class ContactModel implements Serializable {
         insertion.getVendor().addMessage(message);
         
         accountService.updateAccount(insertion.getVendor());
-        
-       // insertionModel.setInsertionId(insertion.getID());
         
         return "insertion";
     }
