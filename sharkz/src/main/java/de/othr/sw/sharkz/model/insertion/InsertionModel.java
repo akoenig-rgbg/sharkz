@@ -7,8 +7,7 @@ import de.othr.sw.sharkz.model.account.AccountModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +21,10 @@ public class InsertionModel implements Serializable {
     // GET parameters
     private long insertionId;
     
+    private int featImgId;
+    private int size;
+    private Map<String, String> importantAttributes;
+    
     // Models & Services
     @Inject InsertionService insertionService;
     @Inject ContactModel contactModel;
@@ -29,9 +32,13 @@ public class InsertionModel implements Serializable {
     @Inject AccountService accountService;
     
     public void loadInsertion() {
-        this.insertion = insertionService.getInsertion(insertionId);
+        if (FacesContext.getCurrentInstance().isPostback())
+            return;
+        
+        insertion = insertionService.getInsertion(insertionId);
+        importantAttributes = insertion.getImportantAttributes();
+        size = insertion.getImages().size();
     }
-    
     
     public String contact() {
         contactModel.setInsertion(insertion);
@@ -39,22 +46,24 @@ public class InsertionModel implements Serializable {
         return "contact";
     }
     
-    public String wishlist() {
+    public void wishlist(Insertion in) {
         if (accountModel.isIsLoggedIn()) {
             Account acc = accountModel.getUser();
             
-            String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("insertion_id");
-            
-            System.out.println("INsertion ID: " + id);
-            System.out.println("Insertion itself: " + insertion);
+            System.out.println("Insertion ID: " + insertionId);
+            System.out.println("Insertion itself: " + in);
             
             if (acc instanceof Customer) {
                 Customer c = (Customer) acc;
-                accountService.addToWishlist(c, insertion);
+                accountService.addToWishlist(c, in);
             }
         }
+    }
+    
+    public String changeFeaturedImage(int id) {
+        this.featImgId = id;
         
-        return "insertion?includeViewParams=true";
+        return "";
     }
     
     // Getter & Setter
@@ -72,5 +81,29 @@ public class InsertionModel implements Serializable {
 
     public void setInsertionId(long insertionId) {
         this.insertionId = insertionId;
+    }
+
+    public int getFeatImgId() {
+        return featImgId;
+    }
+
+    public void setFeatImgId(int featImgId) {
+        this.featImgId = featImgId;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public Map<String, String> getImportantAttributes() {
+        return importantAttributes;
+    }
+
+    public void setImportantAttributes(Map<String, String> importantAttributes) {
+        this.importantAttributes = importantAttributes;
     }
 }

@@ -50,6 +50,7 @@
         <navigation-case>
             <from-outcome>insertion</from-outcome>
             <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
+            <redirect include-view-params="true" />
         </navigation-case>
         
         <!-- account/account.xhtml -->
@@ -137,6 +138,11 @@
             <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
             <redirect include-view-params="true" />
         </navigation-case>
+    </navigation-rule>
+    
+    <!-- Rules for insertion/insertion.xhtml -->
+    <navigation-rule>
+        <from-view-id>/views/insertion/insertion.xhtml</from-view-id>
     </navigation-rule>
     
 </faces-config>

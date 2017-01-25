@@ -1,17 +1,11 @@
 package de.othr.sw.sharkz.model.insertion;
 
 import de.othr.sw.sharkz.model.account.AccountModel;
-import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.entity.LivingInsertion;
-import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

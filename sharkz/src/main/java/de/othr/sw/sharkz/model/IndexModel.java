@@ -53,6 +53,5 @@ public class IndexModel {
     public void setLuxuries(List<Order> luxuries) {
         this.luxuries = luxuries;
     }
-    
-    
+
 }

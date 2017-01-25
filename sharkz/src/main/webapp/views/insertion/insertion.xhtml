@@ -12,9 +12,8 @@
          <f:metadata>
             <f:viewParam
                 name="insertion_id"
-                value="#{publish.insertionId}"/>
-            <f:viewAction
-                action="#{publish.loadInsertion()}" />
+                value="#{insertion.insertionId}"/>
+            <f:viewAction action="#{insertion.loadInsertion()}" />
         </f:metadata>
     </ui:define>
     
@@ -27,13 +26,13 @@
                 <!--Insertion: Title & Address-->
                 <div class="insertion_summary_heading">
                     
-                    <div class="title">#{publish.insertion.title}</div>
+                    <div class="title">#{insertion.insertion.title}</div>
                     
                     <i class="fa fa-map-marker" aria-hidden="true"/>
                     <h:outputText escape="false" value="&ensp;" />
                     <h:outputText
                         escape="false"
-                        value="#{publish.insertion.address}"
+                        value="#{insertion.insertion.address}"
                         converter="addressConverter"/>
                     
                 </div>
@@ -41,7 +40,7 @@
                 <!--Insertion: Important Attributes & Buttons-->
                 <div class="important_attributes">
                     <ui:repeat
-                        value="#{publish.importantAttributes.entrySet().toArray()}"
+                        value="#{insertion.importantAttributes.entrySet().toArray()}"
                         var="attr">
 
                         <div class="element">
@@ -62,23 +61,23 @@
                         <div class="image thin_border">
                             <h:graphicImage
                                 id="featImg"
-                                value="/images?insertion_id=#{publish.insertionId}&amp;image_id=#{publish.featImgId}" />
+                                value="/images?insertion_id=#{insertion.insertionId}&amp;image_id=#{insertion.featImgId}" />
                         </div>
 
                         <div class="image_row">
                             <c:forEach
                                 begin="0"
-                                end="#{publish.size - 1}"
+                                end="#{insertion.size - 1}"
                                 varStatus="status">
 
                                 <div class="small_image">
                                     <h:form>
                                         <h:commandLink
                                             id="test#{status.index}"
-                                            action="#{publish.changeFeaturedImage(status.index)}">
+                                            action="#{insertion.changeFeaturedImage(status.index)}">
 
                                             <f:ajax render="featImg" />
-                                            <h:graphicImage value="/images?insertion_id=#{publish.insertionId}&amp;image_id=#{status.index}" />
+                                            <h:graphicImage value="/images?insertion_id=#{insertion.insertionId}&amp;image_id=#{status.index}" />
                                         </h:commandLink>
                                     </h:form>
                                 </div>
@@ -89,7 +88,7 @@
                     
                     <!--Description-->
                     <div class="descr">
-                        <h:outputText value="#{publish.insertion.description}" />
+                        <h:outputText value="#{insertion.insertion.description}" />
                     </div>
                     
                 </div>
@@ -107,16 +106,16 @@
                             <h:commandButton
                                 value="WUNSCHZETTEL"
                                 class="button"
-                                action="#{insertion.wishlist()}">
-                            
-                                <f:viewParam name="insertion_id" value="#{insertion.insertionId}" />
+                                action="#{insertion.wishlist(insertion.insertion)}">
+                                
+                                <f:ajax render="@form" execute="@form" />
                                 
                             </h:commandButton>
                         </h:form>
                     </div>
                     
                     <h:dataTable styleClass="attribute_table"
-                        value="#{publish.insertion.furtherAttributes.entrySet().toArray()}"
+                        value="#{insertion.insertion.furtherAttributes.entrySet().toArray()}"
                         var="entry">
                         
                         <h:column>#{entry.key}</h:column>
