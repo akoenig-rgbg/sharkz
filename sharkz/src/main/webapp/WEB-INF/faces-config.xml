@@ -73,8 +73,8 @@
         </navigation-case>
         
         <navigation-case>
-            <from-outcome>contact</from-outcome>
-            <to-view-id>/views/account/contact.xhtml</to-view-id>
+            <from-outcome>inbox</from-outcome>
+            <to-view-id>/views/account/inbox.xhtml</to-view-id>
         </navigation-case>
         
     </navigation-rule>
@@ -124,6 +124,13 @@
     <!-- Rules for insertion/insertion.xhtml -->
     <navigation-rule>
         <from-view-id>/views/insertion/insertion.xhtml</from-view-id>
+        
+        <navigation-case>
+            <from-action>#{insertion.contact()}</from-action>
+            <from-outcome>contact</from-outcome>
+            <to-view-id>/views/account/contact.xhtml</to-view-id>
+            <redirect include-view-params="true" />
+        </navigation-case>
         
         <navigation-case>
             <from-action>#{insertion.publishInsertion()}</from-action>

@@ -15,8 +15,9 @@ public class Message extends EntityPrototype {
     private Account sender;
     
     @OneToOne
-    private Order insertion;
+    private Insertion insertion;
     
+    private String title;
     private String content;
     
     public Message() {
@@ -39,11 +40,11 @@ public class Message extends EntityPrototype {
         this.sender = sender;
     }
 
-    public Order getInsertion() {
+    public Insertion getInsertion() {
         return insertion;
     }
 
-    public void setInsertion(Order insertion) {
+    public void setInsertion(Insertion insertion) {
         this.insertion = insertion;
     }
 
@@ -54,4 +55,14 @@ public class Message extends EntityPrototype {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    
 }

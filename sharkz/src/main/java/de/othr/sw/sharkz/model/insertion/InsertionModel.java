@@ -4,6 +4,7 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.model.account.AccountModel;
+import de.othr.sw.sharkz.model.account.ContactModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
@@ -56,12 +57,6 @@ public class InsertionModel implements Serializable {
         size = insertion.getImages().size();
     }
     
-    public String contact() {
-        contactModel.setInsertion(insertion);
-        
-        return "contact";
-    }
-    
     public void wishlist(Insertion in) {
         if (accountModel.isIsLoggedIn()) {
             Account acc = accountModel.getUser();
@@ -74,6 +69,12 @@ public class InsertionModel implements Serializable {
                 accountService.addToWishlist(c, in);
             }
         }
+    }
+    
+    public String contact() {
+        contactModel.setInsertion(insertion);
+        
+        return "contact";
     }
     
     public String changeFeaturedImage(int id) {

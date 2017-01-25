@@ -31,14 +31,15 @@ public class InsertionService extends ServicePrototype implements Serializable {
     
     @Transactional(TxType.REQUIRED)
     public void deleteInsertion(Insertion in) {
-        
-        try {
+
+        // Delete order if insertion was published
         Query q = em.createQuery(
                 "DELETE FROM Order o WHERE o.insertion = :insertion")
                 .setParameter("insertion", in);
         
         q.executeUpdate();
         
+        // Delete insertion from all wishlists which contained it
         TypedQuery<Customer> u = em.createQuery(
                 "SELECT cust FROM Customer AS cust WHERE :insertion MEMBER OF "
                         + "(cust.wishList)",
@@ -52,12 +53,9 @@ public class InsertionService extends ServicePrototype implements Serializable {
             em.merge(cust);
         }
         
+        // Delete insertion
         em.remove(em.merge(in));
         em.flush();
-        } catch (Exception e) {
-            System.out.println("Inserat löschen:");
-            e.printStackTrace();
-        }
     }
     
     public Insertion getInsertion(long id) {

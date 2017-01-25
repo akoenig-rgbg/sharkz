@@ -105,8 +105,11 @@
                                 <h:commandButton
                                     value="KONTAKTIEREN"
                                     class="button"
-                                    action="#{insertion.contact()}"/>
+                                    action="#{insertion.contact()}">
+                                    
+                                    <f:param name="insertion_id" value="#{insertion.insertionId}" />
 
+                                </h:commandButton>
                                 <h:commandButton
                                     value="WUNSCHZETTEL"
                                     class="button"
