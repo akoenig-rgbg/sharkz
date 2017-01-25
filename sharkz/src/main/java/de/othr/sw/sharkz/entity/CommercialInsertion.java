@@ -1,6 +1,9 @@
 package de.othr.sw.sharkz.entity;
 
+import de.othr.sw.sharkz.entity.type.OfferType;
+import java.text.NumberFormat;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import javax.persistence.Entity;
 
@@ -14,6 +17,16 @@ public class CommercialInsertion extends Insertion {
     public Map<String, String> getImportantAttributes() {
         Map<String, String> attrs = new LinkedHashMap<>();
         
+        String priceLabel;
+        if (this.getOfferType() == OfferType.PURCHASE)
+            priceLabel = "Kaufpreis";
+        else
+            priceLabel = "Kaltmiete";
+            
+        String price = NumberFormat.getNumberInstance(
+                Locale.GERMAN).format(this.getPrice());
+
+        attrs.put(priceLabel, price + " &euro;");
         attrs.put("Fläche", String.valueOf(this.getArea()));
         
         return attrs;

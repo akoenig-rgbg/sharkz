@@ -56,13 +56,13 @@ public class AccountService extends ServicePrototype implements Serializable {
     }
     
     public List<Customer> findAllCustomers() {
-        Query q = em.createNativeQuery("SELECT * FROM ACCOUNT WHERE DTYPE="
+        Query q = em.createNativeQuery("SELECT * FROM Account WHERE DTYPE="
                 + "'Customer'");
         return q.getResultList();
     }
     
     public Account getAccountByEmail(String email) {
-        Query q = em.createNativeQuery("SELECT * FROM ACCOUNT WHERE EMAIL='"
+        Query q = em.createNativeQuery("SELECT * FROM Account WHERE EMAIL='"
                 + email + "'", Account.class);
         
         return (Account) q.getSingleResult();

@@ -3,6 +3,7 @@ package de.othr.sw.sharkz.entity;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -16,13 +17,13 @@ public class Customer extends Account {
     
     private BankingData bankingData;
     
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private Inbox inbox;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Insertion> wishList;
     
-    @OneToMany(mappedBy="vendor")
+    @OneToMany(mappedBy="vendor", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Insertion> insertions;
 
     public Customer() {

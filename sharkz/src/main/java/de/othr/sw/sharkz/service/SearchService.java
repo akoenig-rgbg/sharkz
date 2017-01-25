@@ -43,6 +43,16 @@ public class SearchService extends ServicePrototype implements Serializable {
         return q.getResultList();
     }
     
+    public List<Order> search(String location) {
+        TypedQuery<Order> q = em.createQuery(
+                "SELECT ord FROM Order AS ord WHERE ord.insertion.address.town"
+                        + "= :location",
+                Order.class)
+                .setParameter("location", location);
+        
+        return q.getResultList();
+    }
+    
     public List<Insertion> getInsertionsByCustomer(Customer customer) {
         
         TypedQuery<Insertion> q = em.createQuery(

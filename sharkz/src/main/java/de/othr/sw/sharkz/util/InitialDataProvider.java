@@ -5,6 +5,7 @@ package de.othr.sw.sharkz.util;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -28,7 +29,9 @@ public class InitialDataProvider implements Servlet {
         
         Query q = em.createNativeQuery("SELECT COUNT(*) FROM Account");
         
-        if ((Integer) q.getSingleResult() != 0) {
+        BigInteger count = (BigInteger) q.getSingleResult();
+        
+        if (count.longValue() > 0) {
             return;
         }
         

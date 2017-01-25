@@ -10,6 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
@@ -30,7 +31,7 @@ public abstract class Insertion extends EntityPrototype {
     private Address address;
     private long price;
     
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @Column(length= 5 * 3200000)
     private List<byte[]> images;
    

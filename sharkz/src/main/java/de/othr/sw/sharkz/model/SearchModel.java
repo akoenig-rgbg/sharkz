@@ -30,9 +30,10 @@ public class SearchModel {
 
         if (offer == null && location == null && usage != null) {
             results = searchService.search(usage);
+        } else if (location != null && usage == null && offer == null) {
+            results = searchService.search(location);
         } else {
             results = searchService.search(offer, usage, location);
-            System.out.println("Ergebnisse: " + results);
         }
     }
     
