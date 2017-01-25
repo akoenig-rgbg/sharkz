@@ -1,12 +1,10 @@
 package de.othr.sw.sharkz.model.insertion;
 
 import de.othr.sw.sharkz.model.account.AccountModel;
-import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.view.ViewScoped;
@@ -18,13 +16,9 @@ import javax.inject.Named;
 @ViewScoped
 @Named(value="publish")
 public class PublishModel implements Serializable {
-    private Insertion insertion;
-    private int size;
-    private Map<String, String> importantAttributes;
     
+    // Form attributes
     private int duration = 1;
-    
-    private int featImgId;
     
     private boolean successfulValidation = false;
     
@@ -44,15 +38,7 @@ public class PublishModel implements Serializable {
         if (FacesContext.getCurrentInstance().isPostback())
             return;
         
-        insertion = insertionService.getInsertion(insertionId);
-        importantAttributes = insertion.getImportantAttributes();
-        size = insertion.getImages().size();
-    }
-    
-    public String changeFeaturedImage(int id) {
-        this.featImgId = id;
-        
-        return "";
+        insertionModel.loadInsertion(insertionId);
     }
     
     public void validatePublishment(FacesContext ctx, UIComponent comp,
@@ -61,7 +47,8 @@ public class PublishModel implements Serializable {
         try {
         System.out.println("accountModel: " + accountModel.getUser().getID());
         
-        System.out.println("insertion: " + insertion.getVendor().getID());
+        System.out.println("insertion: "
+                + insertionModel.getInsertion().getVendor().getID());
         } catch (NullPointerException e) {
             System.out.println("Nullpointerexception beim Vendor/User");
         }
@@ -73,7 +60,7 @@ public class PublishModel implements Serializable {
             msgs.add(new FacesMessage("Die Dauer der "
                     + "Veröffentlichung muss <= 0 sein!"));
         
-        if (insertion == null)
+        if (insertionModel.getInsertion() == null)
             msgs.add(new FacesMessage("Das Inserat mit ID " + insertionId
                     + "existiert nicht!"));
         
@@ -81,7 +68,8 @@ public class PublishModel implements Serializable {
             msgs.add(new FacesMessage("Sie müssen eingeloggt sein, um das "
                     + "Inserat zu veröffentlichen!"));
         
-        else if (!accountModel.getUser().equals(insertion.getVendor()))
+        else if (!accountModel.getUser().equals(
+                insertionModel.getInsertion().getVendor()))
             msgs.add(new FacesMessage("Sie können nur Ihre eigenen Inserate "
                     + "veröffentlichen!"));
         
@@ -94,10 +82,10 @@ public class PublishModel implements Serializable {
     
     public String publishInsertion() {
         // publish insertion
-        insertionService.publishInsertion(insertion, duration);
+        insertionService.publishInsertion(insertionModel.getInsertion(), duration);
        
         // Propagate GET parameters
-        insertionModel.setInsertion(insertion);
+        insertionModel.setInsertion(insertionModel.getInsertion());
         
         // redirect
         if (successfulValidation)
@@ -114,30 +102,6 @@ public class PublishModel implements Serializable {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-    
-    public int getFeatImgId() {
-        return this.featImgId;
-    }
-    
-    public void setFeatImgId(int id) {
-        this.featImgId = id;
-    }
-    
-    public Map<String, String> getImportantAttributes() {
-        return importantAttributes;
-    }
-
-    public void setImportantAttributes(Map<String, String> importantAttributes) {
-        this.importantAttributes = importantAttributes;
-    }
-    
-    public Insertion getInsertion() {
-        return insertion;
-    }
-
-    public void setInsertion(Insertion insertion) {
-        this.insertion = insertion;
-    }
 
     public long getInsertionId() {
         return insertionId;
@@ -147,12 +111,11 @@ public class PublishModel implements Serializable {
         this.insertionId = insertionId;
     }
 
-    public int getSize() {
-        return size;
+    public InsertionModel getInsertionModel() {
+        return insertionModel;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setInsertionModel(InsertionModel insertionModel) {
+        this.insertionModel = insertionModel;
     }
-    
 }

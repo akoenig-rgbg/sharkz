@@ -24,6 +24,13 @@
     box-sizing: border-box;
 }
 
+#message_wrapper {
+    position: fixed;
+    z-index: 10;
+    background-color: #1d4e89;
+    width: 100%;
+}
+
 /* Account */
 .side_menu_header {
     background-image: url("#{resource['img/side_menu_header_bg.png']}");

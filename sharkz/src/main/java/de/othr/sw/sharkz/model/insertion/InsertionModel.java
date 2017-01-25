@@ -7,8 +7,13 @@ import de.othr.sw.sharkz.model.account.AccountModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,10 +22,15 @@ import javax.inject.Named;
 @Named("insertion")
 public class InsertionModel implements Serializable {
     private Insertion insertion;
+    private boolean successfulValidation = false;
     
     // GET parameters
     private long insertionId;
+    private boolean isPublishment = false;
     
+    // Form attributes
+    private int duration = 1;
+
     private int featImgId;
     private int size;
     private Map<String, String> importantAttributes;
@@ -36,6 +46,12 @@ public class InsertionModel implements Serializable {
             return;
         
         insertion = insertionService.getInsertion(insertionId);
+        importantAttributes = insertion.getImportantAttributes();
+        size = insertion.getImages().size();
+    }
+    
+    public void loadInsertion(long id) {
+        insertion = insertionService.getInsertion(id);
         importantAttributes = insertion.getImportantAttributes();
         size = insertion.getImages().size();
     }
@@ -64,6 +80,58 @@ public class InsertionModel implements Serializable {
         this.featImgId = id;
         
         return "";
+    }
+    
+    public void validatePublishment(FacesContext ctx, UIComponent comp,
+            Object value) {
+        
+        try {
+        System.out.println("accountModel: " + accountModel.getUser().getID());
+        
+        System.out.println("insertion: "
+                + insertion.getVendor().getID());
+        } catch (NullPointerException e) {
+            System.out.println("Nullpointerexception beim Vendor/User");
+        }
+        
+        List<FacesMessage> msgs = new ArrayList<>();
+        
+        // validate input
+        if (duration <= 0)
+            msgs.add(new FacesMessage("Die Dauer der "
+                    + "Veröffentlichung muss <= 0 sein!"));
+        
+        if (insertion == null)
+            msgs.add(new FacesMessage("Das Inserat mit ID " + insertionId
+                    + "existiert nicht!"));
+        
+        if (!accountModel.isIsLoggedIn())
+            msgs.add(new FacesMessage("Sie müssen eingeloggt sein, um das "
+                    + "Inserat zu veröffentlichen!"));
+        
+        else if (!accountModel.getUser().equals(
+                insertion.getVendor()))
+            msgs.add(new FacesMessage("Sie können nur Ihre eigenen Inserate "
+                    + "veröffentlichen!"));
+        
+        if (!msgs.isEmpty())
+            throw new ValidatorException(msgs);
+        
+        else
+            successfulValidation = true;
+    }
+    
+    public String publishInsertion() {
+        // publish insertion
+        insertionService.publishInsertion(insertion, duration);
+        
+        isPublishment = false;
+        
+        // redirect
+        if (successfulValidation)
+            return "success";
+        
+        return "failure";
     }
     
     // Getter & Setter
@@ -106,4 +174,30 @@ public class InsertionModel implements Serializable {
     public void setImportantAttributes(Map<String, String> importantAttributes) {
         this.importantAttributes = importantAttributes;
     }
+
+    public boolean isSuccessfulValidation() {
+        return successfulValidation;
+    }
+
+    public void setSuccessfulValidation(boolean successfulValidation) {
+        this.successfulValidation = successfulValidation;
+    }
+
+    public boolean isIsPublishment() {
+        return isPublishment;
+    }
+
+    public void setIsPublishment(boolean isPublishment) {
+        this.isPublishment = isPublishment;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+    
+    
 }

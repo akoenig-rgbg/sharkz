@@ -4,6 +4,7 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.model.insertion.InsertionModel;
 import de.othr.sw.sharkz.model.insertion.PublishModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
@@ -45,7 +46,7 @@ public class LoginModel implements Serializable {
     @Inject InsertionService insertionService;
     @Inject AccountService accountService;
     @Inject @Named("account") AccountModel accountModel;
-    @Inject PublishModel publishModel;
+    @Inject InsertionModel insertionModel;
 
     //</editor-fold>
 
@@ -103,7 +104,8 @@ public class LoginModel implements Serializable {
         
         // Login is required for insertion creation
         insertion.setVendor((Customer) accountModel.getUser());
-        publishModel.setInsertionId(insertionService.createInsertion(insertion));
+        insertionModel.setInsertionId(insertionService.createInsertion(insertion));
+        insertionModel.setIsPublishment(true);
         
         return "publish";
     }

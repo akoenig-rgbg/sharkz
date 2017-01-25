@@ -1,9 +1,8 @@
 package de.othr.sw.sharkz.util;
 
-import de.othr.sw.sharkz.model.insertion.PublishModel;
+import de.othr.sw.sharkz.model.insertion.InsertionModel;
 import java.io.IOException;
 import java.io.OutputStream;
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,11 +30,11 @@ public class ImageUploadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        PublishModel publModel = (PublishModel) request.getSession().getAttribute("insertionPublishment");
+        InsertionModel insModel = (InsertionModel) request.getSession().getAttribute("insertionPublishment");
         
         int image_id = Integer.parseInt(request.getParameter("image_id"));
         
-        byte[] bytes = publModel.getInsertion().getImages().get(image_id);
+        byte[] bytes = insModel.getInsertion().getImages().get(image_id);
         
         String mimeType;
         

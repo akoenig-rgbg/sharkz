@@ -2,6 +2,7 @@ package de.othr.sw.sharkz.model.account;
 
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.model.MessageModel;
 import de.othr.sw.sharkz.service.InsertionService;
 import de.othr.sw.sharkz.service.SearchService;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class MyInsertionsModel implements Serializable {
     @Inject private AccountModel accountModel;
     @Inject private SearchService searchService;
     @Inject private InsertionService insertionService;
+    @Inject private MessageModel messageModel;
     
     @PostConstruct
     public void init() {
@@ -39,6 +41,8 @@ public class MyInsertionsModel implements Serializable {
     
     public String delete(Insertion ins) {
         insertionService.deleteInsertion(ins);
+        
+        messageModel.displayMessage("Inserat wurde gelöscht!");
         
         return "myInsertions";
     }

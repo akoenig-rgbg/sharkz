@@ -26,13 +26,13 @@
                 <!--Insertion: Title & Address-->
                 <div class="insertion_summary_heading">
                     
-                    <div class="title">#{publish.insertion.title}</div>
+                    <div class="title">#{publish.insertionModel.insertion.title}</div>
                     
                     <i class="fa fa-map-marker" aria-hidden="true"/>
                     <h:outputText escape="false" value="&ensp;" />
                     <h:outputText
                         escape="false"
-                        value="#{publish.insertion.address}"
+                        value="#{publish.insertionModel.insertion.address}"
                         converter="addressConverter"/>
                     
                 </div>
@@ -40,7 +40,7 @@
                 <!--Insertion: Important Attributes-->
                 <div class="important_attributes">
                     <ui:repeat
-                        value="#{publish.importantAttributes.entrySet().toArray()}"
+                        value="#{publish.insertionModel.importantAttributes.entrySet().toArray()}"
                         var="attr">
 
                         <div class="element">
@@ -134,7 +134,7 @@
                         
                     <h:messages styleClass="h_messages requiredMessage" />
                 </h:form>
-            </div>  
+            </div>
             
         </div>
     </ui:define>

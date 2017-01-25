@@ -72,7 +72,7 @@ public class CreateModel implements Serializable {
     // Models, Services, Util
     @Inject private AccountModel accountModel;
     @Inject private AccountService accountService;
-    @Inject private PublishModel publishModel;
+    @Inject private InsertionModel insertionModel;
     @Inject private InsertionService insertionService;
     
     //</editor-fold>
@@ -178,8 +178,9 @@ public class CreateModel implements Serializable {
         insertion.setVendor((Customer) accountModel.getUser());
         
         // Persist insertion
-        publishModel.setInsertionId(
+        insertionModel.setInsertionId(
                 insertionService.createInsertion(insertion));
+        insertionModel.setIsPublishment(true);
         
         // Forward to publishment page
         return "success";

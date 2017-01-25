@@ -13,6 +13,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
@@ -30,14 +31,33 @@ public class InsertionService extends ServicePrototype implements Serializable {
     
     @Transactional(TxType.REQUIRED)
     public void deleteInsertion(Insertion in) {
+        
+        try {
         Query q = em.createQuery(
                 "DELETE FROM Order o WHERE o.insertion = :insertion")
                 .setParameter("insertion", in);
         
         q.executeUpdate();
         
+        TypedQuery<Customer> u = em.createQuery(
+                "SELECT cust FROM Customer AS cust WHERE :insertion MEMBER OF "
+                        + "(cust.wishList)",
+                Customer.class)
+                .setParameter("insertion", in);
+        
+        for (Object c : u.getResultList()) {
+            Customer cust = (Customer) c;
+            
+            cust.getWishList().remove(in);
+            em.merge(cust);
+        }
+        
         em.remove(em.merge(in));
         em.flush();
+        } catch (Exception e) {
+            System.out.println("Inserat löschen:");
+            e.printStackTrace();
+        }
     }
     
     public Insertion getInsertion(long id) {

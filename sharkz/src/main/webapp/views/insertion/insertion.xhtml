@@ -13,6 +13,9 @@
             <f:viewParam
                 name="insertion_id"
                 value="#{insertion.insertionId}"/>
+            <f:viewParam
+                name="publish"
+                value="#{insertion.isPublishment}" />
             <f:viewAction action="#{insertion.loadInsertion()}" />
         </f:metadata>
     </ui:define>
@@ -96,23 +99,25 @@
                 <!--Insertion: Common Attributes-->
                 <div class="insertion_attributes">
                     
-                    <div class="interaction">
-                        <h:form>
-                            <h:commandButton
-                                value="KONTAKTIEREN"
-                                class="button"
-                                action="#{insertion.contact()}"/>
+                    <c:if test="#{!insertion.isPublishment}">
+                        <div class="interaction">
+                            <h:form>
+                                <h:commandButton
+                                    value="KONTAKTIEREN"
+                                    class="button"
+                                    action="#{insertion.contact()}"/>
 
-                            <h:commandButton
-                                value="WUNSCHZETTEL"
-                                class="button"
-                                action="#{insertion.wishlist(insertion.insertion)}">
-                                
-                                <f:ajax render="@form" execute="@form" />
-                                
-                            </h:commandButton>
-                        </h:form>
-                    </div>
+                                <h:commandButton
+                                    value="WUNSCHZETTEL"
+                                    class="button"
+                                    action="#{insertion.wishlist(insertion.insertion)}">
+
+                                    <f:ajax render="@form" execute="@form" />
+
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                    </c:if>
                     
                     <h:dataTable styleClass="attribute_table"
                         value="#{insertion.insertion.furtherAttributes.entrySet().toArray()}"
@@ -125,6 +130,29 @@
                         </h:column>
                     </h:dataTable>
                 </div>
+                
+                <c:if test="#{insertion.isPublishment}">
+                    <!--Insertion: Publishment-->
+                    <div class="grey_box insertion_publish_params">
+                        <h:form id="publishmentForm">
+                            <h:selectOneMenu
+                                validator="#{insertion.validatePublishment}"
+                                value="#{insertion.duration}"
+                                styleClass="search_select_menu">
+                                <f:selectItem itemValue="1" itemLabel="1 Monat" />
+                                <f:selectItem itemValue="3" itemLabel="3 Monate" />
+                                <f:selectItem itemValue="6" itemLabel="6 Monate" />
+                            </h:selectOneMenu>
+
+                            <h:commandButton
+                                action="#{insertion.publishInsertion()}"
+                                styleClass="button"
+                                value="Veröffentlichen" />
+
+                            <h:messages styleClass="h_messages requiredMessage" />
+                        </h:form>
+                    </div>
+                </c:if>
                 
             </div>
             
