@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.util;
+package de.othr.sw.sharkz.util.conversion;
 
 import de.othr.sw.sharkz.entity.Address;
 import javax.faces.component.UIComponent;

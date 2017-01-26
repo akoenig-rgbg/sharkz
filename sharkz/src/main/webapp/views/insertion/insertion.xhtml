@@ -99,7 +99,9 @@
                 <!--Insertion: Common Attributes-->
                 <div class="insertion_attributes">
                     
-                    <c:if test="#{!insertion.isPublishment}">
+                    <c:if test="#{!insertion.isPublishment
+                                  and account.isLoggedIn
+                                  and account.user != insertion.insertion.vendor}">
                         <div class="interaction">
                             <h:form>
                                 <h:commandButton
@@ -113,7 +115,7 @@
                                 <h:commandButton
                                     value="WUNSCHZETTEL"
                                     class="button"
-                                    action="#{insertion.wishlist(insertion.insertion)}">
+                                    action="#{insertion.addToWishlist(insertion.insertion)}">
 
                                     <f:ajax render="@form" execute="@form" />
 
@@ -134,7 +136,9 @@
                     </h:dataTable>
                 </div>
                 
-                <c:if test="#{insertion.isPublishment}">
+                <c:if test="#{insertion.isPublishment
+                              and account.user == insertion.insertion.vendor
+                              and !insertion.isPublic}">
                     <!--Insertion: Publishment-->
                     <div class="grey_box insertion_publish_params">
                         <h:form id="publishmentForm">

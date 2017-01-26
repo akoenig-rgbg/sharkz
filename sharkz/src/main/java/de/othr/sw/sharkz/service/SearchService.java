@@ -66,8 +66,25 @@ public class SearchService extends ServicePrototype implements Serializable {
     public List<Order> fetchLuxury(int amount) {
         
         TypedQuery<Order> q = em.createQuery(
-                "SELECT ord FROM Order AS ord ORDER BY ord.insertion.price DESC",
-                Order.class).setMaxResults(amount);
+                "SELECT ord FROM Order AS ord WHERE ord.insertion.offerType "
+                        + "= :offer ORDER BY ord.insertion.price DESC",
+                Order.class)
+                .setParameter("offer", OfferType.PURCHASE)
+                .setMaxResults(amount);
+        
+        return q.getResultList();
+    }
+    
+    public List<Order> fetchBusiness(int amount) {
+        
+        List<HouseType> types = HouseType.getTypesOf(UsageType.COMMERCIAL);
+        
+        TypedQuery<Order> q = em.createQuery(
+                "SELECT ord FROM Order AS ord WHERE ord.insertion.houseType "
+                        + "IN :types",
+                Order.class)
+                .setParameter("types", types)
+                .setMaxResults(amount);
         
         return q.getResultList();
     }

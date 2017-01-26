@@ -7,19 +7,17 @@ import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.entity.util.EntityUtils;
 import java.io.Serializable;
-import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 @Named
 @RequestScoped
 public class AccountService extends ServicePrototype implements Serializable {
-    
-    
     
     /**
      * Create and persist a new Customer
@@ -28,7 +26,6 @@ public class AccountService extends ServicePrototype implements Serializable {
      */
     @Transactional(TxType.REQUIRED)
     public long createCustomer(Customer customer) {
-        em.persist(customer.getInbox());
         em.persist(customer);
   
         return customer.getID();
@@ -74,6 +71,19 @@ public class AccountService extends ServicePrototype implements Serializable {
     }
     
     /**
+     * Update the passwort of an account
+     * @param userId the id of the account
+     * @param password the new password
+     */
+    @Transactional(TxType.REQUIRED)
+    public void updatePassword(long userId, String password) {
+        Account c = em.find(Account.class, userId);
+        
+        c.setPassword(password);
+        em.merge(c);
+    }
+    
+    /**
      * Find a customer by its id
      * @param id the id
      * @return the customer
@@ -82,12 +92,11 @@ public class AccountService extends ServicePrototype implements Serializable {
         return em.find(Customer.class, id);
     }
     
-    public List<Customer> findAllCustomers() {
-        Query q = em.createNativeQuery("SELECT * FROM Account WHERE DTYPE="
-                + "'Customer'");
-        return q.getResultList();
-    }
-    
+    /**
+     * Find an account by email
+     * @param email the email
+     * @return the account with the email
+     */
     public Account getAccountByEmail(String email) {
         Query q = em.createNativeQuery("SELECT * FROM Account WHERE EMAIL='"
                 + email + "'", Account.class);
@@ -100,6 +109,12 @@ public class AccountService extends ServicePrototype implements Serializable {
         }
     }
     
+    /**
+     * Get the full name of an account
+     * @param id the id of the account
+     * @return Administrator in case of an admin account
+     *         the full name else
+     */
     public String getNameByID(long id) {        
         Customer c = em.find(Customer.class, id);
         
@@ -110,45 +125,134 @@ public class AccountService extends ServicePrototype implements Serializable {
         }
     }
     
+    /**
+     * Updates the general information about a customer
+     * @param userId
+     * @param firstName
+     * @param lastName
+     * @param phoneNumber
+     * @param email 
+     */
     @Transactional(TxType.REQUIRED)
-    public void updateAccount(Account c) {
+    public void updateCustomerData(long userId, String firstName,
+            String lastName, String phoneNumber, String email) {
+        
+        Customer c = em.find(Customer.class, userId);
+        
+        c.setFirstName(firstName);
+        c.setLastName(lastName);
+        c.setPhoneNumber(phoneNumber);
+        c.seteMail(email);
+        
+        em.merge(c);
+    }
+    
+    /**
+     * Updates the banking data of a customer
+     * @param userId
+     * @param iban
+     * @param bic
+     * @param password 
+     */
+    @Transactional(TxType.REQUIRED)
+    public void updateBankingData(long userId, String iban, String bic,
+            String password) {
+        
+        Customer c = em.find(Customer.class, userId);
+        
+        c.getBankingData().setBic(bic);
+        c.getBankingData().setIban(iban);
+        c.getBankingData().setPassword(password);
+        
         em.merge(c);
         em.flush();
     }
     
+    /**
+     * Adds an insertion to a customer's wishlist
+     * @param userId
+     * @param ins 
+     */
     @Transactional(TxType.REQUIRED)
-    public void addToWishlist(Account acc, Insertion ins) {
-        Customer customer = (Customer) em.merge(acc);
+    public void addToWishlist(long userId, Insertion ins) {
+        Customer c = (Customer) em.find(Customer.class, userId);
         
-        customer.getWishList().add(em.merge(ins));
+        em.refresh(ins);
+        c.getWishList().add(ins);
         
-        em.merge(customer);
+        em.merge(c);
         em.flush();
     }
     
+    /**
+     * Deletes an insertion from a customer's wishlist
+     * @param userId
+     * @param ins 
+     */
     @Transactional(TxType.REQUIRED)
-    public void deleteMessage(long receiverId, Message msg) {
+    public void deleteFromWishlist(long userId, Insertion ins) {
+        Customer c = (Customer) em.find(Customer.class, ins);
         
+        em.refresh(ins);
+        c.getWishList().remove(ins);
+        
+        em.merge(c);
+        em.flush();
+    }
+    
+    /**
+     * Deletes a message from a customer's inbox
+     * @param messageId 
+     */
+    @Transactional(TxType.REQUIRED)
+    public void deleteMessage(long messageId) {
+        Message msg = em.find(Message.class, messageId);
+        
+        TypedQuery<Customer> q = em.createQuery(
+                "SELECT c FROM Customer AS c WHERE :msg IN c.messages",
+                Customer.class)
+                .setParameter("msg", msg);
+        
+        Customer c = q.getSingleResult();
+        
+        c.getMessages().remove(msg);
+        em.merge(c);
+        
+        em.remove(msg);
+        em.flush();
+    }
+    
+    /**
+     * Adds a message to a customer's inbox
+     * @param senderId
+     * @param receiverId
+     * @param insertionId
+     * @param msg 
+     */
+    @Transactional(TxType.REQUIRED)
+    public void addMessage(long senderId, long receiverId, long insertionId,
+            Message msg) {
+        
+        Customer sender = em.find(Customer.class, senderId);
         Customer receiver = em.find(Customer.class, receiverId);
+        Insertion in = em.find(Insertion.class, insertionId);
         
-        receiver.getInbox().getMessages().remove(em.merge(msg));
+        msg.setSender(sender);
+        msg.setInsertion(in);
+        
+        em.persist(msg);
+        
+        receiver.getMessages().add(msg);
         em.merge(receiver);
         
-        em.remove(em.merge(msg));
+        em.flush();
     }
     
-    @Transactional(TxType.REQUIRED)
-    public void addMessage(Customer sender, Customer receiver,
-            Insertion reference, Message msg) {
-        msg.setSender(em.merge(sender));
-        msg.setInsertion(em.merge(reference));
-        
-        receiver = em.merge(receiver);
-        receiver.getInbox().getMessages().add(msg);
-        
-        em.merge(receiver);
-    }
-    
+    /**
+     * Finds a message
+     * @param msgId
+     * @return 
+     */
     public Message findMessage(long msgId) {
         return em.find(Message.class, msgId);
     }

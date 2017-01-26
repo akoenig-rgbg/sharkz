@@ -37,16 +37,13 @@ public class ReplyModel implements Serializable {
     public String sendMessage() {
         Message msg = new Message();
         
-        msg.setSender(accountModel.getUser());
         msg.setSendDate(new Date());
-        msg.setInsertion(message.getInsertion());
         msg.setTitle(title);
         msg.setContent(content);
         
-        Customer c = ((Customer) message.getSender());
-        c.getInbox().getMessages().add(msg);
-        
-        accountService.updateAccount(c);
+        accountService.addMessage(accountModel.getUser().getID(),
+                message.getSender().getID(), message.getInsertion().getID(),
+                msg);
         
         return "inbox";
     }

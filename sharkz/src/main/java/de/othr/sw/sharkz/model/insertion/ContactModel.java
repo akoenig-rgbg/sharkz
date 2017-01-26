@@ -28,30 +28,21 @@ public class ContactModel implements Serializable {
     @Inject InsertionService insertionService;
     
     public void loadInsertion() {
-        insertion = insertionService.getInsertion(Long.parseLong(
+        insertion = insertionService.findInsertion(Long.parseLong(
                 FacesContext.getCurrentInstance().getExternalContext()
                         .getRequestParameterMap().get("insertion_id")));
         
     }
 
     public String sendMessage() {
-        System.out.println("Inserat zum Senden: " + insertion);
-        
         Message message = new Message();
         
-        message.setInsertion(insertion);
-        message.setSender(accountModel.getUser());
         message.setSendDate(new Date());
         message.setTitle(title);
         message.setContent(content);
         
-        if (insertion.getVendor() instanceof Customer) {
-            //accountService.addMessage((Customer) insertion.getVendor(),
-            //        message);
-            
-            accountService.addMessage((Customer) accountModel.getUser(),
-                    insertion.getVendor(), insertion, message);
-        }
+        accountService.addMessage(accountModel.getUser().getID(),
+                insertion.getVendor().getID(), insertion.getID(), message);
         
         return "insertion";
     }

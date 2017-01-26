@@ -1,7 +1,5 @@
 package de.othr.sw.sharkz.model.insertion;
 
-import de.othr.sw.sharkz.entity.Account;
-import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.model.account.AccountModel;
 import de.othr.sw.sharkz.service.AccountService;
@@ -23,6 +21,7 @@ import javax.inject.Named;
 public class InsertionModel implements Serializable {
     private Insertion insertion;
     private boolean successfulValidation = false;
+    private boolean isPublic = true;
     
     // GET parameters
     private long insertionId;
@@ -45,19 +44,22 @@ public class InsertionModel implements Serializable {
         if (FacesContext.getCurrentInstance().isPostback())
             return;
         
-        insertion = insertionService.getInsertion(insertionId);
+        insertion = insertionService.findInsertion(insertionId);
         importantAttributes = insertion.getImportantAttributes();
         size = insertion.getImages().size();
+        
+        if (!insertionService.isPublic(insertion))
+            this.isPublic = false;
     }
     
     public void loadInsertion(long id) {
-        insertion = insertionService.getInsertion(id);
+        insertion = insertionService.findInsertion(id);
         importantAttributes = insertion.getImportantAttributes();
         size = insertion.getImages().size();
     }
     
-    public void wishlist(Insertion in) {
-        accountService.addToWishlist(accountModel.getUser(), in);
+    public void addToWishlist(Insertion in) {
+        accountService.addToWishlist(accountModel.getUser().getID(), in);
     }
     
     public String contact() {
@@ -113,7 +115,7 @@ public class InsertionModel implements Serializable {
     
     public String publishInsertion() {
         // publish insertion
-        insertionService.publishInsertion(insertion, duration);
+        insertionService.publishInsertion(insertion.getID(), duration);
         
         isPublishment = false;
         
@@ -187,6 +189,14 @@ public class InsertionModel implements Serializable {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public boolean isIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
     
     

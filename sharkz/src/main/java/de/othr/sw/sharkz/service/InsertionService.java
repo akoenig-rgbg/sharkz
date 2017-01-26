@@ -1,9 +1,7 @@
 package de.othr.sw.sharkz.service;
 
-import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -23,8 +21,9 @@ public class InsertionService extends ServicePrototype implements Serializable {
     @Inject private AccountService accountService;
     
     @Transactional(TxType.REQUIRED)
-    public long createInsertion(Customer cust, Insertion in) {
-        cust = em.merge(cust);
+    public long createInsertion(long vendorId, Insertion in) {
+        Customer cust = em.find(Customer.class, vendorId);
+        
         in.setVendor(cust);
         em.persist(in);
         em.flush();
@@ -68,30 +67,19 @@ public class InsertionService extends ServicePrototype implements Serializable {
         em.flush();
     }
     
-    public Insertion getInsertion(long id) {
-        Query q = em.createNativeQuery("SELECT DTYPE FROM Insertion WHERE ID = " + id);
-        
-        if (((String) q.getSingleResult()).equalsIgnoreCase("CommercialInsertion"))
-            return em.find(CommercialInsertion.class, id);
-        else
-            return em.find(LivingInsertion.class, id);
-    }
-
-    @Transactional(TxType.REQUIRED)
-    public void deleteAllInsertions() {
-        Query q = em.createNativeQuery("DELETE * FROM Insertion");
-        q.executeUpdate();
+    public Insertion findInsertion(long insertionId) {
+        return em.find(Insertion.class, insertionId);
     }
     
     @Transactional(TxType.REQUIRED)
-    public long publishInsertion(Insertion insertion, int duration) {
+    public long publishInsertion(long insertionId, int duration) {
         Order order = new Order();
         
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, duration);
         
-        insertion = em.merge(insertion);
+        Insertion insertion = em.find(Insertion.class, insertionId);
         
         order.setCustomer(insertion.getVendor());
         order.setInsertion(insertion);
@@ -102,5 +90,16 @@ public class InsertionService extends ServicePrototype implements Serializable {
         em.flush();
         
         return insertion.getID();
+    }
+    
+    public boolean isPublic(Insertion in) {
+        in = em.find(Insertion.class, in.getID());
+        
+        TypedQuery<Order> q = em.createQuery(
+                "SELECT ord FROM Order AS ord WHERE ord.insertion = :ins",
+                Order.class)
+                .setParameter("ins", in);
+        
+        return q.getResultList().size() == 1;
     }
 }

@@ -10,6 +10,10 @@
     <ui:define name="main">
         
         <div id="main">
+            <h3 class="banking_heading">
+                Meine Bankverbindung
+            </h3>
+            
             <h:form>
 
                 <!-- First and last name -->
@@ -45,8 +49,8 @@
                 </div>
 
                 <h:commandButton
-                    value="BANKVERBINDUNG SPEICHERN"
-                    class="button"
+                    value="SPEICHERN"
+                    class="button bank_button"
                     action="#{bankingData.changeBankingData()}" />
 
             </h:form>

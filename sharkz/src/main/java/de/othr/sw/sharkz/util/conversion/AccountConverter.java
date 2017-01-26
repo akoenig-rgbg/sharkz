@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.util;
+package de.othr.sw.sharkz.util.conversion;
 
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Customer;

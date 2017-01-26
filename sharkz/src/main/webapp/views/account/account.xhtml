@@ -8,94 +8,98 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <ui:define name="main">
-        <div id="main">
-            <h3>Allgemeine Informationen</h3>
+        <div id="main" class="account_wrapper">
+            <div>
+                <h3>Allgemeine Informationen</h3>
 
-            <h:form>
+                <h:form>
 
-                <!-- First and last name -->
-                <div class="inputFloatLeft">
-                    <div class="inputContainer">
-                        <h:inputText
-                            value="#{account.firstName}"
-                            class="inputText first_name"
-                            a:placeholder="Vorname"/>
-                        <h:outputLabel
-                            value="Vorname"
-                            class="inputLabel" />
-                    </div>
-                    <div class="inputContainer">
-                        <h:inputText
-                            value="#{account.lastName}"
-                            class="inputText last_name"
-                            a:placeholder="Nachname"/>
-                        <h:outputLabel
-                            value="Nachname"
-                            class="inputLabel" />
-                    </div>
-                </div>
-
-                <!-- E-Mail and phone number -->
-                <div class="inputFloatLeft">
-                    <div class="inputContainer">
-                        <h:inputText
-                            value="#{account.email}"
-                            class="inputText email"
-                            a:placeholder="E-Mail"/>
-                        <h:outputLabel
-                            value="E-Mail"
-                            class="inputLabel"/>
+                    <!-- First and last name -->
+                    <div class="inputFloatLeft">
+                        <div class="inputContainer">
+                            <h:inputText
+                                value="#{account.firstName}"
+                                class="inputText first_name"
+                                a:placeholder="Vorname"/>
+                            <h:outputLabel
+                                value="Vorname"
+                                class="inputLabel" />
+                        </div>
+                        <div class="inputContainer">
+                            <h:inputText
+                                value="#{account.lastName}"
+                                class="inputText last_name"
+                                a:placeholder="Nachname"/>
+                            <h:outputLabel
+                                value="Nachname"
+                                class="inputLabel" />
+                        </div>
                     </div>
 
+                    <!-- E-Mail and phone number -->
+                    <div class="inputFloatLeft">
+                        <div class="inputContainer">
+                            <h:inputText
+                                value="#{account.email}"
+                                class="inputText email"
+                                a:placeholder="E-Mail"/>
+                            <h:outputLabel
+                                value="E-Mail"
+                                class="inputLabel"/>
+                        </div>
+
+                        <div class="inputContainer">
+                            <h:inputText
+                                value="#{account.phoneNumber}"
+                                class="inputText"
+                                a:placeholder="Telefonnummer"/>
+                            <h:outputLabel
+                                value="Telefonnummer"
+                                class="inputLabel"/>
+                        </div>
+                    </div>
+
+
+                    <!-- Button -->
+                    <h:commandButton
+                        value="ÄNDERN"
+                        class="button"
+                        action="#{account.changeData()}"/>
+
+                </h:form>
+            </div>
+
+            <div>
+                <h3>Passwort ändern</h3>
+
+                <h:form>
                     <div class="inputContainer">
-                        <h:inputText
-                            value="#{account.phoneNumber}"
+                        <h:inputSecret
+                            value="#{account.oldPassword}"
                             class="inputText"
-                            a:placeholder="Telefonnummer"/>
+                            a:placeholder="Altes Passwort"/>
                         <h:outputLabel
-                            value="Telefonnummer"
+                            value="Altes Passwort"
                             class="inputLabel"/>
                     </div>
-                </div>
+                    <div class="inputContainer">
+                        <h:inputSecret
+                            value="#{account.newPassword}"
+                            class="inputText"
+                            a:placeholder="Neues Passwort"/>
+                        <h:outputLabel
+                            value="Neues Passwort"
+                            class="inputLabel"/>
+                    </div>
 
+                    <h:commandButton
+                        value="PASSWORT ÄNDERN"
+                        class="button"
+                        action="#{account.changePassword()}" />
 
-                <!-- Button -->
-                <h:commandButton
-                    value="ÄNDERN"
-                    class="button"
-                    action="#{account.changeData()}"/>
+                </h:form>
+            </div>
 
-            </h:form>
-
-            <h3>Passwort ändern</h3>
-
-            <h:form>
-                <div class="inputContainer">
-                    <h:inputSecret
-                        value="#{account.oldPassword}"
-                        class="inputText"
-                        a:placeholder="Altes Passwort"/>
-                    <h:outputLabel
-                        value="Altes Passwort"
-                        class="inputLabel"/>
-                </div>
-                <div class="inputContainer">
-                    <h:inputSecret
-                        value="#{account.newPassword}"
-                        class="inputText"
-                        a:placeholder="Neues Passwort"/>
-                    <h:outputLabel
-                        value="Neues Passwort"
-                        class="inputLabel"/>
-                </div>
-
-                <h:commandButton
-                    value="PASSWORT ÄNDERN"
-                    class="button"
-                    action="#{account.changePassword()}" />
-
-            </h:form>
-            
         </div>
     </ui:define>
 

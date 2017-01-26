@@ -46,7 +46,7 @@ public class ImageServlet extends HttpServlet {
             // at least one image per insertion.
         }
         
-        Insertion ins = insertionService.getInsertion(insertion_id);
+        Insertion ins = insertionService.findInsertion(insertion_id);
         
         byte[] bytes = ins.getImages().get(image_id);
         

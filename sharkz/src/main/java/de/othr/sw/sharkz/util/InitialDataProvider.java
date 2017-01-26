@@ -53,7 +53,6 @@ public class InitialDataProvider implements Servlet {
             c1.setLastName("König");
             
             try {
-                em.persist(c1.getInbox());
                 em.persist(admin);
                 em.persist(c1);
                 em.flush();

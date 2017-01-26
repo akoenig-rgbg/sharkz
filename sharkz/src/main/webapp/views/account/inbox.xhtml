@@ -44,11 +44,11 @@
                                         </h:link>
                                     </c:if>
                                     
-                                    <c:otherwise>
+                                    <c:if test="#{msg.insertion == null}">
                                         <span style="font-weight: 400; font-size: 1.5em;">
                                             gelöscht
                                         </span>
-                                    </c:otherwise>
+                                    </c:if>
                                     
                                     <!-- Insertion address -->
                                     <c:if test="#{msg.insertion != null}">

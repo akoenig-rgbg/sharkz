@@ -36,6 +36,18 @@ body {
 }
 
 /* Account */
+.account_wrapper h3 {
+    margin: 0;
+    clear: both;
+    margin-top: 40px;
+}
+
+.account_wrapper .button {
+    float: left;
+    clear: both;
+    margin: 40px 0;
+}
+
 .side_menu_header {
     background-image: url("#{resource['img/side_menu_header_bg.png']}");
     padding: 16px;
@@ -91,6 +103,16 @@ body {
 }
 
 /* Banking Data */
+
+.banking_heading {
+    margin: 40px 0 0 0;
+}
+
+.bank_button {
+    float: left;
+    clear: both;
+    margin-top: 40px;
+}
 
 /* My Insertions */
 
@@ -207,4 +229,5 @@ body {
 .message_wrapper .message_content {
     font-size: 1.2em;
     font-weight: 300;
+    padding-left: 13%;
 }

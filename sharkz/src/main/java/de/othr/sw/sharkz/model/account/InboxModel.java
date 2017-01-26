@@ -31,13 +31,11 @@ public class InboxModel implements Serializable {
         
         customer = accountService.findCustomer(accountModel.getUser().getID());
         
-        messages = customer.getInbox().getMessages();
-        
-        System.out.println("Nachrichten: " + messages);
+        messages = customer.getMessages();
     }
     
     public String delete(Message message) {
-        accountService.deleteMessage(accountModel.getUser().getID(), message);
+        accountService.deleteMessage(message.getID());
         
         return "inbox";
     }

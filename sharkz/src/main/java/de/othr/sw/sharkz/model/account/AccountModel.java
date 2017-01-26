@@ -1,7 +1,6 @@
 package de.othr.sw.sharkz.model.account;
 
 import de.othr.sw.sharkz.entity.Account;
-import de.othr.sw.sharkz.entity.BankingData;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
@@ -41,20 +40,13 @@ public class AccountModel implements Serializable {
     }
     
     public void changeData() {
-        Customer c = (Customer) user;
-        
-        c.setFirstName(firstName);
-        c.setLastName(lastName);
-        c.setPhoneNumber(phoneNumber);
-        c.seteMail(email);
-        
-        accountService.updateAccount(c);
+        accountService.updateCustomerData(user.getID(), firstName, lastName,
+                phoneNumber, email);
     }
     
     public void changePassword() {
         if (accountService.checkPassword(user.geteMail(), oldPassword)) {
-            user.setPassword(newPassword);
-            accountService.updateAccount(user);
+            accountService.updatePassword(user.getID(), newPassword);
         }
     }
     

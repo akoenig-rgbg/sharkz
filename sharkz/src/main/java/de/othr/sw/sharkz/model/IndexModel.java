@@ -37,6 +37,10 @@ public class IndexModel {
         return searchService.fetchLuxury(FETCH_AMOUNT);
     }
     
+    public List<Order> fetchBusiness() {
+        return searchService.fetchBusiness(FETCH_AMOUNT);
+    }
+    
     public int calcCardWidth() {
         int widthNoPadding = WRAPPER_WIDTH / FETCH_AMOUNT;
         

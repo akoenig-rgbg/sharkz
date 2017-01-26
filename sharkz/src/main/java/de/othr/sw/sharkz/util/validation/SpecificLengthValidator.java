@@ -1,5 +1,6 @@
-package de.othr.sw.sharkz.util;
+package de.othr.sw.sharkz.util.validation;
 
+import de.othr.sw.sharkz.util.Constants;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

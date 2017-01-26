@@ -27,7 +27,7 @@ public class CommercialInsertion extends Insertion {
                 Locale.GERMAN).format(this.getPrice());
 
         attrs.put(priceLabel, price + " &euro;");
-        attrs.put("Fläche", String.valueOf(this.getArea()));
+        attrs.put("Fläche", String.valueOf(this.getArea()) + " m&sup2;");
         
         return attrs;
     }

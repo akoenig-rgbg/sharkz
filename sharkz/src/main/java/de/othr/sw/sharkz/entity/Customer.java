@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,8 +17,8 @@ public class Customer extends Account {
     
     private BankingData bankingData;
     
-    @OneToOne(fetch = FetchType.EAGER)
-    private Inbox inbox;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Message> messages;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Insertion> wishList;
@@ -27,7 +28,10 @@ public class Customer extends Account {
 
     public Customer() {
         super();
-        this.inbox = new Inbox();
+        this.messages = new ArrayList<>();
+        this.insertions = new ArrayList<>();
+        this.wishList = new ArrayList<>();
+        this.bankingData = new BankingData();
     }
     
     // Getter & Setter
@@ -79,11 +83,13 @@ public class Customer extends Account {
         this.bankingData = bankingData;
     }
 
-    public Inbox getInbox() {
-        return inbox;
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setInbox(Inbox inbox) {
-        this.inbox = inbox;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
+
+    
 }

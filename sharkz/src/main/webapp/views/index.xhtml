@@ -42,9 +42,14 @@
                             </h:selectOneMenu>
                             
                             <!-- Location text field -->
-                            <h:inputText class="inputText search_input_text"
-                                         a:placeholder="Wohnort oder PLZ eingeben"
-                                         value="#{search.location}" />
+                            <div class="inputContainer">
+                                <h:inputText class="inputText search_input_text"
+                                             a:placeholder="Wohnort oder PLZ eingeben"
+                                             value="#{search.location}" />
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Wohnort oder PLZ" />
+                            </div>
                             
                             <!-- OfferType select menu -->
                             <h:selectOneMenu class="search_select_menu search_select_right"
@@ -74,37 +79,35 @@
                 
             </div>
         
+            <!-- Content area -->
             <a name="main" />
             <div id="main">
+                
+                <!-- Luxuries -->
+                <h3 class="index_title">Unsere luxuriösesten Angebote</h3>
+                
                 <div class="featured_wrapper">
-                    
                     <c:forEach
                         items="#{home.fetchLuxury()}" 
                         var="item">
                     
-                        <div class="card" style="width: #{home.calcCardWidth()}">
-                            <h:graphicImage
-                                class="feat_img"
-                                value="/images?insertion_id=#{item.insertion.ID}" />
-                            
-                            <div class="description">
-                                #{item.insertion.title}
-                            </div>
-                            
-                            <div class="button_wrapper">
-                                <h:link class="button_flat" outcome="insertion">
-                                    <f:param
-                                        name="insertion_id"
-                                        value="#{item.insertion.ID}"/>
-                                    
-                                    BETRACHTEN
-                                </h:link>
-                            </div>
-                        </div>
+                        <ui:include src="./../resources/components/featured_insertions.xhtml"/>
                     
                     </c:forEach>
                 </div>
                 
+                <!-- Business -->
+                <h3 class="index_title">Gewerbliche Inserate</h3>
+                
+                <div class="featured_wrapper">
+                    <c:forEach
+                        items="#{home.fetchBusiness()}" 
+                        var="item">
+                    
+                        <ui:include src="./../resources/components/featured_insertions.xhtml"/>
+                    
+                    </c:forEach>
+                </div>
                
                 <div id="insurance_wrapper">
                     

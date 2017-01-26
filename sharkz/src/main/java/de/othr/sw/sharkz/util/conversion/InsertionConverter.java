@@ -1,4 +1,4 @@
-package de.othr.sw.sharkz.util;
+package de.othr.sw.sharkz.util.conversion;
 
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.InsertionService;
@@ -15,7 +15,7 @@ public class InsertionConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        return insertionService.getInsertion(Long.parseLong(value));
+        return insertionService.findInsertion(Long.parseLong(value));
     }
 
     @Override

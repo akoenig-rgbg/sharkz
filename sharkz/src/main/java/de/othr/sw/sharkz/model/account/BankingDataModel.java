@@ -3,6 +3,7 @@ package de.othr.sw.sharkz.model.account;
 import de.othr.sw.sharkz.entity.BankingData;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,17 +21,17 @@ public class BankingDataModel {
     @Inject private AccountService accountService;
     @Inject private AccountModel accountModel;
     
-    public void changeBankingData() {
-        BankingData bankingData = new BankingData();
-        
-        bankingData.setIban(iban);
-        bankingData.setBic(bic);
-        bankingData.setPassword(bankingPassword);
-        
+    @PostConstruct
+    public void init() {
         Customer c = (Customer) accountModel.getUser();
         
-        c.setBankingData(bankingData);
-        accountService.updateAccount(c);
+        iban = c.getBankingData().getIban();
+        bic = c.getBankingData().getBic();
+    }
+    
+    public void changeBankingData() {
+        accountService.updateBankingData(accountModel.getUser().getID(), iban,
+                bic, bankingPassword);
     }
 
     public String getIban() {

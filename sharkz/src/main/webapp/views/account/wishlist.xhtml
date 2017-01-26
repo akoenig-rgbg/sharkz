@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/accountTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="main">
+
+        <!-- Living Insertions -->
+        <c:forEach
+            items="#{wishlist.insertions}"
+            var="ins"
+            varStatus="status">
+
+            <!-- Search result card -->
+            <div class="myInsertionWrapper">
+
+                <!-- Header bar -->
+                <h:link outcome="insertion">
+                    <f:param name="insertion_id" value="#{ins.ID}"/>
+                    <div class="header">
+                        #{ins.title}
+                    </div>
+                </h:link>
+
+                <!-- Content -->
+                <div class="content">
+
+                    <!-- Image -->
+                    <div class="ins_image">
+                        <h:graphicImage value="/images?insertion_id=#{ins.ID}&amp;image_id=0" />
+                    </div>
+
+                    <!-- Information -->
+                    <div class="information">
+
+                        <!--Insertion: Important Attributes-->
+                        <div class="important_attributes">
+
+                            <c:forEach
+                                items="#{ins.importantAttributes}"
+                                var="attr">
+
+                                <div class="element">
+                                    <div class="value">
+                                        <h:outputText
+                                            escape="false"
+                                            value="#{attr.value}" />
+                                    </div>
+                                    <div class="key">#{attr.key}</div>
+                                </div>
+
+                            </c:forEach>
+
+                        </div>
+
+
+                        <!-- Address -->
+                        <div class="address">
+                            <i class="fa fa-map-marker" aria-hidden="true"/>
+                            <h:outputText escape="false" value="&ensp;" />
+                            <h:outputText
+                                value="#{ins.address}"
+                                converter="addressConverter"
+                                escape="false"/>
+                        </div>                            
+                    </div>
+
+                    <div class="description">
+                        #{ins.description}
+                    </div>
+
+                </div>
+
+                <div class="footer">
+                    <h:form>
+                        <h:commandLink
+                            action="#{wishlist.delete(ins)}"
+                            class="icon">
+
+                            <i class="fa fa-trash" aria-hidden="true" />
+                        </h:commandLink>
+                    </h:form>
+                </div>
+            </div>
+
+        </c:forEach>
+
+    </ui:define>
+
+</ui:composition>
