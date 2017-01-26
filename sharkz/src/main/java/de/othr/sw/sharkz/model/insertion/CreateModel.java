@@ -178,7 +178,7 @@ public class CreateModel implements Serializable {
         // Persist insertion
         insertionModel.setInsertionId(
                 insertionService.createInsertion(
-                        (Customer) accountModel.getUser(), insertion));
+                        accountModel.getUser().getID(), insertion));
         
         insertionModel.setIsPublishment(true);
         

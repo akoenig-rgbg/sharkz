@@ -82,7 +82,8 @@ public class PublishModel implements Serializable {
     
     public String publishInsertion() {
         // publish insertion
-        insertionService.publishInsertion(insertionModel.getInsertion(), duration);
+        insertionService.publishInsertion(insertionModel.getInsertion().getID(),
+                duration);
        
         // Propagate GET parameters
         insertionModel.setInsertion(insertionModel.getInsertion());

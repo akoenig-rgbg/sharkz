@@ -102,7 +102,8 @@ public class LoginModel implements Serializable {
         
         // Login is required for insertion creation
         insertionModel.setInsertionId(insertionService.createInsertion(
-                (Customer) accountModel.getUser(), insertion));
+                accountModel.getUser().getID(), insertion));
+        
         insertionModel.setIsPublishment(true);
         
         return "publish";
