@@ -1,6 +1,5 @@
 package de.othr.sw.sharkz.service;
 
-import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
@@ -9,8 +8,8 @@ import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -21,8 +20,12 @@ import javax.transaction.Transactional.TxType;
 @RequestScoped
 public class InsertionService extends ServicePrototype implements Serializable {
     
+    @Inject private AccountService accountService;
+    
     @Transactional(TxType.REQUIRED)
-    public long createInsertion(Insertion in) {
+    public long createInsertion(Customer cust, Insertion in) {
+        cust = em.merge(cust);
+        in.setVendor(cust);
         em.persist(in);
         em.flush();
         
@@ -30,7 +33,8 @@ public class InsertionService extends ServicePrototype implements Serializable {
     }
     
     @Transactional(TxType.REQUIRED)
-    public void deleteInsertion(Insertion in) {
+    public void deleteInsertion(long insertionId) {
+        Insertion in = em.find(Insertion.class, insertionId);
 
         // Delete order if insertion was published
         Query q = em.createQuery(
@@ -42,7 +46,7 @@ public class InsertionService extends ServicePrototype implements Serializable {
         // Delete insertion from all wishlists which contained it
         TypedQuery<Customer> u = em.createQuery(
                 "SELECT cust FROM Customer AS cust WHERE :insertion MEMBER OF "
-                        + "(cust.wishList)",
+                        + "cust.wishList",
                 Customer.class)
                 .setParameter("insertion", in);
         
@@ -53,8 +57,14 @@ public class InsertionService extends ServicePrototype implements Serializable {
             em.merge(cust);
         }
         
+        Query v = em.createQuery("UPDATE Message m SET m.insertion = NULL "
+                + "WHERE m.insertion = :insertion")
+                .setParameter("insertion", in);
+        
+        v.executeUpdate();
+        
         // Delete insertion
-        em.remove(em.merge(in));
+        em.remove(in);
         em.flush();
     }
     
@@ -80,6 +90,8 @@ public class InsertionService extends ServicePrototype implements Serializable {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, duration);
+        
+        insertion = em.merge(insertion);
         
         order.setCustomer(insertion.getVendor());
         order.setInsertion(insertion);

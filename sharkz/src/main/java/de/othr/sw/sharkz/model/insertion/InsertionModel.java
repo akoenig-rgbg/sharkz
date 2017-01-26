@@ -57,17 +57,7 @@ public class InsertionModel implements Serializable {
     }
     
     public void wishlist(Insertion in) {
-        if (accountModel.isIsLoggedIn()) {
-            Account acc = accountModel.getUser();
-            
-            System.out.println("Insertion ID: " + insertionId);
-            System.out.println("Insertion itself: " + in);
-            
-            if (acc instanceof Customer) {
-                Customer c = (Customer) acc;
-                accountService.addToWishlist(c, in);
-            }
-        }
+        accountService.addToWishlist(accountModel.getUser(), in);
     }
     
     public String contact() {

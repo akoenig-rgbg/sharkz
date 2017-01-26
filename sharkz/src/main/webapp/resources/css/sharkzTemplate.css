@@ -195,6 +195,12 @@
     padding-right: 5px;
 }
 
+#login_container .h_messages {
+    margin-bottom: 35px;
+    color: red;
+    font-weight: 400;
+}
+
 .login_button {
     display: block;
     margin: 0px auto;

@@ -36,20 +36,32 @@
                                 </div>
                                 
                                 <div class="right">
-                                    <h:link outcome="insertion">
-                                        <f:param name="insertion_id" value="#{msg.insertion.ID}"/>
-                                        #{msg.insertion.title}
-                                     </h:link>
+                                   
+                                    <c:if test="#{msg.insertion != null}">
+                                        <h:link outcome="insertion">
+                                            <f:param name="insertion_id" value="#{msg.insertion.ID}"/>
+                                            #{msg.insertion.title}
+                                        </h:link>
+                                    </c:if>
+                                    
+                                    <c:otherwise>
+                                        <span style="font-weight: 400; font-size: 1.5em;">
+                                            gelöscht
+                                        </span>
+                                    </c:otherwise>
                                     
                                     <!-- Insertion address -->
-                                    <div class="address">
-                                        <i class="fa fa-map-marker" aria-hidden="true"/>
-                                        <h:outputText escape="false" value="&ensp;" />
-                                        <h:outputText
-                                            escape="false"
-                                            value="#{msg.insertion.address}"
-                                            converter="addressConverter"/>
-                                    </div>
+                                    <c:if test="#{msg.insertion != null}">
+                                        <div class="address">
+                                            <i class="fa fa-map-marker" aria-hidden="true"/>
+                                            <h:outputText escape="false" value="&ensp;" />
+                                            <h:outputText
+                                                escape="false"
+                                                value="#{msg.insertion.address}"
+                                                converter="addressConverter"/>
+                                        </div>
+                                    </c:if>
+                                    
                                 </div>
                                 
                             </div>

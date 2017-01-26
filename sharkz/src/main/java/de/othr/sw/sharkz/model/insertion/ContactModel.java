@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.model.insertion;
 
+import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.model.account.AccountModel;
@@ -44,9 +45,13 @@ public class ContactModel implements Serializable {
         message.setTitle(title);
         message.setContent(content);
         
-        insertion.getVendor().addMessage(message);
-        
-        accountService.updateAccount(insertion.getVendor());
+        if (insertion.getVendor() instanceof Customer) {
+            //accountService.addMessage((Customer) insertion.getVendor(),
+            //        message);
+            
+            accountService.addMessage((Customer) accountModel.getUser(),
+                    insertion.getVendor(), insertion, message);
+        }
         
         return "insertion";
     }

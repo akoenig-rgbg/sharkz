@@ -37,11 +37,7 @@ public class InboxModel implements Serializable {
     }
     
     public String delete(Message message) {
-        Account acc = accountModel.getUser();
-        
-        if (acc instanceof Customer) {
-            accountService.deleteMessage((Customer) acc, message);
-        }
+        accountService.deleteMessage(accountModel.getUser().getID(), message);
         
         return "inbox";
     }

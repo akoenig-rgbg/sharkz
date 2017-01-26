@@ -16,7 +16,7 @@ public class Order extends EntityPrototype implements Serializable {
     @ManyToOne
     private Customer customer;
     
-    @OneToOne(cascade=CascadeType.REMOVE)
+    @OneToOne(cascade=CascadeType.ALL)
     private Insertion insertion;
     
     @Temporal(TemporalType.TIMESTAMP)

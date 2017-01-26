@@ -27,6 +27,8 @@ public class InitialDataProvider implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         
+        System.out.println("INITIAL_DATA_PROVIDER");
+        
         Query q = em.createNativeQuery("SELECT COUNT(*) FROM Account");
         
         BigInteger count = (BigInteger) q.getSingleResult();
@@ -51,6 +53,7 @@ public class InitialDataProvider implements Servlet {
             c1.setLastName("König");
             
             try {
+                em.persist(c1.getInbox());
                 em.persist(admin);
                 em.persist(c1);
                 em.flush();

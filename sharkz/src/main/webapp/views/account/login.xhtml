@@ -55,26 +55,34 @@
                     <h:panelGroup id="login_name_group">
                         
                         <!-- First Name text field -->
-                        <h:inputText
-                            id="login_firstName"
-                            value="#{login.firstName}"
-                            label="Vorname"
-                            a:placeholder="Vorname"
-                            styleClass="inputText login_inputText"
-                            rendered="#{!login.loginAction}">
                         
-                        </h:inputText>
+                        <div class="inputContainer login_inputText">
+                            <h:inputText
+                                id="login_firstName"
+                                value="#{login.firstName}"
+                                label="Vorname"
+                                a:placeholder="Vorname"
+                                styleClass="inputText login_inputText"
+                                rendered="#{!login.loginAction}"/>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Vorname" />
+                        </div>
                         
                         <!-- Last Name text field -->
-                        <h:inputText
-                            id="login_lastName"
-                            value="#{login.lastName}"
-                            label="Nachname"
-                            a:placeholder="Nachname"
-                            styleClass="inputText login_inputText"
-                            rendered="#{!login.loginAction}">
+                        <div class="inputContainer login_inputText">
+                            <h:inputText
+                                id="login_lastName"
+                                value="#{login.lastName}"
+                                label="Nachname"
+                                a:placeholder="Nachname"
+                                styleClass="inputText login_inputText"
+                                rendered="#{!login.loginAction}"/>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Nachname" />
+                        </div>
                         
-                        </h:inputText>
                     </h:panelGroup>
                     
                     <!-- Forgot & Register/Login links -->

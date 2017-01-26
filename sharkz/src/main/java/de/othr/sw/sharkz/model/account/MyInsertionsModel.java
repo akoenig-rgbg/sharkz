@@ -40,9 +40,9 @@ public class MyInsertionsModel implements Serializable {
     }
     
     public String delete(Insertion ins) {
-        insertionService.deleteInsertion(ins);
+        insertionService.deleteInsertion(ins.getID());
         
-        messageModel.displayMessage("Inserat wurde gelöscht!");
+        //messageModel.displayMessage("Inserat wurde gelöscht!");
         
         return "myInsertions";
     }

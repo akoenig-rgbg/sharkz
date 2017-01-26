@@ -174,12 +174,12 @@ public class CreateModel implements Serializable {
             
             return "logon";
         }
-        
-        insertion.setVendor((Customer) accountModel.getUser());
-        
+
         // Persist insertion
         insertionModel.setInsertionId(
-                insertionService.createInsertion(insertion));
+                insertionService.createInsertion(
+                        (Customer) accountModel.getUser(), insertion));
+        
         insertionModel.setIsPublishment(true);
         
         // Forward to publishment page

@@ -5,7 +5,6 @@ import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.model.insertion.InsertionModel;
-import de.othr.sw.sharkz.model.insertion.PublishModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
@@ -45,7 +44,7 @@ public class LoginModel implements Serializable {
     // Models & Services
     @Inject InsertionService insertionService;
     @Inject AccountService accountService;
-    @Inject @Named("account") AccountModel accountModel;
+    @Inject AccountModel accountModel;
     @Inject InsertionModel insertionModel;
 
     //</editor-fold>
@@ -71,8 +70,7 @@ public class LoginModel implements Serializable {
             if (accountService.checkPassword(account.geteMail(), password)) {
                 accountModel.setIsLoggedIn(true);
                 accountModel.setUser(account);
-            }
-            else {
+            } else {
                 context.addMessage(null, new FacesMessage(
                     "Falsche E-Mail oder falsches Passwort!"));
                 return "";
@@ -103,8 +101,8 @@ public class LoginModel implements Serializable {
             return "index";
         
         // Login is required for insertion creation
-        insertion.setVendor((Customer) accountModel.getUser());
-        insertionModel.setInsertionId(insertionService.createInsertion(insertion));
+        insertionModel.setInsertionId(insertionService.createInsertion(
+                (Customer) accountModel.getUser(), insertion));
         insertionModel.setIsPublishment(true);
         
         return "publish";
@@ -138,7 +136,9 @@ public class LoginModel implements Serializable {
         System.out.println("Kunde angelegt");
         System.out.println(customer.getFirstName() + " " + customer.getLastName());
 
-        accountService.createCustomer(customer);
+        long customerId = accountService.createCustomer(customer);
+        
+        account = accountService.findCustomer(customerId);
     }
 
     private void validateEmail() {
@@ -158,10 +158,12 @@ public class LoginModel implements Serializable {
             
         // Registration: If account exists -> choose other email
         } else {
-            try {
+            
                 account = accountService.getAccountByEmail(email);
-            } catch (NoResultException e) {
+            
+            if (account == null) {
                 // email can be chosen
+                return;
             }
             
             context.addMessage(null, new FacesMessage(
@@ -180,9 +182,10 @@ public class LoginModel implements Serializable {
             // Other unfullfilled criteria
             if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,}$"))
                 context.addMessage(null, new FacesMessage(
-                        "Ihr Passwort aus mindestens 5 Zeichen bestehen und "
-                                + "Groß- und Kleinbuchstaben, Sonderzeichen "
-                                + "(@#$%^&+=) sowie keinen Whitespace enthalten!"));
+                        "Ihr Passwort muss aus mindestens 5 Zeichen, "
+                                + "Groß- und Kleinbuchstaben und Sonderzeichen "
+                                + "(@#$%^&+=) bestehen und darf keinen "
+                                + "Whitespace enthalten!"));
         }
     }
     
