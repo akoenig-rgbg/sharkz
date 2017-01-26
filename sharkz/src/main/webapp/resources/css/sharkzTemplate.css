@@ -115,12 +115,15 @@
 .featured_wrapper .card .description {
     padding: 24px 16px 16px 16px;
     font-size: 1.15em;
+    margin-bottom: 50px;
 }
 
 .featured_wrapper .card .button_wrapper {
     overflow: auto;
     padding: 0px 10px 10px 0px;
-
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .featured_wrapper .card .button_flat {
@@ -276,63 +279,50 @@
     padding: 0px !important;
 }
 
-.insertion_area_attrs .inputText,
-.insertion_area_attrs .search_select_menu {
-    margin-left: 20px;
-}
-
 .insertion_area_attrs .search_select_menu {
     width: 290px;
 }
 
-.address_line1 {
-    float: right;
-    margin-bottom: 40px;
-    width: 100%;
+.insertion_area_attrs .inputFloatLeft .inputContainer {
+    margin-right: 20px;
 }
 
-.address_line1 .street {
+.inputContainer .street {
     width: 400px;
 }
 
-.address_line2 .town {
+.inputContainer .town {
     width: 340px;
 }
-.address_line2 .postCode {
+.inputContainer .postCode {
     width: 240px;
-}
-
-.address_line2 {
-    float: right;
-    clear: both;
 }
 
 .houseNumber, .additionalLetter {
     width: 80px;
 }
 
-.insertion_attr_option {
-    margin-left: 20px;    
-}
-
-.insertion_attr_option p {
-    float: left;
-}
-
 .inputText290 {
     width: 290px;
 }
 
+.heating {
+    margin: 35px 0px;
+}
+
 .title_p {
     padding-top: 10px;
-    padding-left: 20px;
     float: left;
+    padding-right: 20px;
     font-size: 1.15em;
 }
 
+.insertion_attr_option {
+    font-weight: 300;
+}
+
 .insertion_attr_option input[type="checkbox"] {
-    float: left;
-    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .insertion_description .inputText {

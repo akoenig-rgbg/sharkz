@@ -73,15 +73,19 @@ a {
 
 /* Boxes & Containers */
 
-.grey_box {
-    background-color: #f6f6f6;
+.card_box {
+    background-color: #fff;
     padding: 40px;
     margin-bottom: 50px;
     overflow: hidden;
     width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -webkitbox-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border-radius: 2px;
 }
 
 .white_box {
@@ -213,8 +217,8 @@ a {
 .requiredMessage {
     float: left;
     color: red;
-    padding-left: 20px;
     width: 100%;
+    font-weight: 400;
 }
 
 .h_messages {

@@ -13,35 +13,35 @@
         <div id="main">
 
             <!--Insertion: Images-->
-            <div class="grey_box thin_border">
+            <div class="card_box">
                 <div class="insertion_area_text">
                     <p>Bilder*</p>
                 </div>
                 <div class="insertion_area_attrs">
-                    
-                    <h:form id="inputFileForm" enctype="multipart/form-data">
-                            <h:inputFile
-                                styleClass="inputFile"
-                                id="file"
-                                value="#{create.file}"
-                                required="true"
-                                validator="#{create.validateFile}"/>
-                            
-                            <div class="inputFileName"></div>
-                            
-                            <label
-                                class="button"
-                                for="inputFileForm:file">
 
-                                Durchsuchen
-                            </label>
+                    <h:form id="inputFileForm" enctype="multipart/form-data">
+                        <h:inputFile
+                            styleClass="inputFile"
+                            id="file"
+                            value="#{create.file}"
+                            required="true"
+                            validator="#{create.validateFile}"/>
+
+                        <div class="inputFileName"></div>
+
+                        <label
+                            class="button"
+                            for="inputFileForm:file">
+
+                            Durchsuchen
+                        </label>
 
                         <h:commandButton
                             styleClass="button uploadButton"
                             value="Bild hochladen"
                             action="#{create.uploadImage}">
                         </h:commandButton>
-                        
+
                         <h:message
                             for="insertion_form"
                             styleClass="requiredMessage uploadMessages"/>
@@ -59,17 +59,17 @@
                             <p>#{name}</p>
                         </ui:repeat>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <!--Java Script for styling file input-->
             <h:outputScript library="js" name="inputFile.js" />
-             
+
             <h:form id="insertion_form">
 
                 <!--Insertion Menu-->
-                <div class="insertion_menu_wrapper grey_box">
+                <div class="insertion_menu_wrapper card_box">
 
                     <div class="insertion_area_text">
                         <p>Erwerbs- &amp; Immobilientyp*</p>
@@ -105,48 +105,92 @@
                 </div>
 
                 <!--Insertion: Address-->
-                <div class="grey_box">
+                <div class="card_box">
 
                     <div class="insertion_area_text">
                         <p>Adresse des Objekts*</p>
                     </div>
 
                     <div class="insertion_area_attrs">
-                        <div class="address_line1">
-                            <h:inputText
-                                id="street"
-                                label="Straße"
-                                required="true"
-                                styleClass="inputText street"
-                                a:placeholder="Straße"
-                                value="#{create.address.street}"/>
-                            <h:inputText
-                                id="houseNumber"
-                                label="Hausnummer"
-                                required="true"
-                                styleClass="inputText houseNumber"
-                                a:placeholder="Hnr."
-                                value="#{create.houseNumber}"/>
-                            <h:inputText
-                                styleClass="inputText additionalLetter"
-                                a:placeholder="Zst."
-                                value="#{create.address.additionalLetter}"/>
+                        <div class="inputFloatLeft">
+
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="street"
+                                    label="Straße"
+                                    styleClass="inputText street"
+                                    a:placeholder="Straße"
+                                    value="#{create.address.street}">
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Straße" />
+                            </div>
+
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="houseNumber"
+                                    label="Hausnummer"
+                                    styleClass="inputText houseNumber"
+                                    a:placeholder="Hnr."
+                                    value="#{create.houseNumber}">
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                    <f:validator validatorId="numberValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Hausnummer" />
+                            </div>
+                            <div class="inputContainer">
+                                <h:inputText
+                                    styleClass="inputText additionalLetter"
+                                    a:placeholder="Zst."
+                                    value="#{create.address.additionalLetter}">
+
+                                    <f:validator validatorId="additionalLetterValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Addresszusatz" />
+                            </div>
                         </div>
-                        <div class="address_line2">
-                            <h:inputText
-                                id="postCode"
-                                label="PLZ"
-                                required="true"
-                                styleClass="inputText postCode"
-                                a:placeholder="PLZ"
-                                value="#{create.address.postCode}"/>
-                            <h:inputText
-                                id="town"
-                                label="Ort"
-                                required="true"
-                                styleClass="inputText town"
-                                a:placeholder="Ort"
-                                value="#{create.address.town}"/>
+                        <div class="inputFloatLeft">
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="postCode"
+                                    label="PLZ"
+                                    styleClass="inputText postCode"
+                                    a:placeholder="PLZ"
+                                    value="#{create.address.postCode}">
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="postCodeValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="PLZ" />
+                            </div>
+
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="town"
+                                    label="Ort"
+                                    styleClass="inputText town"
+                                    a:placeholder="Ort"
+                                    value="#{create.address.town}">
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Ort" />
+                            </div>
                         </div>
                     </div>
 
@@ -168,7 +212,7 @@
                 </div>
 
                 <!--Insertion: Further Attributes-->
-                <div class="grey_box">
+                <div class="card_box">
 
                     <div class="insertion_area_text">
                         <p>Weitere Eigenschaften</p>
@@ -180,13 +224,23 @@
                                 id="commercialAttributes"
                                 rendered="#{!create.livingInsertion}">
 
-                                <div class="address_line1">
-                                    <h:inputText
-                                        id="area"
-                                        required="true"
-                                        styleClass="inputText"
-                                        a:placeholder="Fläche in qm"
-                                        value="#{create.area}" />
+                                <div class="inputFloatLeft">
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="area"
+                                            label="Fläche"
+                                            styleClass="inputText"
+                                            a:placeholder="Fläche in qm"
+                                            value="#{create.area}" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="standardLengthValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            class="inputLabel"
+                                            value="Fläche" />
+                                    </div>
                                 </div>
 
                                 <div class="insertion_attr_option">
@@ -213,31 +267,79 @@
                                 id="livingAttributes"
                                 rendered="#{create.livingInsertion}">
 
-                                <div class="address_line1">
-                                    <h:inputText
-                                        id="livingArea"
-                                        label="Wohnfläche"
-                                        required="true"
-                                        styleClass="inputText inputText290"
-                                        a:placeholder="Wohnfläche"
-                                        value="#{create.livingArea}" />
-                                    <h:inputText
-                                        styleClass="inputText inputText290"
-                                        a:placeholder="Grundfläche"
-                                        value="#{create.plotArea}" />
+                                <div class="inputFloatLeft">
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="livingArea"
+                                            label="Wohnfläche"
+                                            styleClass="inputText inputText290"
+                                            a:placeholder="Wohnfläche"
+                                            value="#{create.livingArea}" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="standardLengthValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            class="inputLabel"
+                                            value="Wohnfläche" />
+                                    </div>
+
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="plotArea"
+                                            label="Grundfläche"
+                                            styleClass="inputText inputText290"
+                                            a:placeholder="Grundfläche"
+                                            value="#{create.plotArea}" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="standardLengthValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            class="inputLabel"
+                                            value="Grundfläche" />
+                                    </div>
                                 </div>
-                                <div class="address_line1">
-                                    <h:inputText
-                                        styleClass="inputText inputText290"
-                                        a:placeholder="Zimmer"
-                                        value="#{create.rooms}" />
-                                    <h:inputText
-                                        styleClass="inputText inputText290"
-                                        a:placeholder="Etagen"
-                                        value="#{create.stages}" />
+                                <div class="inputFloatLeft">
+
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="rooms"
+                                            label="Zimmer"
+                                            styleClass="inputText inputText290"
+                                            a:placeholder="Zimmer"
+                                            value="#{create.rooms}" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="standardLengthValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            class="inputLabel"
+                                            value="Zimmer" />
+                                    </div>
+
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="stages"
+                                            label="Etagen"
+                                            styleClass="inputText inputText290"
+                                            a:placeholder="Etagen"
+                                            value="#{create.stages}" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                            <f:validator validatorId="standardLengthValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            class="inputLabel"
+                                            value="Etagen" />
+                                    </div>
                                 </div>
 
-                                <div class="address_line1">
+                                <div class="inputFloatLeft heating">
                                     <p class="inputText290 title_p">
                                         Heizung:
                                     </p>
@@ -318,49 +420,87 @@
                         <h:message
                             for="livingArea" 
                             styleClass="requiredMessage"/>
+                        <h:message
+                            for="plotArea"
+                            styleClass="requiredMessage"/>
+                        <h:message
+                            for="rooms"
+                            styleClass="requiredMessage"/>
                     </div>
                 </div>
 
                 <!--Insertion: Title & Description-->
-                <div class="insertion_description grey_box">
+                <div class="insertion_description card_box">
                     <div class="insertion_area_text">
                         <p>Titel* &amp; Beschreibung</p>
                     </div>
                     <div class="insertion_area_attrs">
-                        <h:inputText
-                            id="title"
-                            label="Titel"
-                            required="true"
-                            styleClass="inputText insertion_title"
-                            a:placeholder="Titel"
-                            value="#{create.title}" />
-                        <h:inputTextarea
-                            styleClass="inputText"
-                            a:placeholder="Beschreibung"
-                            value="#{create.description}"/>
+                        <div class="inputContainer">
+                            <h:inputText
+                                id="title"
+                                label="Titel"
+                                styleClass="inputText insertion_title"
+                                a:placeholder="Titel"
+                                value="#{create.title}" >
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="specificLengthValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Titel" />
+                        </div>
+
+                        <div class="inputContainer">
+                            <h:inputTextarea
+                                id="description"
+                                label="Beschreibung"
+                                styleClass="inputText"
+                                a:placeholder="Beschreibung"
+                                value="#{create.description}">
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="specificLengthValidator" />
+                            </h:inputTextarea>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Beschreibung" />
+                        </div>
                     </div>
 
                     <div class="insertion_area_msgs">
                         <h:message
                             for="title" 
                             styleClass="requiredMessage"/>
+                        <h:message
+                            for="description"
+                            styleClass="requiredMessage"/>
 
                     </div>
                 </div>
-                
+
                 <!--Insertion: Price-->
-                <div class="grey_box">
+                <div class="card_box">
                     <div class="insertion_area_text">
                         <p>Preis*</p>
                     </div>
                     <div class="insertion_area_attrs">
-                        <h:inputText
-                            id="price"
-                            label="Preis"
-                            required="true"
-                            styleClass="inputText"
-                            a:placeholder="Preis"
-                            value="#{create.price}"/>
+                        <div class="inputContainer">
+                            <h:inputText
+                                id="price"
+                                label="Preis"
+                                styleClass="inputText"
+                                a:placeholder="Preis"
+                                value="#{create.price}">
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="standardLengthValidator" />
+                                <f:validator validatorId="numberValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Preis" />
+                        </div>
                     </div>
 
                     <div class="insertion_area_msgs">
@@ -372,7 +512,7 @@
                 </div>
 
                 <!--Insertion: Submission-->
-                <div class="grey_box">
+                <div class="card_box">
                     <h:commandButton
                         value="Inserat erstellen"
                         styleClass="button"

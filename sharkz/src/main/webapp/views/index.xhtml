@@ -105,47 +105,7 @@
                     </c:forEach>
                 </div>
                 
-                <div class="card_wrapper">
-                    <c:forEach
-                        items="#{home.luxuries}" 
-                        var="item">
-
-                        <div class="card_element feat_img" style="width: #{home.calcCardWidth()}">
-                            <h:graphicImage
-                                value="/images?insertion_id=#{item.insertion.ID}" />
-                        </div>
-                    </c:forEach>
-                </div>
-                
-                <div class="card_wrapper">
-                    <c:forEach
-                        items="#{home.luxuries}" 
-                        var="item">
-
-                        <div class="card_element description" style="width: #{home.calcCardWidth()}">
-                            #{item.insertion.title}
-                        </div>
-
-                    </c:forEach>
-                </div>
-                
-                <div class="card_wrapper">
-                    <c:forEach
-                        items="#{home.luxuries}" 
-                        var="item">
-                        <div class="card_element button" style="width: #{home.calcCardWidth()}">
-                            <h:link class="button_flat" outcome="insertion">
-                                <f:param
-                                    name="insertion_id"
-                                    value="#{item.insertion.ID}"/>
-
-                                BETRACHTEN
-                            </h:link>
-                        </div>
-                    </c:forEach>
-                </div>
-                
-                
+               
                 <div id="insurance_wrapper">
                     
                 </div>

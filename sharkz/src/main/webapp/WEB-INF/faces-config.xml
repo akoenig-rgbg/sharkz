@@ -83,6 +83,12 @@
             <redirect include-view-params="true" />
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/views/index.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        
     </navigation-rule>
     
     <!-- Rules for insertion/create.xhtml -->

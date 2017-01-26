@@ -2,10 +2,10 @@ package de.othr.sw.sharkz.entity;
 
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
+import de.othr.sw.sharkz.util.Constants;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -27,7 +27,9 @@ public abstract class Insertion extends EntityPrototype {
     @Enumerated(EnumType.STRING)
     private OfferType offerType;
 
+    @Column(length = Constants.INSERTION_TITLE_LENGTH)
     private String title;
+    @Column(length = Constants.INSERTION_DESCRIPTION_LENGTH)
     private String description;
     private Address address;
     private long price;
