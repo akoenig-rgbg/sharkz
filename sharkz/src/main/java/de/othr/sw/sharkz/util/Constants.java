@@ -6,4 +6,6 @@ public abstract class Constants {
     
     public static final int MESSAGE_TITLE_LENGTH = 100;
     public static final int MESSAGE_CONTENT_LENGTH = 1000;
+    
+    public final static int MAX_IMAGE_SIZE = 3145728;
 }

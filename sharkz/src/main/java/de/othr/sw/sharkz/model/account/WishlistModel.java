@@ -31,7 +31,7 @@ public class WishlistModel implements Serializable {
     public String delete(Insertion ins) {
         insertionService.deleteInsertion(ins.getID());
         
-        return null;
+        return "wishlist";
     }
     
     public List<Insertion> getInsertions() {

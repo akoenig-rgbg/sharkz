@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+    </h:head>
+    <h:body>
+
+        <!--Insertion: Images-->
+        <div class="card_box">
+            <div class="insertion_area_text">
+                <p>Bilder*</p>
+            </div>
+            <div class="insertion_area_attrs">
+
+                <h:form id="inputFileForm" enctype="multipart/form-data">
+                    <h:inputFile
+                        styleClass="inputFile"
+                        id="file"
+                        value="#{bean.file}"
+                        required="true"
+                        validator="#{bean.validateFile}"/>
+
+                    <div class="inputFileName"></div>
+
+                    <label
+                        class="button"
+                        for="inputFileForm:file">
+
+                        Durchsuchen
+                    </label>
+
+                    <h:commandButton
+                        styleClass="button uploadButton"
+                        value="Bild hochladen"
+                        action="#{bean.uploadImage}" />
+                    
+                </h:form>
+
+                <h:message
+                    for="insertion_form"
+                    styleClass="requiredMessage uploadMessages"/>
+                <h:message for="file" />
+                <h:messages
+                    for="inputFileForm" 
+                    styleClass="h_messages requiredMessage uploadMessages"/>
+
+                <div id="imageNames">    
+                    <ui:repeat
+                        value="#{bean.fileNames}"
+                        var="name">
+
+                        <p>#{name}</p>
+                    </ui:repeat>
+                </div>
+
+            </div>
+        </div>
+
+        <!--Java Script for styling file input-->
+        <h:outputScript library="js" name="inputFile.js" />
+        
+    </h:body>
+</html>
+

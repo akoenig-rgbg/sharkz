@@ -1,6 +1,5 @@
 package de.othr.sw.sharkz.model.insertion;
 
-import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.model.account.AccountModel;

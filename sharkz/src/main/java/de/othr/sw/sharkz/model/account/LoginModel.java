@@ -4,11 +4,9 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.model.insertion.InsertionModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -30,30 +28,23 @@ public class LoginModel implements Serializable {
     private String firstName;
     private String lastName;
     
+    // For messages
+    FacesContext context;
+    
     // Register/Login toggle fields
     private String loginButtonText = "Login";
     private String registerButtonText = "Registrieren";
     private boolean isLogin = true;
     
-    // Login validation
-    FacesContext context;
-    
     // If login is required from insertion/create.xhtml
-    Insertion insertion;
+    private Insertion insertion;
     
     // Models & Services
     @Inject InsertionService insertionService;
     @Inject AccountService accountService;
     @Inject AccountModel accountModel;
-    @Inject InsertionModel insertionModel;
 
     //</editor-fold>
-
-    @PostConstruct
-    public void getInsertion() {
-        insertion = (Insertion) FacesContext.getCurrentInstance()
-                .getExternalContext().getFlash().get("insertion");
-    }
     
     /**
      * Login to the sharkz website.
@@ -96,17 +87,18 @@ public class LoginModel implements Serializable {
             accountModel.setName("Administrator");
         }
         
+        // Check if login part of insertion creation process
+        
+        
         // Normal login
         if (insertion == null)
             return "index";
         
         // Login is required for insertion creation
-        insertionModel.setInsertionId(insertionService.createInsertion(
-                accountModel.getUser().getID(), insertion));
+        insertionService.createInsertion(insertion,
+                accountModel.getUser().getID());
         
-        insertionModel.setIsPublishment(true);
-        
-        return "publish";
+        return "upload";
     }
     
     /**
@@ -279,5 +271,15 @@ public class LoginModel implements Serializable {
     public void setIsLogin(boolean isLogin) {
     this.isLogin = isLogin;
     }
+    
+     public Insertion getInsertion() {
+        return insertion;
+    }
+
+    public void setInsertion(Insertion insertion) {
+        this.insertion = insertion;
+    }
     //</editor-fold>
+
+   
 }

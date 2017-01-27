@@ -1,6 +1,5 @@
 package de.othr.sw.sharkz.model.account;
 
-import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.service.AccountService;

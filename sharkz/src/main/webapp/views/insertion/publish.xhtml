@@ -7,113 +7,19 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
-    <ui:define name="metadata">
-         <f:metadata>
-            <f:viewParam
-                name="insertion_id"
-                value="#{publish.insertionId}"/>
-            <f:viewAction action="#{publish.loadInsertion()}" />
-        </f:metadata>
-    </ui:define>
     
     <ui:define name="main">
         <div id="main">
             
-            <!--Insertion: Attributes-->
-            <div class="publ_attributes">
-                
-                <!--Insertion: Title & Address-->
-                <div class="insertion_summary_heading">
-                    
-                    <div class="title">#{publish.insertionModel.insertion.title}</div>
-                    
-                    <i class="fa fa-map-marker" aria-hidden="true"/>
-                    <h:outputText escape="false" value="&ensp;" />
-                    <h:outputText
-                        escape="false"
-                        value="#{publish.insertionModel.insertion.address}"
-                        converter="addressConverter"/>
-                    
-                </div>
-                
-                <!--Insertion: Important Attributes-->
-                <div class="important_attributes">
-                    <ui:repeat
-                        value="#{publish.insertionModel.importantAttributes.entrySet().toArray()}"
-                        var="attr">
-
-                        <div class="element">
-                            <div class="value">
-                                <h:outputText
-                                    escape="false"
-                                    value="#{attr.value}" />
-                            </div>
-                            <div class="key">#{attr.key}</div>
-                        </div>
-
-                    </ui:repeat>
-                </div>
-                
-                <!--Insertion: Images & Description-->
-                <div class="images_description">
-                    <div class="img">
-                        <div class="image thin_border">
-                            <h:graphicImage
-                                id="featImg"
-                                value="/images?insertion_id=#{publish.insertionId}&amp;image_id=#{publish.featImgId}" />
-                        </div>
-
-                        <div class="image_row">
-                            <c:forEach
-                                begin="0"
-                                end="#{publish.size - 1}"
-                                varStatus="status">
-
-                                <div class="small_image">
-                                    <h:form>
-                                        <h:commandLink
-                                            id="test#{status.index}"
-                                            action="#{publish.changeFeaturedImage(status.index)}">
-
-                                            <f:ajax render="featImg" />
-                                            <h:graphicImage value="/images?insertion_id=#{publish.insertionId}&amp;image_id=#{status.index}" />
-                                        </h:commandLink>
-                                    </h:form>
-                                </div>
-                            </c:forEach>
-                        </div>
-                        
-                    </div>
-                    
-                    <!--Description-->
-                    <div class="descr">
-                        <h:outputText value="#{publish.insertion.description}" />
-                    </div>
-                    
-                </div>
-                
-                <!--Insertion: Common Attributes-->
-                <div class="insertion_attributes">
-                    <h:dataTable styleClass="attribute_table"
-                        value="#{publish.insertion.furtherAttributes.entrySet().toArray()}"
-                        var="entry">
-                        
-                        <h:column>#{entry.key}</h:column>
-                        
-                        <h:column>
-                            <h:outputText value="#{entry.value}" escape="false"/>
-                        </h:column>
-                    </h:dataTable>
-                </div>
-                
-                <!--Vendor: Banking Data-->
-                <div class="insertion_attributes">
-                    
-                    
-                </div>
-                
-            </div>
+            <!-- Stepper -->
+            <ui:include src="./../../resources/components/stepper.xhtml">
+                <ui:param name="bean" value="#{createCon}" />
+            </ui:include>
+            
+            <ui:include src="./../../resources/components/insertionComponent.xhtml">
+                <ui:param name="bean" value="#{createCon}" />
+                <ui:param name="showInteraction" value="false" />
+            </ui:include>
             
             <!--Insertion: Publishment-->
             <div class="grey_box insertion_publish_params">

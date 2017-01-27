@@ -9,30 +9,22 @@ import de.othr.sw.sharkz.entity.LivingInsertion;
 import de.othr.sw.sharkz.entity.type.HeatingType;
 import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
+import de.othr.sw.sharkz.model.account.LoginModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 
 @ViewScoped
 @Named("create")
 public class CreateModel implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Attributes">
-    private final static int IMAGE_SIZE = 3145728;
     
     // Insertion Attributes
     private Insertion insertion;
@@ -43,7 +35,6 @@ public class CreateModel implements Serializable {
     private Address address = new Address();
     private String houseNumber;
     private String price;
-    private List<byte[]> images;
     private Customer vendor;
     
     // Living Attributes
@@ -64,15 +55,17 @@ public class CreateModel implements Serializable {
     private String area;
     private boolean aircon;
     private boolean heavyCurrent;
+    
     // For Ajax events
     private boolean livingInsertion;
-    private Part file;
-    private List<String> fileNames;
 
+    // GET parameters
+    private long insertionId;
+    
     // Models, Services, Util
     @Inject private AccountModel accountModel;
     @Inject private AccountService accountService;
-    @Inject private InsertionModel insertionModel;
+    @Inject private LoginModel loginModel;
     @Inject private InsertionService insertionService;
     
     //</editor-fold>
@@ -85,8 +78,6 @@ public class CreateModel implements Serializable {
         this.address.setTown("");
         this.houseNumber = "";
         this.price = "";
-        this.images = new ArrayList<>();
-        this.fileNames = new ArrayList<>();
     }
     
     /**
@@ -97,30 +88,12 @@ public class CreateModel implements Serializable {
     }
     
     /**
-     * Validates the entered values of the insertion to create
-     */
-    public boolean validateCreation() {
-        if (images.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage("insertion_form",
-                    new FacesMessage("Bitte laden Sie mindestens ein Foto von"
-                            + "ihrem Objekt hoch!"));
-            
-            return false;
-        }
-        
-        return true;
-    }
-    
-    /**
      * Creates a new <code>Insertion</code> from the entered inputs and persists
      * it in the database.
      * @return the <code>ID</code> of the insertion created
      */
     public String createInsertion() {
-        if (!validateCreation()) {
-            return "failure";
-        }
-        
+
         // Set insertion-specific attributes
         // Living Insertion
         if (houseType.isLiving()) {
@@ -159,103 +132,31 @@ public class CreateModel implements Serializable {
         insertion.setTitle(title);
         insertion.setDescription(description);
         insertion.setHouseType(houseType);
-        insertion.setImages(images);
         insertion.setOfferType(offerType);
-        insertion.setPrice(Integer.parseInt(price));
-       
-        // Write insertion to database
+        insertion.setPrice(Integer.parseInt(price));   
+        
+        // If not logged in -> forward to login page
         if (!accountModel.isIsLoggedIn()) {
-            FacesContext.getCurrentInstance().getExternalContext().getFlash()
-                    .put("insertion", insertion);
+            loginModel.setInsertion(insertion);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                     "Bitte loggen Sie sich ein oder legen Sie einen Account an"
                             + " bevor Sie ein Inserat anlegen!"));
             
             return "logon";
-        }
-
-        // Persist insertion
-        insertionModel.setInsertionId(
-                insertionService.createInsertion(
-                        accountModel.getUser().getID(), insertion));
-        
-        insertionModel.setIsPublishment(true);
-        
-        // Forward to publishment page
-        return "success";
-    }
-    
-    /**
-     * Uploads an image to the model and saves it as <code>byte[]</code>
-     */
-    public void uploadImage() {
-        fileNames.add(file.getSubmittedFileName());
-        
-        try (InputStream input = file.getInputStream()) {
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            byte[] buffer = new byte[IMAGE_SIZE];
             
-            for (int length = 0; (length = input.read(buffer)) > 0;)
-                output.write(buffer, 0, length);
+        // Else: logged in -> persist insertion -> forward to upload.xhtml
+        } else {
+            // Persist insertion
+            insertionId = insertionService.createInsertion(insertion,
+                    accountModel.getUser().getID());
 
-            images.add(output.toByteArray());
-
-        } catch (IOException e) {
-            
+            // Forward to publishment page
+            return "success";
         }
-    }
-    
-    /**
-     * Validates the files, the user wants to upload as an image for the
-     * insertion.
-     */
-    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
-        Part file = (Part) value;
-        List<FacesMessage> msgs = new ArrayList<>();
-        
-        // Too many pictures
-        if (images.size() > 4) {
-            msgs.add(new FacesMessage("Sie können nur 5 Bilder hochladen"));
-            throw new ValidatorException(msgs);
-        }
-        
-        // Picture size > 3MB
-        if (file.getSize() > IMAGE_SIZE) {
-            msgs.add(new FacesMessage("Die maximale Dateigröße beträgt 3MB!"));
-        }
-        
-        String type = file.getContentType();
-        
-        // File is no picture
-        if (!type.equalsIgnoreCase("image/png")
-                && !(type.equalsIgnoreCase("image/jpeg"))) {
-            msgs.add(new FacesMessage("Bitte laden Sie nur .jpeg oder .png Dateien hoch!"));
-        }
-        
-        if (!msgs.isEmpty()) {
-            throw new ValidatorException(msgs);
-        }
-
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
-
-    public void setFileNames(List<String> names) {
-        this.fileNames = names;
-    }
-    
-    public List<String> getFileNames() {
-        return this.fileNames;
-    }
-    
-    public Part getFile() {
-        return file;
-    }
-    
-    public void setFile(Part f) {
-        this.file = f;
-    }
     
     public String getTitle() {
         return title;
@@ -311,14 +212,6 @@ public class CreateModel implements Serializable {
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    public List<byte[]> getImages() {
-        return images;
-    }
-
-    public void setImages(List<byte[]> images) {
-        this.images = images;
     }
 
     public Customer getVendor() {
@@ -480,5 +373,15 @@ public class CreateModel implements Serializable {
     public void setLivingInsertion(boolean value) {
         this.livingInsertion = value;
     }
+    
+    public long getInsertionId() {
+        return insertionId;
+    }
+
+    public void setInsertionId(long insertionId) {
+        this.insertionId = insertionId;
+    }
+    
     //</editor-fold>
+
 }

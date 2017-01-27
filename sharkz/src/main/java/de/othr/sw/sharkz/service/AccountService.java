@@ -176,8 +176,8 @@ public class AccountService extends ServicePrototype implements Serializable {
     @Transactional(TxType.REQUIRED)
     public void addToWishlist(long userId, Insertion ins) {
         Customer c = (Customer) em.find(Customer.class, userId);
+        Insertion in = em.find(Insertion.class, ins.getID());
         
-        em.refresh(ins);
         c.getWishList().add(ins);
         
         em.merge(c);
@@ -209,7 +209,7 @@ public class AccountService extends ServicePrototype implements Serializable {
         Message msg = em.find(Message.class, messageId);
         
         TypedQuery<Customer> q = em.createQuery(
-                "SELECT c FROM Customer AS c WHERE :msg IN c.messages",
+                "SELECT c FROM Customer AS c WHERE :msg MEMBER OF c.messages",
                 Customer.class)
                 .setParameter("msg", msg);
         

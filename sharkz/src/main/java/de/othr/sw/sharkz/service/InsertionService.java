@@ -6,6 +6,7 @@ import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,10 +22,11 @@ public class InsertionService extends ServicePrototype implements Serializable {
     @Inject private AccountService accountService;
     
     @Transactional(TxType.REQUIRED)
-    public long createInsertion(long vendorId, Insertion in) {
-        Customer cust = em.find(Customer.class, vendorId);
+    public long createInsertion(Insertion in, long userId) {
+        Customer c = em.find(Customer.class, userId);
         
-        in.setVendor(cust);
+        in.setVendor(c);
+        
         em.persist(in);
         em.flush();
         
@@ -69,6 +71,25 @@ public class InsertionService extends ServicePrototype implements Serializable {
     
     public Insertion findInsertion(long insertionId) {
         return em.find(Insertion.class, insertionId);
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public void setInsertionVendor(long insertionId, long vendorId) {
+        Insertion in = em.find(Insertion.class, insertionId);
+        Customer c = em.find(Customer.class, vendorId);
+        
+        in.setVendor(c);
+        em.merge(in);
+        em.flush();
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public void setInsertionImages(long insertionId, List<byte[]> images) {
+        Insertion in = em.find(Insertion.class, insertionId);
+        
+        in.setImages(images);
+        em.merge(in);
+        em.flush();
     }
     
     @Transactional(TxType.REQUIRED)

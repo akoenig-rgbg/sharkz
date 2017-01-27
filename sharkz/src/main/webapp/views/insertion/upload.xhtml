@@ -16,20 +16,21 @@
 
         <div id="main">
 
-            <h:form id="insertion_form">
-                <ui:include src="./../../resources/components/edit_insertion.xhtml">
-                    <ui:param name="bean" value="#{createCon}" />
-                </ui:include>
+            <ui:include src="./../../resources/components/upload_images.xhtml">
+                <ui:param name="bean" value="#{createCon}" />
+            </ui:include>
 
-                <!--Insertion: Submission-->
-                <div class="card_box">
+
+            <!--Insertion: Submission-->
+
+            <div class="card_box">
+                <h:form>
                     <h:commandButton
                         value="WEITER"
                         styleClass="button"
                         action="#{createCon.next()}"/>
-                </div>
-
-            </h:form>
+                </h:form>
+            </div>
             
         </div>
 
