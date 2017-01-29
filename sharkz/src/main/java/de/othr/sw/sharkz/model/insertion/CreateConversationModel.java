@@ -100,6 +100,12 @@ public class CreateConversationModel implements Serializable {
     // For messages
     FacesContext context;
     
+    // Publishment
+    private int duration;
+    private String iban;
+    private String bic;
+    private String bankingPassword;
+    
     // Models & Services
     @Inject private InsertionService insertionService;
     @Inject private AccountModel accountModel;
@@ -209,13 +215,7 @@ public class CreateConversationModel implements Serializable {
                             + " bevor Sie ein Inserat anlegen!"));
             
             return "logon";
-            
-        // Else: logged in -> persist insertion -> forward to upload.xhtml
         } else {
-            // Persist insertion
-            insertionId = insertionService.createInsertion(insertion,
-                    accountModel.getUser().getID());
-
             // Forward to publishment page
             return "upload";
         }
@@ -264,9 +264,6 @@ public class CreateConversationModel implements Serializable {
         } else if (account instanceof Administrator) {
             accountModel.setName("Administrator");
         }
-        
-        insertionId = insertionService.createInsertion(insertion,
-                    accountModel.getUser().getID());
         
         return "upload";
     }
@@ -378,6 +375,10 @@ public class CreateConversationModel implements Serializable {
     }
     
     public String addImages() {
+        // Persist insertion as user is definitely logged in now
+        insertionId = insertionService.createInsertion(insertion,
+                accountModel.getUser().getID());
+        
         if (images.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("insertion_form",
                     new FacesMessage("Bitte laden Sie mindestens ein Foto von"
@@ -446,7 +447,7 @@ public class CreateConversationModel implements Serializable {
     }
     
     public String publishInsertion() {
-        return "";
+        return "insertion";
     }
 
     public long getInsertionId() {
@@ -743,6 +744,38 @@ public class CreateConversationModel implements Serializable {
 
     public void setFeatImgId(int featImgId) {
         this.featImgId = featImgId;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getBic() {
+        return bic;
+    }
+
+    public void setBic(String bic) {
+        this.bic = bic;
+    }
+
+    public String getBankingPassword() {
+        return bankingPassword;
+    }
+
+    public void setBankingPassword(String bankingPassword) {
+        this.bankingPassword = bankingPassword;
     }
     
     

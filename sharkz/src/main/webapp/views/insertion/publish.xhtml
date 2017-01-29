@@ -10,38 +10,41 @@
     
     <ui:define name="main">
         <div id="main">
-            
+            <h:form id="publishmentForm">
             <!-- Stepper -->
             <ui:include src="./../../resources/components/stepper.xhtml">
                 <ui:param name="bean" value="#{createCon}" />
             </ui:include>
             
-            <ui:include src="./../../resources/components/insertionComponent.xhtml">
+            <ui:include src="./../../resources/components/bankingDataComponent.xhtml" >
                 <ui:param name="bean" value="#{createCon}" />
-                <ui:param name="showInteraction" value="false" />
             </ui:include>
             
             <!--Insertion: Publishment-->
             <div class="grey_box insertion_publish_params">
-                <h:form id="publishmentForm">
+                
                     <h:selectOneMenu
-                        validator="#{publish.validatePublishment}"
-                        value="#{publish.duration}"
+                        value="#{createCon.duration}"
                         styleClass="search_select_menu">
                         <f:selectItem itemValue="1" itemLabel="1 Monat" />
                         <f:selectItem itemValue="3" itemLabel="3 Monate" />
                         <f:selectItem itemValue="6" itemLabel="6 Monate" />
                     </h:selectOneMenu>
                     
-                    <h:commandButton
-                        action="#{publish.publishInsertion()}"
+                    <h:link
+                        outcome="#{createCon.next()}"
                         styleClass="button"
-                        value="Veröffentlichen" />
+                        value="Veröffentlichen" >
+                    
+                        <f:param
+                            name="insertion_id"
+                            value="#{createCon.insertionId}" />
+                    </h:link>
                         
                     <h:messages styleClass="h_messages requiredMessage" />
-                </h:form>
+                
             </div>
-            
+            </h:form>
         </div>
     </ui:define>
 

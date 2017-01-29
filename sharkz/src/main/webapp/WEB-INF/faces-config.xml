@@ -134,9 +134,33 @@
         </navigation-case>
         
         <navigation-case>
-            <from-action>#{login.login()}</from-action>
+            <from-action>#{createCon.next()}</from-action>
             <from-outcome>upload</from-outcome>
             <to-view-id>/views/insertion/upload.xhtml</to-view-id>
+            <redirect include-view-params="true" />
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Rules for insertion/upload.xhtml -->
+    <navigation-rule>
+        <from-view-id>/views/insertion/upload.xhtml</from-view-id>
+           
+        <navigation-case>
+            <from-action>#{createCon.next()}</from-action>
+            <from-outcome>publish</from-outcome>
+            <to-view-id>/views/insertion/publish.xhtml</to-view-id>
+            <redirect include-view-params="true" />
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Rules for insertion/publish.xhtml -->
+    <navigation-rule>
+        <from-view-id>/views/insertion/publish.xhtml</from-view-id>
+           
+        <navigation-case>
+            <from-action>#{createCon.next()}</from-action>
+            <from-outcome>insertion</from-outcome>
+            <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
             <redirect include-view-params="true" />
         </navigation-case>
     </navigation-rule>
