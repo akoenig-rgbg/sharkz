@@ -98,6 +98,11 @@
             <to-view-id>/views/account/wishlist.xhtml</to-view-id>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>insertion</from-outcome>
+            <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
     
     <!-- Rules for insertion/create.xhtml -->
@@ -137,7 +142,6 @@
             <from-action>#{createCon.next()}</from-action>
             <from-outcome>upload</from-outcome>
             <to-view-id>/views/insertion/upload.xhtml</to-view-id>
-            <redirect include-view-params="true" />
         </navigation-case>
     </navigation-rule>
     
@@ -149,7 +153,6 @@
             <from-action>#{createCon.next()}</from-action>
             <from-outcome>publish</from-outcome>
             <to-view-id>/views/insertion/publish.xhtml</to-view-id>
-            <redirect include-view-params="true" />
         </navigation-case>
     </navigation-rule>
     

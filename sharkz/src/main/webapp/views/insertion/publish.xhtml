@@ -23,25 +23,25 @@
             <!--Insertion: Publishment-->
             <div class="grey_box insertion_publish_params">
                 
-                    <h:selectOneMenu
-                        value="#{createCon.duration}"
-                        styleClass="search_select_menu">
-                        <f:selectItem itemValue="1" itemLabel="1 Monat" />
-                        <f:selectItem itemValue="3" itemLabel="3 Monate" />
-                        <f:selectItem itemValue="6" itemLabel="6 Monate" />
-                    </h:selectOneMenu>
-                    
-                    <h:link
-                        outcome="#{createCon.next()}"
-                        styleClass="button"
-                        value="Veröffentlichen" >
-                    
-                        <f:param
-                            name="insertion_id"
-                            value="#{createCon.insertionId}" />
-                    </h:link>
-                        
-                    <h:messages styleClass="h_messages requiredMessage" />
+                <h:selectOneMenu
+                    value="#{createCon.duration}"
+                    styleClass="search_select_menu">
+                    <f:selectItem itemValue="1" itemLabel="1 Monat" />
+                    <f:selectItem itemValue="3" itemLabel="3 Monate" />
+                    <f:selectItem itemValue="6" itemLabel="6 Monate" />
+                </h:selectOneMenu>
+
+                <h:commandLink
+                    action="#{createCon.next()}"
+                    styleClass="button"
+                    value="Veröffentlichen" >
+
+                    <f:param
+                        name="insertion_id"
+                        value="#{createCon.insertionId}" />
+                </h:commandLink>
+
+                <h:messages styleClass="h_messages requiredMessage" />
                 
             </div>
             </h:form>

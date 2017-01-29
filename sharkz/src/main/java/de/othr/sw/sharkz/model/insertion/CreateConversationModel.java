@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.model.insertion;
 
+import de.mu.muckelbauerbank.service.*;
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Address;
 import de.othr.sw.sharkz.entity.Administrator;
@@ -32,10 +33,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.servlet.http.Part;
+import javax.xml.ws.WebServiceRef;
 
 @ConversationScoped
 @Named("createCon")
 public class CreateConversationModel implements Serializable {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/muckelbauerBank/TransactionService.wsdl")
+    private TransactionServiceService service;
     
     
     //<editor-fold defaultstate="collapsed" desc="Attributes">
@@ -447,6 +452,33 @@ public class CreateConversationModel implements Serializable {
     }
     
     public String publishInsertion() {
+        
+        try { // Call Web Service Operation
+            TransactionService port = service.getTransactionServicePort();
+            
+            BankTransaction transaction = new BankTransaction();
+            
+            transaction.setAmount(3000L);
+            
+            transaction.setReceiverBIC(Constants.SHARKZ_BIC);
+            transaction.setReceiverIBAN(Constants.SHARKZ_IBAN);
+            transaction.setReceiverName(Constants.SHARKZ_NAME);
+            
+            transaction.setSenderBIC(this.bic);
+            transaction.setSenderIBAN(this.iban);
+            transaction.setSenderName(accountModel.getName());
+            transaction.setSenderPassword(this.password);
+            
+            transaction.setID(12345123L);
+            
+            boolean result = port.executeTransaction(transaction);
+            
+            System.out.println("Result = "+result);
+        } catch (Exception ex) {
+            System.out.println("Banktransaction fehlgeschlagen!");
+        }
+
+        
         return "insertion";
     }
 

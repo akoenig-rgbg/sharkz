@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.muckelbauerbank.mu.de/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="TransactionServiceService" targetNamespace="http://service.muckelbauerbank.mu.de/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.muckelbauerbank.mu.de/" elementFormDefault="unqualified" targetNamespace="http://service.muckelbauerbank.mu.de/" version="1.0">
+
+  <xs:element name="executeTransaction" type="tns:executeTransaction"/>
+
+  <xs:element name="executeTransactionResponse" type="tns:executeTransactionResponse"/>
+
+  <xs:complexType name="executeTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:bankTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bankTransaction">
+    <xs:sequence>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="ID" type="xs:long"/>
+      <xs:element minOccurs="0" name="purpose" type="xs:string"/>
+      <xs:element minOccurs="0" name="receiverBIC" type="xs:string"/>
+      <xs:element minOccurs="0" name="receiverIBAN" type="xs:string"/>
+      <xs:element minOccurs="0" name="receiverName" type="xs:string"/>
+      <xs:element minOccurs="0" name="senderBIC" type="xs:string"/>
+      <xs:element minOccurs="0" name="senderIBAN" type="xs:string"/>
+      <xs:element minOccurs="0" name="senderName" type="xs:string"/>
+      <xs:element minOccurs="0" name="senderPassword" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="executeTransactionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="executeTransactionResponse">
+    <wsdl:part element="tns:executeTransactionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeTransaction">
+    <wsdl:part element="tns:executeTransaction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="TransactionService">
+    <wsdl:operation name="executeTransaction">
+      <wsdl:input message="tns:executeTransaction" name="executeTransaction">
+    </wsdl:input>
+      <wsdl:output message="tns:executeTransactionResponse" name="executeTransactionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TransactionServiceServiceSoapBinding" type="tns:TransactionService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="executeTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TransactionServiceService">
+    <wsdl:port binding="tns:TransactionServiceServiceSoapBinding" name="TransactionServicePort">
+      <soap:address location="http://im-lamport:8080/muckelbauerBank/TransactionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
