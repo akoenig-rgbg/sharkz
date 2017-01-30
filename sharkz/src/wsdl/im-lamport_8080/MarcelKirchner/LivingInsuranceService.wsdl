@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.project.sw.de.othr/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="LivingInsuranceServiceService" targetNamespace="http://service.project.sw.de.othr/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.project.sw.de.othr/" elementFormDefault="unqualified" targetNamespace="http://service.project.sw.de.othr/" version="1.0">
+
+  <xs:element name="buyLivingInsurance" type="tns:buyLivingInsurance"/>
+
+  <xs:element name="buyLivingInsuranceResponse" type="tns:buyLivingInsuranceResponse"/>
+
+  <xs:element name="calculateLivingInsurance" type="tns:calculateLivingInsurance"/>
+
+  <xs:element name="calculateLivingInsuranceResponse" type="tns:calculateLivingInsuranceResponse"/>
+
+  <xs:complexType name="buyLivingInsurance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:livingInsuranceTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="livingInsuranceTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="accountPassword" type="xs:string"/>
+      <xs:element name="animals" type="xs:int"/>
+      <xs:element minOccurs="0" name="BIC" type="xs:string"/>
+      <xs:element minOccurs="0" name="bankPassword" type="xs:string"/>
+      <xs:element name="cost" type="xs:long"/>
+      <xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      <xs:element name="garage" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="heatingType" type="tns:heatingType"/>
+      <xs:element minOccurs="0" name="houseType" type="tns:houseType"/>
+      <xs:element minOccurs="0" name="IBAN" type="xs:string"/>
+      <xs:element minOccurs="0" name="infoMsg" type="xs:string"/>
+      <xs:element name="livingSpace" type="xs:long"/>
+      <xs:element name="rooms" type="xs:int"/>
+      <xs:element name="stages" type="xs:int"/>
+      <xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+      <xs:element name="yearOfBuild" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="buyLivingInsuranceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:livingInsuranceTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="calculateLivingInsurance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:livingInsuranceTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="calculateLivingInsuranceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:livingInsuranceTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="heatingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SOLAR"/>
+      <xs:enumeration value="WIND"/>
+      <xs:enumeration value="WOOD"/>
+      <xs:enumeration value="PELLET"/>
+      <xs:enumeration value="ELECTRICITY"/>
+      <xs:enumeration value="OIL"/>
+      <xs:enumeration value="GAS"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="houseType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="VILLA"/>
+      <xs:enumeration value="SINGLE_FAMILY"/>
+      <xs:enumeration value="SEMI_DETACHED"/>
+      <xs:enumeration value="ROW_HOUSE"/>
+      <xs:enumeration value="APARTMENT"/>
+      <xs:enumeration value="GROUND_FLOOR"/>
+      <xs:enumeration value="ATTIC"/>
+      <xs:enumeration value="PENTHOUSE"/>
+      <xs:enumeration value="BUREAU"/>
+      <xs:enumeration value="WAREHOUSE"/>
+      <xs:enumeration value="SURGERY"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="calculateLivingInsuranceResponse">
+    <wsdl:part element="tns:calculateLivingInsuranceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="buyLivingInsurance">
+    <wsdl:part element="tns:buyLivingInsurance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="buyLivingInsuranceResponse">
+    <wsdl:part element="tns:buyLivingInsuranceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="calculateLivingInsurance">
+    <wsdl:part element="tns:calculateLivingInsurance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="LivingInsuranceService">
+    <wsdl:operation name="buyLivingInsurance">
+      <wsdl:input message="tns:buyLivingInsurance" name="buyLivingInsurance">
+    </wsdl:input>
+      <wsdl:output message="tns:buyLivingInsuranceResponse" name="buyLivingInsuranceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateLivingInsurance">
+      <wsdl:input message="tns:calculateLivingInsurance" name="calculateLivingInsurance">
+    </wsdl:input>
+      <wsdl:output message="tns:calculateLivingInsuranceResponse" name="calculateLivingInsuranceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LivingInsuranceServiceServiceSoapBinding" type="tns:LivingInsuranceService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="buyLivingInsurance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="buyLivingInsurance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="buyLivingInsuranceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="calculateLivingInsurance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="calculateLivingInsurance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="calculateLivingInsuranceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LivingInsuranceServiceService">
+    <wsdl:port binding="tns:LivingInsuranceServiceServiceSoapBinding" name="LivingInsuranceServicePort">
+      <soap:address location="http://im-lamport:8080/MarcelKirchner/LivingInsuranceService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

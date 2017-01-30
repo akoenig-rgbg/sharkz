@@ -30,6 +30,11 @@
                     <f:selectItem itemValue="3" itemLabel="3 Monate" />
                     <f:selectItem itemValue="6" itemLabel="6 Monate" />
                 </h:selectOneMenu>
+                
+                <h:selectBooleanCheckbox
+                    value="#{createCon.publishInNewspaper}"
+                    id="newspaperCheckbox"
+                    label="Auch in der Zeitung veröffentlichen" />
 
                 <h:commandLink
                     action="#{createCon.next()}"

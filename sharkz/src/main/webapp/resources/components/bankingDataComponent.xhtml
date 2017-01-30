@@ -14,18 +14,28 @@
         <div class="inputFloatLeft">
             <div class="inputContainer">
                 <h:inputText
+                    id="iban"
                     value="#{bean.iban}"
                     class="inputText"
-                    a:placeholder="IBAN"/>
+                    a:placeholder="IBAN">
+                
+                    <f:validator validatorId="requiredValidator" />
+                </h:inputText>
                 <h:outputLabel
                     value="IBAN"
                     class="inputLabel" />
             </div>
             <div class="inputContainer">
                 <h:inputText
+                    id="bic"
                     value="#{bean.bic}"
                     class="inputText"
-                    a:placeholder="BIC"/>
+                    a:placeholder="BIC">
+                
+                    <f:validator validatorId="requiredValidator" />
+                </h:inputText>
+                
+                
                 <h:outputLabel
                     value="BIC"
                     class="inputLabel" />
@@ -34,6 +44,7 @@
 
         <div class="inputContainer">
             <h:inputSecret
+                id="bankingPassword"
                 a:placeholder="Bank-Passwort"
                 class="inputText"
                 value="#{bean.bankingPassword}"/>

@@ -681,3 +681,75 @@
     margin: 30px 0px;
     float: right;
 }
+
+/* Insurance */
+#insurance_wrapper {
+    width: 1040px;
+    margin: 0px auto;
+    min-height: 100vh;
+    text-align: center;
+    padding: 0 0 40px 0;
+}
+
+#insurance_wrapper .inputFields, .buyInputFields {
+    margin-bottom: 70px;
+}
+
+#insurance_form {
+    display: inline-block;
+}
+
+.insurance_button {
+    float: right;
+}
+
+.insurance_select .title_p {
+    float: left;
+    width: 300px;
+    text-align: left;
+    margin-right: 70px;
+    padding-right: 0px;
+}
+
+.insurance_select select {
+    width: 300px;
+}
+
+.insurance_select {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.inputContainer.date {
+    width: 300px;
+}
+
+.inputContainer.date input {
+    padding: 20px;
+    width: 256px;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;;
+    border: none !important;
+    box-shadow: none;
+    border-bottom: 1px solid #D7D7D7 !important;;
+    padding: 12px 0px 12px 0px;
+    font-size: 1em;
+    margin-top: 1px;
+    border-radius: 0;
+
+}
+
+.inputContainer.date input:hover {
+    border-bottom: 2px solid #1691F3 !important;
+    margin-top: 0px;
+    padding: 13px 0px 11px 0px;
+}
+
+.insertion_attr_option.garage {
+    padding-top: 30px;
+}
+
+.insurance_price {
+    max-width: 650px;
+}

@@ -110,6 +110,7 @@ public class CreateConversationModel implements Serializable {
     private String iban;
     private String bic;
     private String bankingPassword;
+    private boolean publishInNewspaper;
     
     // Models & Services
     @Inject private InsertionService insertionService;
@@ -477,7 +478,9 @@ public class CreateConversationModel implements Serializable {
         } catch (Exception ex) {
             System.out.println("Banktransaction fehlgeschlagen!");
         }
-
+        
+        insertionService.publishInsertion(insertionId, duration,
+                publishInNewspaper);
         
         return "insertion";
     }
@@ -809,6 +812,12 @@ public class CreateConversationModel implements Serializable {
     public void setBankingPassword(String bankingPassword) {
         this.bankingPassword = bankingPassword;
     }
-    
-    
+
+    public boolean isPublishInNewspaper() {
+        return publishInNewspaper;
+    }
+
+    public void setPublishInNewspaper(boolean publishInNewspaper) {
+        this.publishInNewspaper = publishInNewspaper;
+    }
 }

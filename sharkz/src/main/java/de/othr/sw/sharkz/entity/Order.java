@@ -24,6 +24,8 @@ public class Order extends EntityPrototype implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
+    
+    private boolean publishInNewspaper;
 
     public Customer getCustomer() {
         return customer;
@@ -56,6 +58,12 @@ public class Order extends EntityPrototype implements Serializable {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
-    
+
+    public boolean isPublishInNewspaper() {
+        return publishInNewspaper;
+    }
+
+    public void setPublishInNewspaper(boolean publishInNewspaper) {
+        this.publishInNewspaper = publishInNewspaper;
+    }
 }

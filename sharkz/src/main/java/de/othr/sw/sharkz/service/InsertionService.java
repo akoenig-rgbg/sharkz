@@ -93,7 +93,9 @@ public class InsertionService extends ServicePrototype implements Serializable {
     }
     
     @Transactional(TxType.REQUIRED)
-    public long publishInsertion(long insertionId, int duration) {
+    public long publishInsertion(long insertionId, int duration,
+            boolean newsPaper) {
+        
         Order order = new Order();
         
         Calendar c = Calendar.getInstance();
@@ -106,6 +108,7 @@ public class InsertionService extends ServicePrototype implements Serializable {
         order.setInsertion(insertion);
         order.setStartDate(new Date());
         order.setEndDate(c.getTime());
+        order.setPublishInNewspaper(newsPaper);
         
         em.persist(order);
         em.flush();

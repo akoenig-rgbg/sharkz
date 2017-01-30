@@ -115,7 +115,7 @@ public class InsertionModel implements Serializable {
     
     public String publishInsertion() {
         // publish insertion
-        insertionService.publishInsertion(insertion.getID(), duration);
+        insertionService.publishInsertion(insertion.getID(), duration, false);
         
         isPublishment = false;
         

@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+
+        <p:calendar showOn="button" />
+
+        <ui:composition template="./../WEB-INF/sharkzTemplate.xhtml">
+
+            <ui:define name="main">
+
+                <div id="insurance_wrapper">
+
+                    <h3 class="index_title">Versichern Sie Ihre Immobilie bei MK Versicherungen!</h3>
+
+                    <h:form id="insurance_form">
+                        <div class="inputFields">
+                            <div class="inputFloatLeft">
+
+                                <!-- Startdatum -->
+                                <div class="inputContainer date">
+                                    <p:calendar
+                                        showOn="button"
+                                        id="startDate"
+                                        value="#{insurance.startDate}"
+                                        label="Startdatum"
+                                        a:placeholder="Startdatum"
+                                        required="true"
+                                        />
+                                </div>
+
+                                <!-- Enddatum -->
+                                <div class="inputContainer date">
+                                    <p:calendar
+                                        showOn="button"
+                                        id="endDate"
+                                        value="#{insurance.endDate}"
+                                        label="Enddatum"
+                                        a:placeholder="Enddatum"
+                                        required="true" />
+                                </div>
+                            </div>
+
+                            <!-- House type -->
+                            <div class="insurance_select">
+                                <p class="title_p">
+                                    Haustyp:
+                                </p>
+                                <h:selectOneMenu
+                                    styleClass="search_select_menu"
+                                    value="#{insurance.houseType}"
+                                    label="Haustyp">
+                                    <f:selectItems
+                                        var="h"
+                                        value="#{insurance.houseTypeValues}"
+                                        itemValue="#{h}"
+                                        itemLabel="#{insurance.getLabel(h)}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <!-- Heating type -->
+                            <div class="insurance_select">
+                                <p class="title_p">
+                                    Heizung:
+                                </p>
+                                <h:selectOneMenu
+                                    styleClass="search_select_menu"
+                                    value="#{insurance.heatingType}"
+                                    label="Heizungsart" required="true">
+                                    <f:selectItems
+                                        var="h"
+                                        value="#{insurance.heatingTypeValues}"
+                                        itemValue="#{h}"
+                                        itemLabel="#{insurance.getLabel(h)}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="inputFloatLeft">
+
+                                <!-- Startdatum -->
+                                <div class="inputContainer">
+                                    <h:inputText
+                                        id="area"
+                                        value="#{insurance.area}"
+                                        class="inputText"
+                                        label="Wohnfläche"
+                                        a:placeholder="Wohnfläche" >
+
+                                        <f:validator validatorId="requiredValidator" />
+                                        <f:validator validatorId="numberValidator" />
+                                    </h:inputText>
+                                    <h:outputLabel
+                                        value="Wohnfläche"
+                                        class="inputLabel" />
+                                </div>
+
+                                <div class="inputContainer">
+                                    <h:inputText
+                                        id="year"
+                                        value="#{insurance.year}"
+                                        class="inputText"
+                                        label="Baujahr"
+                                        a:placeholder="Baujahr" >
+
+                                        <f:validator validatorId="requiredValidator" />
+                                        <f:validator validatorId="numberValidator" />
+                                    </h:inputText>
+                                    <h:outputLabel
+                                        value="Baujahr"
+                                        class="inputLabel" />
+                                </div>
+
+                                <!-- Enddatum -->
+
+                            </div>
+                            <div class="inputFloatLeft">
+
+                                <!-- Startdatum -->
+                                <div class="inputContainer">
+                                    <h:inputText
+                                        id="stages"
+                                        value="#{insurance.stages}"
+                                        class="inputText"
+                                        label="Etagen"
+                                        a:placeholder="Etagen" >
+
+                                        <f:validator validatorId="requiredValidator" />
+                                        <f:validator validatorId="numberValidator" />
+                                    </h:inputText>
+                                    <h:outputLabel
+                                        value="Etagen"
+                                        class="inputLabel" />
+                                </div>
+
+
+                                <div class="inputContainer">
+                                    <h:inputText
+                                        id="rooms"
+                                        value="#{insurance.rooms}"
+                                        class="inputText"
+                                        label="Zimmer"
+                                        a:placeholder="Zimmer" >
+
+                                        <f:validator validatorId="requiredValidator" />
+                                        <f:validator validatorId="numberValidator" />
+                                    </h:inputText>
+                                    <h:outputLabel
+                                        value="Zimmer"
+                                        class="inputLabel" />
+                                </div>
+                            </div>
+
+
+                            <div class="inputFloatLeft">
+
+                                <div class="inputContainer">
+                                    <h:inputText
+                                        id="pets"
+                                        value="#{insurance.pets}"
+                                        class="inputText"
+                                        label="Haustiere"
+                                        a:placeholder="Haustiere" >
+
+                                        <f:validator validatorId="requiredValidator" />
+                                        <f:validator validatorId="numberValidator" />
+                                    </h:inputText>
+                                    <h:outputLabel
+                                        value="Haustiere"
+                                        class="inputLabel" />
+                                </div>
+
+                                <div class="insertion_attr_option garage">
+                                    <h:selectBooleanCheckbox
+                                        id="garage"
+                                        value="#{insurance.garage}" />
+                                    <h:outputLabel
+                                        value="Garage"
+                                        for="garage" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <h:panelGroup id="test">
+                            <h:panelGroup class="buyInputFields" rendered="#{insurance.isCalculated}">
+
+                                <div class="insurance_price">
+                                    Der Preis für die Versicherung Ihres Objekts beträgt #{insurance.cost}&euro;<br />
+                                    Um die Versicherung abzuschließen, geben Sie bitte die erforderlichen Daten an, damit ein Account bei MK Versicherungen angelegt und die Hausratsversicherung gekauft werden kann.
+                                </div>
+
+                                <div class="inputFloatLeft">
+
+                                    <!-- Startdatum -->
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="email"
+                                            value="#{insurance.email}"
+                                            class="inputText"
+                                            label="E-Mail"
+                                            a:placeholder="E-Mail" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            value="E-Mail"
+                                            class="inputLabel" />
+                                    </div>
+
+
+                                    <div class="inputContainer">
+                                        <h:inputSecret
+                                            id="password"
+                                            value="#{insurance.password}"
+                                            class="inputText"
+                                            label="Passwort"
+                                            a:placeholder="Passwort" >
+
+                                            <f:validator validatorId="requiredValidator" />
+                                            <f:validator validatorId="numberValidator" />
+                                        </h:inputSecret>
+                                        <h:outputLabel
+                                            value="Passwort"
+                                            class="inputLabel" />
+                                    </div>
+                                </div>
+
+                                <ui:include 
+                                    src="./../resources/components/bankingDataComponent.xhtml">
+                                    <ui:param name="bean" value="#{insurance}" />
+                                </ui:include>
+
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <div class="requiredMessage">
+                            <h:messages for="button" />
+                            <div>
+                                <h:message for="startDate" />
+                            </div>
+                            <div>
+                                <h:message for="endDate" />
+                            </div>
+                            <div>
+                                <h:message for="rooms" />
+                            </div>
+                            <div>
+                                <h:message for="stages" />
+                            </div>
+                            <div>
+                                <h:message for="year" />
+                            </div>
+                            <div>
+                                <h:message for="area" />
+                            </div>
+                            <div>
+                                <h:message for="pets" />
+                            </div>
+                            <div>
+                                <h:message for="email" />
+                            </div>
+                            <div>
+                                <h:message for="password" />
+                            </div>
+                            <div>
+                                <h:message for="iban" />
+                            </div>
+                            <div>
+                                <h:message for="bic" />
+                            </div>
+                            <div>
+                                <h:message for="bankingPassword" />
+                            </div>
+                        </div>
+
+                        <h:commandButton
+                            id="button"
+                            binding="#{insurance.button}"
+                            action="#{insurance.next}"
+                            class="button insurance_button"
+                            value="#{insurance.buttonText}" >
+
+                        </h:commandButton>
+
+                    </h:form>
+
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
