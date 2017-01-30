@@ -77,14 +77,16 @@ public class InsuranceModel implements Serializable {
     }
     
     public String next() {
+        if (step == 2) {
+            step = 0;
+            isCalculated = false;
+        }
+        
         if (step == 0) {
-            isCalculated = !isCalculated;
         
             buttonText = "VERSICHERN";
             calculate();
-        }
-        
-        if (step == 1) {
+            
             if (accountModel.isIsLoggedIn()) {
                 Customer c = accountService.findCustomer(accountModel.getUser()
                         .getID());
@@ -92,6 +94,10 @@ public class InsuranceModel implements Serializable {
                 this.iban = c.getBankingData().getIban();
                 this.bic = c.getBankingData().getBic();
             }
+        }
+        
+        else if (step == 1) {
+            buy();
         }
         
         return null;
@@ -127,7 +133,7 @@ public class InsuranceModel implements Serializable {
             return;
         }
         
-        checkResult();
+        checkResult(false);
     }
 
     public void buy() {
@@ -147,19 +153,24 @@ public class InsuranceModel implements Serializable {
             return;
         }
         
-        checkResult();
+        checkResult(true);
         
         return;
 
     }
     
-    private void checkResult() {
+    private void checkResult(boolean isSale) {
         FacesContext ctx = FacesContext.getCurrentInstance();
         
         switch (result.getInfoMsg().charAt(0)) {
             case '0':
                 this.cost = result.getCost();
                 step++;
+                isCalculated = true;
+                if (isSale)
+                    ctx.addMessage(button.getClientId(), new FacesMessage(
+                            "Sie haben die Versicherung für " + this.cost
+                                    + "€ gekauft!"));
                 break;
             case '1':
                 ctx.addMessage(button.getClientId(), new FacesMessage(
@@ -405,6 +416,12 @@ public class InsuranceModel implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
 }

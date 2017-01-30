@@ -191,7 +191,7 @@
                         <h:panelGroup id="test">
                             <h:panelGroup class="buyInputFields" rendered="#{insurance.isCalculated}">
 
-                                <div class="insurance_price">
+                                <div class="insurance_price" rendered="#{insurance.step == 2}">
                                     Der Preis für die Versicherung Ihres Objekts beträgt #{insurance.cost}&euro;<br />
                                     Um die Versicherung abzuschließen, geben Sie bitte die erforderlichen Daten an, damit ein Account bei MK Versicherungen angelegt und die Hausratsversicherung gekauft werden kann.
                                 </div>
@@ -208,7 +208,6 @@
                                             a:placeholder="E-Mail" >
 
                                             <f:validator validatorId="requiredValidator" />
-                                            <f:validator validatorId="numberValidator" />
                                         </h:inputText>
                                         <h:outputLabel
                                             value="E-Mail"
@@ -225,7 +224,6 @@
                                             a:placeholder="Passwort" >
 
                                             <f:validator validatorId="requiredValidator" />
-                                            <f:validator validatorId="numberValidator" />
                                         </h:inputSecret>
                                         <h:outputLabel
                                             value="Passwort"
@@ -233,16 +231,55 @@
                                     </div>
                                 </div>
 
-                                <ui:include 
-                                    src="./../resources/components/bankingDataComponent.xhtml">
-                                    <ui:param name="bean" value="#{insurance}" />
-                                </ui:include>
+                                <div class="inputFloatLeft">
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="iban"
+                                            value="#{insurance.iban}"
+                                            class="inputText"
+                                            a:placeholder="IBAN">
+
+                                            <f:validator validatorId="requiredValidator" />
+                                        </h:inputText>
+                                        <h:outputLabel
+                                            value="IBAN"
+                                            class="inputLabel" />
+                                    </div>
+                                    <div class="inputContainer">
+                                        <h:inputText
+                                            id="bic"
+                                            value="#{insurance.bic}"
+                                            class="inputText"
+                                            a:placeholder="BIC">
+
+                                            <f:validator validatorId="requiredValidator" />
+                                        </h:inputText>
+
+
+                                        <h:outputLabel
+                                            value="BIC"
+                                            class="inputLabel" />
+                                    </div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <h:inputSecret
+                                        id="bankingPassword"
+                                        a:placeholder="Bank-Passwort"
+                                        class="inputText"
+                                        value="#{insurance.bankingPassword}"/>
+                                    <h:outputLabel
+                                        value="Bank-Passwort"
+                                        class="inputLabel"/>
+                                </div>
+                                
+                                <div style="height:70px" />
 
                             </h:panelGroup>
                         </h:panelGroup>
 
-                        <div class="requiredMessage">
-                            <h:messages for="button" />
+                        <div class="requiredMessage insuranceMessage">
+                            <h:message for="button" />
                             <div>
                                 <h:message for="startDate" />
                             </div>

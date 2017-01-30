@@ -753,3 +753,13 @@
 .insurance_price {
     max-width: 650px;
 }
+
+.insuranceMessage {
+    clear: both;
+    width: 670px;
+    padding: 0 0 40px 0;
+}
+
+#insurance_wrapper .button {
+    clear: both;
+}
