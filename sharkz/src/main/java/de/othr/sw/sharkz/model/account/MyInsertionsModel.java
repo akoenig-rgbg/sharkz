@@ -17,6 +17,7 @@ public class MyInsertionsModel implements Serializable {
     
     // Attributes
     private List<Insertion> insertions;
+    private boolean hasNoResults = false;
     
     // Models & Services
     @Inject private AccountModel accountModel;
@@ -27,6 +28,9 @@ public class MyInsertionsModel implements Serializable {
     public void init() {
         insertions = searchService.getInsertionsByCustomer(
                 (Customer) accountModel.getUser());
+        
+        if (insertions == null || insertions.isEmpty())
+            hasNoResults = true;
     }
 
     public String edit(long insertionId) {
@@ -49,6 +53,14 @@ public class MyInsertionsModel implements Serializable {
 
     public void setInsertions(List<Insertion> insertions) {
         this.insertions = insertions;
+    }
+
+    public boolean isHasNoResults() {
+        return hasNoResults;
+    }
+
+    public void setHasNoResults(boolean hasNoResults) {
+        this.hasNoResults = hasNoResults;
     }
     
     

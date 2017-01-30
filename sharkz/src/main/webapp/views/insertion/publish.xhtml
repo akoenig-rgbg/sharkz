@@ -16,37 +16,47 @@
                 <ui:param name="bean" value="#{createCon}" />
             </ui:include>
             
-            <ui:include src="./../../resources/components/bankingDataComponent.xhtml" >
-                <ui:param name="bean" value="#{createCon}" />
-            </ui:include>
+            <div class="card_box">
+                <ui:include src="./../../resources/components/bankingDataComponent.xhtml" >
+                    <ui:param name="bean" value="#{createCon}" />
+                </ui:include>
+                
+                <h:messages styleClass="requiredMessage h_messages" />
+            </div>
             
             <!--Insertion: Publishment-->
-            <div class="grey_box insertion_publish_params">
+            <div class="card_box insertion_publish_params">
                 
                 <h:selectOneMenu
                     value="#{createCon.duration}"
                     styleClass="search_select_menu">
-                    <f:selectItem itemValue="1" itemLabel="1 Monat" />
-                    <f:selectItem itemValue="3" itemLabel="3 Monate" />
-                    <f:selectItem itemValue="6" itemLabel="6 Monate" />
+                    <f:selectItem itemValue="1" itemLabel="1 Monat - 15€" />
+                    <f:selectItem itemValue="3" itemLabel="3 Monate - 40€" />
+                    <f:selectItem itemValue="6" itemLabel="6 Monate - 75€" />
                 </h:selectOneMenu>
-                
-                <h:selectBooleanCheckbox
-                    value="#{createCon.publishInNewspaper}"
-                    id="newspaperCheckbox"
-                    label="Auch in der Zeitung veröffentlichen" />
 
-                <h:commandLink
+
+                <div class="insertion_attr_option newspaperCheckbox">
+                    <h:selectBooleanCheckbox
+                        value="#{createCon.publishInNewspaper}"
+                        id="newspaperCheckbox" />
+                    <h:outputLabel
+                        value="Auch in der Zeitung veröffentlichen"
+                        for="newspaperCheckbox" />
+                </div>
+
+
+                <h:commandButton
+                    id="button"
                     action="#{createCon.next()}"
                     styleClass="button"
-                    value="Veröffentlichen" >
+                    value="VERÖFFENTLICHEN"
+                    binding="#{createCon.publishButton}">
 
                     <f:param
                         name="insertion_id"
                         value="#{createCon.insertionId}" />
-                </h:commandLink>
-
-                <h:messages styleClass="h_messages requiredMessage" />
+                </h:commandButton>
                 
             </div>
             </h:form>

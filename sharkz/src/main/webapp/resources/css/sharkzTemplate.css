@@ -19,6 +19,7 @@
     width: 1040px;
     padding: 70px 0px 0px 0px;
     border: none;
+    min-height: 100vh;
 }
 
 /* Front Page */
@@ -118,7 +119,7 @@
 .featured_wrapper {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 70px;
+    margin-bottom: 100px;
 }
 
 .featured_wrapper .card {
@@ -571,6 +572,15 @@
     border-bottom: 1px solid #ccc;
 }
 
+.insertion_publish_params {
+    display: flex;
+    justify-content: space-between;
+}
+
+.newspaperCheckbox {
+    padding-top: 12px;
+}
+
 /* Search */
 .ins_res {
     margin: 0px auto;
@@ -684,11 +694,25 @@
 
 /* Insurance */
 #insurance_wrapper {
-    width: 1040px;
-    margin: 0px auto;
-    min-height: 100vh;
-    text-align: center;
-    padding: 0 0 40px 0;
+    padding: 0;
+    position: relative;
+}
+
+#insurance_wrapper img {
+    width: 400px;
+    float: left;
+    margin-right: 20px;
+}
+
+#insurance_wrapper .content {
+    padding: 20px;
+    position: relative;
+}
+
+#insurance_wrapper .button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
 }
 
 #insurance_wrapper .inputFields, .buyInputFields {

@@ -33,7 +33,7 @@ public class SpecificLengthValidator implements Validator {
                 break;
         }
             
-        if (input.length() > 255)
+        if (input.length() > num)
             throw new ValidatorException(new FacesMessage(
                     "Bitte geben Sie höchstens " + num + " Zeichen im Feld "
                             + label + " ein!"));

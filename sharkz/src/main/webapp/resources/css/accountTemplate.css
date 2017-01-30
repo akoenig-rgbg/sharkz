@@ -231,3 +231,7 @@ body {
     font-weight: 300;
     padding-left: 13%;
 }
+
+.empty {
+    padding: 40px;
+}

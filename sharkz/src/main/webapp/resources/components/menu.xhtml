@@ -9,6 +9,11 @@
     <h:body>
         <ui:composition>
 
+            <!-- Logo -->
+            <h:link styleClass="sharkz_menu_item" outcome="index">
+                <h:graphicImage library="img" name="logo_menu.png" />
+            </h:link>
+            
             <!-- Wohnen -->
             <h:link styleClass="menu_item" outcome="search">
                 <f:param name="usage" value="LIVING" />
@@ -27,7 +32,7 @@
             </h:link>
             
             <!-- Versichern -->
-            <h:link styleClass="menu_item" outcome="insure">
+            <h:link styleClass="menu_item" outcome="insurance">
                 VERSICHERN
             </h:link>
 

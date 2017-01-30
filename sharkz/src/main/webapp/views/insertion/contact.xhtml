@@ -35,7 +35,10 @@
                         <h:inputText
                             value="#{contact.title}"
                             a:placeholder="Betreff"
-                            styleClass="inputText"/>
+                            styleClass="inputText" >
+                        
+                            <f:validator validatorId="requiredValidator" />
+                        </h:inputText>
                         <h:outputLabel
                             class="inputLabel"
                             value="Betreff" />
@@ -45,7 +48,10 @@
                         <h:inputTextarea
                             value="#{contact.content}"
                             a:placeholder="Nachricht"
-                            styleClass="inputText" />
+                            styleClass="inputText" >
+                            
+                            <f:validator validatorId="requiredValidator" />
+                        </h:inputTextarea>
                         <h:outputLabel
                             class="inputLabel"
                             value="Nachricht" />

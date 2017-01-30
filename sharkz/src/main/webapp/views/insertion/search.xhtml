@@ -19,6 +19,11 @@
     
     <ui:define name="main">
         
+        <!-- No results -->
+        <h:panelGroup rendered="#{search.hasNoResults}" >
+            <h3>Die Suche ergab leider keine Treffer!</h3>
+        </h:panelGroup>
+        
         <!-- Iterate through search results -->
         
         <!-- Commercial Insertions -->

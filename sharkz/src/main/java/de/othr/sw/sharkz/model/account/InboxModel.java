@@ -20,6 +20,8 @@ public class InboxModel implements Serializable {
     
     private long messageId;
     
+    private boolean hasNoResults = false;
+    
     // Models & Services
     @Inject private AccountModel accountModel;
     @Inject private AccountService accountService;
@@ -32,6 +34,9 @@ public class InboxModel implements Serializable {
         customer = accountService.findCustomer(accountModel.getUser().getID());
         
         messages = customer.getMessages();
+        
+        if (messages == null || messages.isEmpty())
+            hasNoResults = true;
     }
     
     public String delete(Message message) {
@@ -70,4 +75,14 @@ public class InboxModel implements Serializable {
     public long getMessageId() {
         return this.messageId;
     }
+
+    public boolean isHasNoResults() {
+        return hasNoResults;
+    }
+
+    public void setHasNoResults(boolean hasNoResults) {
+        this.hasNoResults = hasNoResults;
+    }
+    
+    
 }

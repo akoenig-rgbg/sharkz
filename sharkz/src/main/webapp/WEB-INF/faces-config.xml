@@ -101,6 +101,7 @@
         <navigation-case>
             <from-outcome>insertion</from-outcome>
             <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
+            <redirect include-view-params="true" />
         </navigation-case>
         
         <navigation-case>
@@ -158,6 +159,7 @@
             <from-action>#{createCon.next()}</from-action>
             <from-outcome>publish</from-outcome>
             <to-view-id>/views/insertion/publish.xhtml</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>
     

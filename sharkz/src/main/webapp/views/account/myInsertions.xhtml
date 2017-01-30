@@ -10,6 +10,11 @@
 
     <ui:define name="main">
 
+        <!-- No results -->
+        <h:panelGroup rendered="#{myInsertions.hasNoResults}" >
+            <h3 class="empty">Sie haben noch keine Inserate angelegt!</h3>
+        </h:panelGroup>
+        
         <!-- Living Insertions -->
         <c:forEach
             items="#{myInsertions.insertions}"

@@ -22,6 +22,7 @@ public class SearchModel {
     
     // List of search results
     private List<Order> results;
+    private boolean hasNoResults = false;
     
     // Models & Services
     @Inject private SearchService searchService;
@@ -35,6 +36,10 @@ public class SearchModel {
         } else {
             results = searchService.search(offer, usage, location);
         }
+        
+        if (results == null || results.isEmpty())
+            hasNoResults = true;
+            
     }
     
     // Enum Values to Array -> SelectOneMenu
@@ -86,4 +91,14 @@ public class SearchModel {
     public void setResults(List<Order> results) {
         this.results = results;
     }
+
+    public boolean isHasNoResults() {
+        return hasNoResults;
+    }
+
+    public void setHasNoResults(boolean hasNoResults) {
+        this.hasNoResults = hasNoResults;
+    }
+    
+    
 }

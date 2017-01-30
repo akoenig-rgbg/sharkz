@@ -111,6 +111,7 @@ public class CreateConversationModel implements Serializable {
     private String bic;
     private String bankingPassword;
     private boolean publishInNewspaper;
+    private UIComponent publishButton;
     
     // Models & Services
     @Inject private InsertionService insertionService;
@@ -457,6 +458,22 @@ public class CreateConversationModel implements Serializable {
     
     public String publishInsertion() {
         
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        if (iban == null || iban.equals(""))
+            ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                    "Bitte geben Sie Ihre IBAN ein!"));
+        
+        if (bic == null || bic.equals(""))
+            ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                    "Bitte geben Sie Ihre BIC ein!"));
+        
+        if (bankingPassword == null || bankingPassword.equals(""))
+            ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                    "Bitte geben Sie Ihr Bankpasswort ein!"));
+        
+        if (ctx.getMessageList().size() > 0)
+            return null;
+        
         try { // Call Web Service Operation
             TransactionService port = service.getTransactionServicePort();
             
@@ -479,13 +496,17 @@ public class CreateConversationModel implements Serializable {
             
             System.out.println("Result = "+result);
         } catch (Exception ex) {
-            System.out.println("Banktransaction fehlgeschlagen!");
+            ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                    "Die Banktransaktion ist fehlgeschlagen! Bitte überprüfen "
+                            + "Sie Ihre Angaben!"));
+            
+            return null;
         }
         
         insertionService.publishInsertion(insertionId, duration,
                 publishInNewspaper);
         
-        return "insertion";
+        return "insertion.xhtml?faces-redirect=true&includeViewParams=true&insertion_id=" + insertionId;
     }
 
     public long getInsertionId() {
@@ -823,4 +844,14 @@ public class CreateConversationModel implements Serializable {
     public void setPublishInNewspaper(boolean publishInNewspaper) {
         this.publishInNewspaper = publishInNewspaper;
     }
+
+    public UIComponent getPublishButton() {
+        return publishButton;
+    }
+
+    public void setPublishButton(UIComponent publishButton) {
+        this.publishButton = publishButton;
+    }
+    
+    
 }

@@ -10,6 +10,12 @@
 
     <ui:define name="main">
         <div id="inboxWrapper">
+            
+            <!-- No results -->
+            <h:panelGroup rendered="#{inbox.hasNoResults}" >
+                <h3 class="empty">Es sind keine Nachrichten in Ihrem Posteingang!</h3>
+            </h:panelGroup>
+            
             <c:forEach
                 items="#{inbox.messages}"
                 var="msg">

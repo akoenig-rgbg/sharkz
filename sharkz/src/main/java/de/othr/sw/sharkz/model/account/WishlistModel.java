@@ -16,6 +16,7 @@ public class WishlistModel implements Serializable {
     
     // Attributes
     private Set<Insertion> wishlist;
+    private boolean hasNoResults = false;
     
     // Models & Services
     @Inject private AccountModel accountModel;
@@ -26,6 +27,9 @@ public class WishlistModel implements Serializable {
     public void init() {
         wishlist = accountService.findCustomer(
                 accountModel.getUser().getID()).getWishList();
+        
+        if (wishlist == null || wishlist.isEmpty())
+            hasNoResults = true;
     }
 
     public String delete(Insertion ins) {
@@ -40,6 +44,14 @@ public class WishlistModel implements Serializable {
 
     public void setInsertions(Set<Insertion> insertions) {
         this.wishlist = insertions;
+    }
+
+    public boolean isHasNoResults() {
+        return hasNoResults;
+    }
+
+    public void setHasNoResults(boolean hasNoResults) {
+        this.hasNoResults = hasNoResults;
     }
     
     
