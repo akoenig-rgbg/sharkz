@@ -7,9 +7,9 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
+
     <ui:define name="main">
-        
+
         <ui:include src="./../../resources/components/stepper.xhtml">
             <ui:param name="bean" value="#{createCon}" />
         </ui:include>
@@ -23,15 +23,22 @@
 
             <!--Insertion: Submission-->
 
-            <div class="card_box">
-                <h:form>
+
+            <h:form>
+
+                <ui:include src="./../../resources/components/furtherAttrsComponent.xhtml">
+                    <ui:param name="bean" value="#{createCon}" />
+                </ui:include>
+
+                <div class="card_box">
                     <h:commandButton
                         value="WEITER"
                         styleClass="button"
                         action="#{createCon.next()}"/>
-                </h:form>
-            </div>
-            
+                </div>
+            </h:form>
+
+
         </div>
 
     </ui:define>

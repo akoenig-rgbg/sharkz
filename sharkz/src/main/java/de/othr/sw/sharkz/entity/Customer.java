@@ -1,7 +1,9 @@
 package de.othr.sw.sharkz.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -18,19 +20,19 @@ public class Customer extends Account {
     private BankingData bankingData;
     
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Message> messages;
+    private Set<Message> messages;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Insertion> wishList;
+    private Set<Insertion> wishList;
     
     @OneToMany(mappedBy="vendor", fetch = FetchType.LAZY)
     private List<Insertion> insertions;
 
     public Customer() {
         super();
-        this.messages = new ArrayList<>();
+        this.messages = new HashSet<>();
         this.insertions = new ArrayList<>();
-        this.wishList = new ArrayList<>();
+        this.wishList = new HashSet<>();
         this.bankingData = new BankingData();
     }
     
@@ -59,11 +61,11 @@ public class Customer extends Account {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Insertion> getWishList() {
+    public Set<Insertion> getWishList() {
         return wishList;
     }
 
-    public void setWishList(List<Insertion> wishList) {
+    public void setWishList(Set<Insertion> wishList) {
         this.wishList = wishList;
     }
 
@@ -83,11 +85,11 @@ public class Customer extends Account {
         this.bankingData = bankingData;
     }
 
-    public List<Message> getMessages() {
+    public Set<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(Set<Message> messages) {
         this.messages = messages;
     }
 

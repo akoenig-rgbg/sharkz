@@ -5,6 +5,7 @@ import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -14,7 +15,7 @@ import javax.inject.Named;
 @Named("inbox")
 public class InboxModel implements Serializable {
     
-    private List<Message> messages;
+    private Set<Message> messages;
     private Customer customer;
     
     private long messageId;
@@ -46,11 +47,11 @@ public class InboxModel implements Serializable {
     }
     
     // Getter & Setter
-    public List<Message> getMessages() {
+    public Set<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(Set<Message> messages) {
         this.messages = messages;
     }
 

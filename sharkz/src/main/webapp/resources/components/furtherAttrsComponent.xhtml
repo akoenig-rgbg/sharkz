@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <!--Insertion: Further Attributes-->
+        <div class="card_box">
+
+            <div class="insertion_area_text">
+                <p>Weitere Eigenschaften</p>
+            </div>
+
+            <div class="insertion_area_attrs">
+                <h:panelGroup id="further_attributes">
+                    <h:panelGroup
+                        id="commercialAttributes"
+                        rendered="#{!bean.livingInsertion}">
+
+                        <div class="inputFloatLeft">
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="area"
+                                    label="Fläche"
+                                    styleClass="inputText"
+                                    a:placeholder="Fläche in qm"
+                                    value="#{bean.area}" >
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                    <f:validator validatorId="numberValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Fläche" />
+                            </div>
+                        </div>
+
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="aircon"
+                                value="#{bean.aircon}" />
+                            <h:outputLabel
+                                value="Klimaanlage"
+                                for="aircon" />
+                        </div>
+
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="heavyCurrent"
+                                value="#{bean.heavyCurrent}" />
+                            <h:outputLabel
+                                value="Starkstrom"
+                                for="heavyCurrent"/>
+                        </div>
+
+                    </h:panelGroup>
+
+                    <h:panelGroup
+                        id="livingAttributes"
+                        rendered="#{bean.livingInsertion}">
+
+                        <div class="inputFloatLeft">
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="livingArea"
+                                    label="Wohnfläche"
+                                    styleClass="inputText inputText290"
+                                    a:placeholder="Wohnfläche"
+                                    value="#{bean.livingArea}" >
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                    <f:validator validatorId="numberValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Wohnfläche" />
+                            </div>
+
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="plotArea"
+                                    label="Grundfläche"
+                                    styleClass="inputText inputText290"
+                                    a:placeholder="Grundfläche"
+                                    value="#{bean.plotArea}" >
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                    <f:validator validatorId="numberValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Grundfläche" />
+                            </div>
+                        </div>
+                        <div class="inputFloatLeft">
+
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="rooms"
+                                    label="Zimmer"
+                                    styleClass="inputText inputText290"
+                                    a:placeholder="Zimmer"
+                                    value="#{bean.rooms}" >
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                    <f:validator validatorId="numberValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Zimmer" />
+                            </div>
+
+                            <div class="inputContainer">
+                                <h:inputText
+                                    id="stages"
+                                    label="Etagen"
+                                    styleClass="inputText inputText290"
+                                    a:placeholder="Etagen"
+                                    value="#{bean.stages}" >
+
+                                    <f:validator validatorId="requiredValidator" />
+                                    <f:validator validatorId="numberValidator" />
+                                    <f:validator validatorId="standardLengthValidator" />
+                                </h:inputText>
+                                <h:outputLabel
+                                    class="inputLabel"
+                                    value="Etagen" />
+                            </div>
+                        </div>
+
+                        <div class="inputFloatLeft heating">
+                            <p class="inputText290 title_p">
+                                Heizung:
+                            </p>
+                            <h:selectOneMenu
+                                styleClass="search_select_menu"
+                                value="#{bean.heating}">
+                                <f:selectItems
+                                    var="h"
+                                    value="#{search.heatingTypeValues}"
+                                    itemValue="#{h}"
+                                    itemLabel="#{h.label}" />
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="guestToilette"
+                                value="#{bean.guestToilette}" />
+                            <h:outputLabel
+                                value="Gästetoilette"
+                                for="guestToilette" />
+                        </div>
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="basement"
+                                value="#{bean.basement}" />
+                            <h:outputLabel
+                                value="Keller"
+                                for="basement" />
+                        </div>
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="kitchen"
+                                value="#{bean.kitchen}" />
+                            <h:outputLabel
+                                value="Küche"
+                                for="kitchen" />
+                        </div>
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="newBuild"
+                                value="#{bean.newBuild}" />
+                            <h:outputLabel
+                                value="Neubau"
+                                for="newBuild" />
+                        </div>
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="garage"
+                                value="#{bean.garage}" />
+                            <h:outputLabel
+                                value="Garage"
+                                for="garage" />
+                        </div>
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="steplessEntry"
+                                value="#{bean.steplessEntry}" />
+                            <h:outputLabel
+                                value="Stufenloser Eingang"
+                                for="steplessEntry" />
+                        </div>
+                        <div class="insertion_attr_option">
+                            <h:selectBooleanCheckbox
+                                id="lift"
+                                value="#{bean.lift}" />
+                            <h:outputLabel
+                                value="Aufzug"
+                                for="lift" />
+                        </div>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </div>
+            <div class="insertion_area_msgs">
+                <h:message
+                    for="area"
+                    styleClass="requiredMessage"/>
+                <h:message
+                    for="livingArea" 
+                    styleClass="requiredMessage"/>
+                <h:message
+                    for="plotArea"
+                    styleClass="requiredMessage"/>
+                <h:message
+                    for="rooms"
+                    styleClass="requiredMessage"/>
+            </div>
+        </div>
+    </h:body>
+</html>
+

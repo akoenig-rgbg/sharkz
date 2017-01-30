@@ -178,7 +178,7 @@ public class AccountService extends ServicePrototype implements Serializable {
         Customer c = (Customer) em.find(Customer.class, userId);
         Insertion in = em.find(Insertion.class, ins.getID());
         
-        c.getWishList().add(ins);
+        c.getWishList().add(in);
         
         em.merge(c);
         em.flush();

@@ -4,7 +4,7 @@ import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ import javax.inject.Named;
 public class WishlistModel implements Serializable {
     
     // Attributes
-    private List<Insertion> wishlist;
+    private Set<Insertion> wishlist;
     
     // Models & Services
     @Inject private AccountModel accountModel;
@@ -34,11 +34,11 @@ public class WishlistModel implements Serializable {
         return "wishlist";
     }
     
-    public List<Insertion> getInsertions() {
+    public Set<Insertion> getInsertions() {
         return wishlist;
     }
 
-    public void setInsertions(List<Insertion> insertions) {
+    public void setInsertions(Set<Insertion> insertions) {
         this.wishlist = insertions;
     }
     

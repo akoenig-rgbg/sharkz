@@ -122,6 +122,7 @@ public class CreateConversationModel implements Serializable {
     public void init() {
         this.step = 1;
         
+        this.insertion = new LivingInsertion();
         this.livingInsertion = true;
         this.address.setPostCode("");
         this.address.setStreet("");
@@ -173,46 +174,13 @@ public class CreateConversationModel implements Serializable {
     }
     
     public String createInsertion() {
-        // Set insertion-specific attributes
-        // Living Insertion
-        if (houseType.isLiving()) {
-            LivingInsertion ins = new LivingInsertion();
-            
-            ins.setBasement(basement);
-            ins.setGarage(garage);
-            ins.setGuestToilette(guestToilette);
-            ins.setHeating(heating);
-            ins.setKitchen(kitchen);
-            ins.setLift(lift);
-            ins.setLivingArea(Integer.parseInt(livingArea));
-            ins.setNewBuild(newBuild);
-            ins.setPlotArea(Integer.parseInt(plotArea));
-            ins.setRooms(Integer.parseInt(rooms));
-            ins.setStages(Integer.parseInt(stages));
-            ins.setSteplessEntry(steplessEntry);
-            
-            insertion = ins;
-       
-        // Commercial Insertion
-        } else {
-            CommercialInsertion ins = new CommercialInsertion();
-            
-            ins.setAircon(aircon);
-            ins.setArea(Integer.parseInt(area));
-            ins.setHeavyCurrent(heavyCurrent);
-            
-            insertion = ins;
-        }
- 
-        // Set common attributes
-        address.setHouseNumber(Integer.parseInt(houseNumber));
         
-        insertion.setAddress(address);
-        insertion.setTitle(title);
-        insertion.setDescription(description);
-        insertion.setHouseType(houseType);
-        insertion.setOfferType(offerType);
-        insertion.setPrice(Integer.parseInt(price));   
+        if (houseType.isLiving()) {
+            livingInsertion = true;
+       
+        } else {
+            livingInsertion = false;
+        }
         
         // If not logged in -> forward to login page
         if (!accountModel.isIsLoggedIn()) {
@@ -227,13 +195,46 @@ public class CreateConversationModel implements Serializable {
         }
     }
     
-    /**
-     * Changes the insertion type depending on the houseType.
-     */
-    public void insertionTypeChanged(AjaxBehaviorEvent event) {
-        livingInsertion = houseType.isLiving();
+
+    public void addInsertionAttributes() {
+        if (livingInsertion) {
+            LivingInsertion ins = new LivingInsertion();
+
+            ins.setBasement(basement);
+            ins.setGarage(garage);
+            ins.setGuestToilette(guestToilette);
+            ins.setHeating(heating);
+            ins.setKitchen(kitchen);
+            ins.setLift(lift);
+            ins.setLivingArea(Integer.parseInt(livingArea));
+            ins.setNewBuild(newBuild);
+            ins.setPlotArea(Integer.parseInt(plotArea));
+            ins.setRooms(Integer.parseInt(rooms));
+            ins.setStages(Integer.parseInt(stages));
+            ins.setSteplessEntry(steplessEntry);
+            
+            insertion = ins;
+        } else {
+            CommercialInsertion ins = new CommercialInsertion();
+            
+            ins.setAircon(aircon);
+            ins.setArea(Integer.parseInt(area));
+            ins.setHeavyCurrent(heavyCurrent);
+            
+            insertion = ins;
+        }
+        
+        // Set common attributes
+        address.setHouseNumber(Integer.parseInt(houseNumber));
+        
+        insertion.setAddress(address);
+        insertion.setTitle(title);
+        insertion.setDescription(description);
+        insertion.setHouseType(houseType);
+        insertion.setOfferType(offerType);
+        insertion.setPrice(Integer.parseInt(price));   
     }
-    
+
     public String login() {
         
         // Validate the form data
@@ -381,6 +382,8 @@ public class CreateConversationModel implements Serializable {
     }
     
     public String addImages() {
+        this.addInsertionAttributes();
+        
         // Persist insertion as user is definitely logged in now
         insertionId = insertionService.createInsertion(insertion,
                 accountModel.getUser().getID());

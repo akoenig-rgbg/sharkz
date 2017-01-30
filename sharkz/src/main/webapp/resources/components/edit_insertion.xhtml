@@ -5,80 +5,216 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
     </h:head>
     <h:body>
 
-        <!--Insertion Menu-->
-        <div class="insertion_menu_wrapper card_box">
+        <div id="insertion_wrapper">
 
-            <div class="insertion_area_text">
-                <p>Erwerbs- &amp; Immobilientyp*</p>
+            <!--Insertion Menu-->
+            <div class="insertion_menu_wrapper card_box">
+
+                <div class="insertion_area_text">
+                    <p>Erwerbs- &amp; Immobilientyp*</p>
+                </div>
+
+                <div class="insertion_area_attrs">
+                    <h:selectOneMenu
+                        styleClass="search_select_menu"
+                        value="#{bean.offerType}">
+                        <f:selectItems
+                            var="o"
+                            value="#{search.offerTypeValues}"
+                            itemValue="#{o}"
+                            itemLabel="#{o.label}" />
+                    </h:selectOneMenu>
+
+                    <h:selectOneMenu
+                        styleClass="search_select_menu"
+                        value="#{bean.houseType}">
+                        <f:selectItems
+                            var="h"
+                            value="#{search.houseTypeValues}"
+                            itemValue="#{h}"
+                            itemLabel="#{h.label}" />
+                    </h:selectOneMenu>
+
+                </div>
+
             </div>
 
-            <div class="insertion_area_attrs">
-                <h:selectOneMenu
-                    styleClass="search_select_menu"
-                    value="#{bean.offerType}">
-                    <f:selectItems
-                        var="o"
-                        value="#{search.offerTypeValues}"
-                        itemValue="#{o}"
-                        itemLabel="#{o.label}" />
-                </h:selectOneMenu>
+            <!--Insertion: Address-->
+            <div class="card_box">
 
-                <h:selectOneMenu
-                    styleClass="search_select_menu"
-                    value="#{bean.houseType}">
-                    <f:ajax
-                        render="further_attributes"
-                        event="change"
-                        listener="#{bean.insertionTypeChanged}"/>
-                    <f:selectItems
-                        var="h"
-                        value="#{search.houseTypeValues}"
-                        itemValue="#{h}"
-                        itemLabel="#{h.label}" />
-                </h:selectOneMenu>
+                <div class="insertion_area_text">
+                    <p>Adresse des Objekts*</p>
+                </div>
+
+                <div class="insertion_area_attrs">
+                    <div class="inputFloatLeft">
+
+                        <div class="inputContainer">
+                            <h:inputText
+                                id="street"
+                                label="Straße"
+                                styleClass="inputText street"
+                                a:placeholder="Straße"
+                                value="#{bean.address.street}">
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="standardLengthValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Straße" />
+                        </div>
+
+                        <div class="inputContainer">
+                            <h:inputText
+                                id="houseNumber"
+                                label="Hausnummer"
+                                styleClass="inputText houseNumber"
+                                a:placeholder="Hnr."
+                                value="#{bean.houseNumber}">
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="standardLengthValidator" />
+                                <f:validator validatorId="numberValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Hausnummer" />
+                        </div>
+                        <div class="inputContainer">
+                            <h:inputText
+                                styleClass="inputText additionalLetter"
+                                a:placeholder="Zst."
+                                value="#{bean.address.additionalLetter}">
+
+                                <f:validator validatorId="additionalLetterValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Addresszusatz" />
+                        </div>
+                    </div>
+                    <div class="inputFloatLeft">
+                        <div class="inputContainer">
+                            <h:inputText
+                                id="postCode"
+                                label="PLZ"
+                                styleClass="inputText postCode"
+                                a:placeholder="PLZ"
+                                value="#{bean.address.postCode}">
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="postCodeValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="PLZ" />
+                        </div>
+
+                        <div class="inputContainer">
+                            <h:inputText
+                                id="town"
+                                label="Ort"
+                                styleClass="inputText town"
+                                a:placeholder="Ort"
+                                value="#{bean.address.town}">
+
+                                <f:validator validatorId="requiredValidator" />
+                                <f:validator validatorId="standardLengthValidator" />
+                            </h:inputText>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Ort" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insertion_area_msgs">
+                    <h:message
+                        for="street"
+                        styleClass="requiredMessage"/>
+                    <h:message
+                        for="houseNumber"
+                        styleClass="requiredMessage" />
+                    <h:message
+                        for="postCode"
+                        styleClass="requiredMessage" />
+                    <h:message
+                        for="town"
+                        styleClass="requiredMessage" />
+                </div>
 
             </div>
-
-        </div>
-
-        <!--Insertion: Address-->
-        <div class="card_box">
-
-            <div class="insertion_area_text">
-                <p>Adresse des Objekts*</p>
-            </div>
-
-            <div class="insertion_area_attrs">
-                <div class="inputFloatLeft">
-
+            
+            <!--Insertion: Title & Description-->
+            <div class="insertion_description card_box">
+                <div class="insertion_area_text">
+                    <p>Titel* &amp; Beschreibung</p>
+                </div>
+                <div class="insertion_area_attrs">
                     <div class="inputContainer">
                         <h:inputText
-                            id="street"
-                            label="Straße"
-                            styleClass="inputText street"
-                            a:placeholder="Straße"
-                            value="#{bean.address.street}">
+                            id="title"
+                            label="Titel"
+                            styleClass="inputText insertion_title"
+                            a:placeholder="Titel"
+                            value="#{bean.title}" >
 
                             <f:validator validatorId="requiredValidator" />
-                            <f:validator validatorId="standardLengthValidator" />
+                            <f:validator validatorId="specificLengthValidator" />
                         </h:inputText>
                         <h:outputLabel
                             class="inputLabel"
-                            value="Straße" />
+                            value="Titel" />
                     </div>
 
                     <div class="inputContainer">
+                        <h:inputTextarea
+                            id="description"
+                            label="Beschreibung"
+                            styleClass="inputText"
+                            a:placeholder="Beschreibung"
+                            value="#{bean.description}">
+
+                            <f:validator validatorId="requiredValidator" />
+                            <f:validator validatorId="specificLengthValidator" />
+                        </h:inputTextarea>
+                        <h:outputLabel
+                            class="inputLabel"
+                            value="Beschreibung" />
+                    </div>
+                </div>
+
+                <div class="insertion_area_msgs">
+                    <h:message
+                        for="title" 
+                        styleClass="requiredMessage"/>
+                    <h:message
+                        for="description"
+                        styleClass="requiredMessage"/>
+
+                </div>
+            </div>
+
+            <!--Insertion: Price-->
+            <div class="card_box">
+                <div class="insertion_area_text">
+                    <p>Preis*</p>
+                </div>
+                <div class="insertion_area_attrs">
+                    <div class="inputContainer">
                         <h:inputText
-                            id="houseNumber"
-                            label="Hausnummer"
-                            styleClass="inputText houseNumber"
-                            a:placeholder="Hnr."
-                            value="#{bean.houseNumber}">
+                            id="price"
+                            label="Preis"
+                            styleClass="inputText"
+                            a:placeholder="Preis"
+                            value="#{bean.price}">
 
                             <f:validator validatorId="requiredValidator" />
                             <f:validator validatorId="standardLengthValidator" />
@@ -86,373 +222,18 @@
                         </h:inputText>
                         <h:outputLabel
                             class="inputLabel"
-                            value="Hausnummer" />
-                    </div>
-                    <div class="inputContainer">
-                        <h:inputText
-                            styleClass="inputText additionalLetter"
-                            a:placeholder="Zst."
-                            value="#{bean.address.additionalLetter}">
-
-                            <f:validator validatorId="additionalLetterValidator" />
-                        </h:inputText>
-                        <h:outputLabel
-                            class="inputLabel"
-                            value="Addresszusatz" />
+                            value="Preis" />
                     </div>
                 </div>
-                <div class="inputFloatLeft">
-                    <div class="inputContainer">
-                        <h:inputText
-                            id="postCode"
-                            label="PLZ"
-                            styleClass="inputText postCode"
-                            a:placeholder="PLZ"
-                            value="#{bean.address.postCode}">
 
-                            <f:validator validatorId="requiredValidator" />
-                            <f:validator validatorId="postCodeValidator" />
-                        </h:inputText>
-                        <h:outputLabel
-                            class="inputLabel"
-                            value="PLZ" />
-                    </div>
+                <div class="insertion_area_msgs">
+                    <h:message
+                        for="price" 
+                        styleClass="requiredMessage"/>
 
-                    <div class="inputContainer">
-                        <h:inputText
-                            id="town"
-                            label="Ort"
-                            styleClass="inputText town"
-                            a:placeholder="Ort"
-                            value="#{bean.address.town}">
-
-                            <f:validator validatorId="requiredValidator" />
-                            <f:validator validatorId="standardLengthValidator" />
-                        </h:inputText>
-                        <h:outputLabel
-                            class="inputLabel"
-                            value="Ort" />
-                    </div>
                 </div>
             </div>
-
-            <div class="insertion_area_msgs">
-                <h:message
-                    for="street"
-                    styleClass="requiredMessage"/>
-                <h:message
-                    for="houseNumber"
-                    styleClass="requiredMessage" />
-                <h:message
-                    for="postCode"
-                    styleClass="requiredMessage" />
-                <h:message
-                    for="town"
-                    styleClass="requiredMessage" />
-            </div>
-
         </div>
-
-        <!--Insertion: Further Attributes-->
-        <div class="card_box">
-
-            <div class="insertion_area_text">
-                <p>Weitere Eigenschaften</p>
-            </div>
-
-            <div class="insertion_area_attrs">
-                <h:panelGroup id="further_attributes">
-                    <h:panelGroup
-                        id="commercialAttributes"
-                        rendered="#{!bean.livingInsertion}">
-
-                        <div class="inputFloatLeft">
-                            <div class="inputContainer">
-                                <h:inputText
-                                    id="area"
-                                    label="Fläche"
-                                    styleClass="inputText"
-                                    a:placeholder="Fläche in qm"
-                                    value="#{bean.area}" >
-
-                                    <f:validator validatorId="requiredValidator" />
-                                    <f:validator validatorId="standardLengthValidator" />
-                                    <f:validator validatorId="numberValidator" />
-                                </h:inputText>
-                                <h:outputLabel
-                                    class="inputLabel"
-                                    value="Fläche" />
-                            </div>
-                        </div>
-
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="aircon"
-                                value="#{bean.aircon}" />
-                            <h:outputLabel
-                                value="Klimaanlage"
-                                for="aircon" />
-                        </div>
-
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="heavyCurrent"
-                                value="#{bean.heavyCurrent}" />
-                            <h:outputLabel
-                                value="Starkstrom"
-                                for="heavyCurrent"/>
-                        </div>
-
-                    </h:panelGroup>
-
-                    <h:panelGroup
-                        id="livingAttributes"
-                        rendered="#{bean.livingInsertion}">
-
-                        <div class="inputFloatLeft">
-                            <div class="inputContainer">
-                                <h:inputText
-                                    id="livingArea"
-                                    label="Wohnfläche"
-                                    styleClass="inputText inputText290"
-                                    a:placeholder="Wohnfläche"
-                                    value="#{bean.livingArea}" >
-
-                                    <f:validator validatorId="requiredValidator" />
-                                    <f:validator validatorId="standardLengthValidator" />
-                                    <f:validator validatorId="numberValidator" />
-                                </h:inputText>
-                                <h:outputLabel
-                                    class="inputLabel"
-                                    value="Wohnfläche" />
-                            </div>
-
-                            <div class="inputContainer">
-                                <h:inputText
-                                    id="plotArea"
-                                    label="Grundfläche"
-                                    styleClass="inputText inputText290"
-                                    a:placeholder="Grundfläche"
-                                    value="#{bean.plotArea}" >
-
-                                    <f:validator validatorId="requiredValidator" />
-                                    <f:validator validatorId="standardLengthValidator" />
-                                    <f:validator validatorId="numberValidator" />
-                                </h:inputText>
-                                <h:outputLabel
-                                    class="inputLabel"
-                                    value="Grundfläche" />
-                            </div>
-                        </div>
-                        <div class="inputFloatLeft">
-
-                            <div class="inputContainer">
-                                <h:inputText
-                                    id="rooms"
-                                    label="Zimmer"
-                                    styleClass="inputText inputText290"
-                                    a:placeholder="Zimmer"
-                                    value="#{bean.rooms}" >
-
-                                    <f:validator validatorId="requiredValidator" />
-                                    <f:validator validatorId="standardLengthValidator" />
-                                    <f:validator validatorId="numberValidator" />
-                                </h:inputText>
-                                <h:outputLabel
-                                    class="inputLabel"
-                                    value="Zimmer" />
-                            </div>
-
-                            <div class="inputContainer">
-                                <h:inputText
-                                    id="stages"
-                                    label="Etagen"
-                                    styleClass="inputText inputText290"
-                                    a:placeholder="Etagen"
-                                    value="#{bean.stages}" >
-
-                                    <f:validator validatorId="requiredValidator" />
-                                    <f:validator validatorId="numberValidator" />
-                                    <f:validator validatorId="standardLengthValidator" />
-                                </h:inputText>
-                                <h:outputLabel
-                                    class="inputLabel"
-                                    value="Etagen" />
-                            </div>
-                        </div>
-
-                        <div class="inputFloatLeft heating">
-                            <p class="inputText290 title_p">
-                                Heizung:
-                            </p>
-                            <h:selectOneMenu
-                                styleClass="search_select_menu"
-                                value="#{bean.heating}">
-                                <f:selectItems
-                                    var="h"
-                                    value="#{search.heatingTypeValues}"
-                                    itemValue="#{h}"
-                                    itemLabel="#{h.label}" />
-                            </h:selectOneMenu>
-                        </div>
-
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="guestToilette"
-                                value="#{bean.guestToilette}" />
-                            <h:outputLabel
-                                value="Gästetoilette"
-                                for="guestToilette" />
-                        </div>
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="basement"
-                                value="#{bean.basement}" />
-                            <h:outputLabel
-                                value="Keller"
-                                for="basement" />
-                        </div>
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="kitchen"
-                                value="#{bean.kitchen}" />
-                            <h:outputLabel
-                                value="Küche"
-                                for="kitchen" />
-                        </div>
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="newBuild"
-                                value="#{bean.newBuild}" />
-                            <h:outputLabel
-                                value="Neubau"
-                                for="newBuild" />
-                        </div>
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="garage"
-                                value="#{bean.garage}" />
-                            <h:outputLabel
-                                value="Garage"
-                                for="garage" />
-                        </div>
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="steplessEntry"
-                                value="#{bean.steplessEntry}" />
-                            <h:outputLabel
-                                value="Stufenloser Eingang"
-                                for="steplessEntry" />
-                        </div>
-                        <div class="insertion_attr_option">
-                            <h:selectBooleanCheckbox
-                                id="lift"
-                                value="#{bean.lift}" />
-                            <h:outputLabel
-                                value="Aufzug"
-                                for="lift" />
-                        </div>
-                    </h:panelGroup>
-                </h:panelGroup>
-            </div>
-            <div class="insertion_area_msgs">
-                <h:message
-                    for="area"
-                    styleClass="requiredMessage"/>
-                <h:message
-                    for="livingArea" 
-                    styleClass="requiredMessage"/>
-                <h:message
-                    for="plotArea"
-                    styleClass="requiredMessage"/>
-                <h:message
-                    for="rooms"
-                    styleClass="requiredMessage"/>
-            </div>
-        </div>
-
-        <!--Insertion: Title & Description-->
-        <div class="insertion_description card_box">
-            <div class="insertion_area_text">
-                <p>Titel* &amp; Beschreibung</p>
-            </div>
-            <div class="insertion_area_attrs">
-                <div class="inputContainer">
-                    <h:inputText
-                        id="title"
-                        label="Titel"
-                        styleClass="inputText insertion_title"
-                        a:placeholder="Titel"
-                        value="#{bean.title}" >
-
-                        <f:validator validatorId="requiredValidator" />
-                        <f:validator validatorId="specificLengthValidator" />
-                    </h:inputText>
-                    <h:outputLabel
-                        class="inputLabel"
-                        value="Titel" />
-                </div>
-
-                <div class="inputContainer">
-                    <h:inputTextarea
-                        id="description"
-                        label="Beschreibung"
-                        styleClass="inputText"
-                        a:placeholder="Beschreibung"
-                        value="#{bean.description}">
-
-                        <f:validator validatorId="requiredValidator" />
-                        <f:validator validatorId="specificLengthValidator" />
-                    </h:inputTextarea>
-                    <h:outputLabel
-                        class="inputLabel"
-                        value="Beschreibung" />
-                </div>
-            </div>
-
-            <div class="insertion_area_msgs">
-                <h:message
-                    for="title" 
-                    styleClass="requiredMessage"/>
-                <h:message
-                    for="description"
-                    styleClass="requiredMessage"/>
-
-            </div>
-        </div>
-
-        <!--Insertion: Price-->
-        <div class="card_box">
-            <div class="insertion_area_text">
-                <p>Preis*</p>
-            </div>
-            <div class="insertion_area_attrs">
-                <div class="inputContainer">
-                    <h:inputText
-                        id="price"
-                        label="Preis"
-                        styleClass="inputText"
-                        a:placeholder="Preis"
-                        value="#{bean.price}">
-
-                        <f:validator validatorId="requiredValidator" />
-                        <f:validator validatorId="standardLengthValidator" />
-                        <f:validator validatorId="numberValidator" />
-                    </h:inputText>
-                    <h:outputLabel
-                        class="inputLabel"
-                        value="Preis" />
-                </div>
-            </div>
-
-            <div class="insertion_area_msgs">
-                <h:message
-                    for="price" 
-                    styleClass="requiredMessage"/>
-
-            </div>
-        </div>
-
     </h:body>
 </html>
 
