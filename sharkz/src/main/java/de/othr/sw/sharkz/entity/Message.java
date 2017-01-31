@@ -2,6 +2,7 @@ package de.othr.sw.sharkz.entity;
 
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -11,7 +12,7 @@ public class Message extends EntityPrototype {
     @Temporal(TemporalType.TIMESTAMP)
     private Date sendDate;
     
-    @OneToOne
+    @ManyToOne
     private Account sender;
     
     @OneToOne

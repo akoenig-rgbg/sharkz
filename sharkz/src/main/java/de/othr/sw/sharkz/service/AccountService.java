@@ -2,6 +2,7 @@ package de.othr.sw.sharkz.service;
 
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
+import de.othr.sw.sharkz.entity.BankingData;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
@@ -160,9 +161,13 @@ public class AccountService extends ServicePrototype implements Serializable {
         
         Customer c = em.find(Customer.class, userId);
         
-        c.getBankingData().setBic(bic);
-        c.getBankingData().setIban(iban);
-        c.getBankingData().setPassword(password);
+        BankingData data = new BankingData();
+        
+        data.setBic(bic);
+        data.setIban(iban);
+        data.setPassword(password);
+        
+        c.setBankingData(data);
         
         em.merge(c);
         em.flush();

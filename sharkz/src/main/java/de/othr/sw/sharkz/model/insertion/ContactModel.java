@@ -28,11 +28,6 @@ public class ContactModel implements Serializable {
     @Inject AccountModel accountModel;
     @Inject InsertionService insertionService;
     
-    @PostConstruct
-    public void init() {
-        System.out.println(accountModel.getUser());
-    }
-    
     public void loadInsertion() {
         insertion = insertionService.findInsertion(Long.parseLong(
                 FacesContext.getCurrentInstance().getExternalContext()

@@ -3,6 +3,7 @@ package de.othr.sw.sharkz.model.insertion;
 import de.mu.muckelbauerbank.service.*;
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Address;
+import de.othr.sw.sharkz.entity.BankingData;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
@@ -253,6 +254,9 @@ public class CreateConversationModel implements Serializable {
         insertionId = insertionService.createInsertion(insertion,
                 accountModel.getUser().getID());
         
+        // Load BankingData if available
+        loadBankingData();
+        
         logger.info("User with ID " + accountModel.getUser().getID()
                 + " created a new Insertion!");
         
@@ -267,6 +271,15 @@ public class CreateConversationModel implements Serializable {
         insertionService.setInsertionImages(insertionId, images);
         
         return "publish";
+    }
+    
+    private void loadBankingData() {
+        BankingData data = ((Customer) accountModel.getUser()).getBankingData();
+        
+        if (data != null) {
+            this.iban = data.getIban();
+            this.bic = data.getBic();
+        }
     }
     
     /**
@@ -384,7 +397,19 @@ public class CreateConversationModel implements Serializable {
             
             BankTransaction transaction = new BankTransaction();
             
-            transaction.setAmount(3000L);
+            long cost;
+            
+            if (duration == 1)
+                cost = 1500;
+            else if (duration == 3)
+                cost = 4000;
+            else
+                cost = 7500;
+           
+            transaction.setAmount(cost);
+            
+            transaction.setPurpose("Publishment of insertion \"" 
+                    + insertion.getTitle() + "\" for " + duration + " months.");
             
             transaction.setReceiverBIC(Constants.SHARKZ_BIC);
             transaction.setReceiverIBAN(Constants.SHARKZ_IBAN);

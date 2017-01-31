@@ -53,11 +53,11 @@ public class AccountModel implements Serializable {
     }
     
     public String logout() {
+        logger.info("User (" + user.getID() + ") logged out!");
+        
         isLoggedIn = false;
         user = null;
         name = null;
-        
-        logger.info("User (" + user.getID() + ") logged out!");
         
         return "logout";
     }

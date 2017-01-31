@@ -1,14 +1,15 @@
 package de.othr.sw.sharkz.model.account;
 
+import de.othr.sw.sharkz.entity.BankingData;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@RequestScoped
+@ViewScoped
 @Named("bankingData")
 public class BankingDataModel implements Serializable {
     
@@ -23,18 +24,19 @@ public class BankingDataModel implements Serializable {
     
     @PostConstruct
     public void init() {
-        try {
-            if (accountModel.getUser() == null)
-                return;
+        if (accountModel.getUser() == null)
+            return;
 
-            Customer c = (Customer) accountModel.getUser();
-            c = accountService.findCustomer(c.getID());
-
+        Customer c = (Customer) accountModel.getUser();
+        c = accountService.findCustomer(c.getID());
+        
+        BankingData b = c.getBankingData();
+        
+        if (b != null) {
             iban = c.getBankingData().getIban();
             bic = c.getBankingData().getBic();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
     }
     
     public void changeBankingData() {
