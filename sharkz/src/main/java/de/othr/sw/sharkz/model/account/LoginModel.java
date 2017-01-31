@@ -58,7 +58,7 @@ public class LoginModel implements Serializable {
         
         // Validate the form data
         if (!validateData())
-            return "";
+            return "login";
         
         // Process is a login
         if (isLogin) {
@@ -145,25 +145,19 @@ public class LoginModel implements Serializable {
         
         // Login: If email does not exist -> account does not exist
         if (isLogin) {
-            try {
-                account = accountService.getAccountByEmail(email);
-            } catch (NoResultException e) {
+            account = accountService.getAccountByEmail(email);
+            if (account == null)
                 context.addMessage(null, new FacesMessage(
                         "Falsche E-Mail oder falsches Passwort!"));
-            }
             
         // Registration: If account exists -> choose other email
         } else {
             
                 account = accountService.getAccountByEmail(email);
             
-            if (account == null) {
-                // email can be chosen
-                return;
-            }
-            
-            context.addMessage(null, new FacesMessage(
-                "Diese E-Mail Addresse ist bereits registriert!"));
+            if (account != null)
+                context.addMessage(null, new FacesMessage(
+                        "Diese E-Mail Addresse ist bereits registriert!"));
         }
     }
     
