@@ -13,6 +13,7 @@ public class CommercialTransaction {
     private int area;
     private boolean aircon;
     private boolean heavyCurrent;
+    private String link;
     
     //private List<byte[]> images;
    
@@ -97,4 +98,14 @@ public class CommercialTransaction {
     public void setHeavyCurrent(boolean heavyCurrent) {
         this.heavyCurrent = heavyCurrent;
     }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+    
+    
 }

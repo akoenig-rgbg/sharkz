@@ -196,10 +196,10 @@ public class AccountService extends ServicePrototype implements Serializable {
      */
     @Transactional(TxType.REQUIRED)
     public void deleteFromWishlist(long userId, Insertion ins) {
-        Customer c = (Customer) em.find(Customer.class, ins);
+        Customer c = (Customer) em.find(Customer.class, userId);
+        Insertion in = em.find(Insertion.class, ins.getID());
         
-        em.refresh(ins);
-        c.getWishList().remove(ins);
+        c.getWishList().remove(in);
         
         em.merge(c);
         em.flush();

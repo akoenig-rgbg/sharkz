@@ -43,6 +43,7 @@ public class CommercialTransactionService implements Serializable {
                 t.setTitle(c.getTitle());
                 t.setVendor(c.getVendor().getFirstName() + " "
                         + c.getVendor().getLastName());
+                t.setLink("im-lamport:8080/Sharkz/views/insertion/insertion.xhtml?insertion_id=" + in.getID());
                 
                 result.add(t);
             }

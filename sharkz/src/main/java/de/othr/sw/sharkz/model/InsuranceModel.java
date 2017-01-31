@@ -61,18 +61,17 @@ public class InsuranceModel implements Serializable {
     
     @PostConstruct
     public void init() {
-        if (accountModel.isIsLoggedIn()) {
-            Account acc = accountModel.getUser();
-            
-            this.email = accountModel.getUser().geteMail();
-            
-            if (acc instanceof Customer) {
-                Customer c = (Customer) acc;
-                BankingData banking = c.getBankingData();
-                
-                this.iban = banking.getIban();
-                this.bic = banking.getBic();
-            }
+        if (accountModel.getUser() == null)
+            return;
+
+        Customer c = (Customer) accountModel.getUser();
+        c = accountService.findCustomer(c.getID());
+        
+        BankingData b = c.getBankingData();
+        
+        if (b != null) {
+            iban = c.getBankingData().getIban();
+            bic = c.getBankingData().getBic();
         }
     }
     

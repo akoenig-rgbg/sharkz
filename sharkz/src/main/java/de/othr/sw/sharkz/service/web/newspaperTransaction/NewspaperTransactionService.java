@@ -37,6 +37,7 @@ public class NewspaperTransactionService implements Serializable {
             t.setOfferType(i.getOfferType().getLabel());
             t.setPrice(i.getPrice());
             t.setTitle(i.getTitle());
+            t.setLink("im-lamport:8080/Sharkz/views/insertion/insertion.xhtml?insertion_id=" + i.getID());
             
             result.add(t);
         }

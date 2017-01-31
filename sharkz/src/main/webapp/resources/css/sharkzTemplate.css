@@ -640,6 +640,11 @@
 
 }
 
+.star_link {
+    float: right;
+    font-size: 2.4em;
+    padding-top: 3px;
+}
 
 /* TESTING */
 

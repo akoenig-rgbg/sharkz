@@ -100,7 +100,7 @@
                                   and account.isLoggedIn
                                   and account.user != insertion.insertion.vendor}">
                         <div class="interaction">
-                            <h:form>
+                            <h:form id="interaction_form">
                                 <h:commandButton
                                     value="KONTAKTIEREN"
                                     class="button"
@@ -109,15 +109,19 @@
                                     <f:param name="insertion_id" value="#{insertion.insertionId}" />
 
                                 </h:commandButton>
-                                <h:commandButton
-                                    value="WUNSCHZETTEL"
-                                    class="button"
-                                    action="#{insertion.addToWishlist(insertion.insertion)}">
+                                
+                                <h:commandLink
+                                    class="star_link"
+                                    action="#{insertion.wishlistClick()}">
 
                                     <f:ajax render="@form" execute="@form" />
+                                    
+                                    <i class="#{insertion.star}" aria-hidden="true" />
 
-                                </h:commandButton>
+                                </h:commandLink>
                             </h:form>
+                            
+                            <h:messages for="interaction_form" />
                         </div>
                     </c:if>
                     
@@ -133,30 +137,7 @@
                     </h:dataTable>
                 </div>
                 
-                <c:if test="#{insertion.isPublishment
-                              and account.user == insertion.insertion.vendor
-                              and !insertion.isPublic}">
-                    <!--Insertion: Publishment-->
-                    <div class="grey_box insertion_publish_params">
-                        <h:form id="publishmentForm">
-                            <h:selectOneMenu
-                                validator="#{insertion.validatePublishment}"
-                                value="#{insertion.duration}"
-                                styleClass="search_select_menu">
-                                <f:selectItem itemValue="1" itemLabel="1 Monat" />
-                                <f:selectItem itemValue="3" itemLabel="3 Monate" />
-                                <f:selectItem itemValue="6" itemLabel="6 Monate" />
-                            </h:selectOneMenu>
-
-                            <h:commandButton
-                                action="#{insertion.publishInsertion()}"
-                                styleClass="button"
-                                value="Veröffentlichen" />
-
-                            <h:messages styleClass="h_messages requiredMessage" />
-                        </h:form>
-                    </div>
-                </c:if>
+               
                 
             </div>
             

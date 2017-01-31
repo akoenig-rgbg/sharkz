@@ -1,5 +1,6 @@
 package de.othr.sw.sharkz.service;
 
+import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Order;
@@ -125,5 +126,19 @@ public class InsertionService extends ServicePrototype implements Serializable {
                 .setParameter("ins", in);
         
         return q.getResultList().size() == 1;
+    }
+    
+    public boolean isOnWishlist(long insertionId, long userId) {
+        Account acc = em.find(Account.class, userId);
+        
+        if (acc instanceof Customer) {
+            Customer c = (Customer) acc;
+            
+            return c.getWishList().contains(
+                    em.find(Insertion.class, insertionId));
+                    
+        }
+        
+        return false;
     }
 }

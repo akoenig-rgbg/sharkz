@@ -11,6 +11,7 @@ public class NewspaperTransaction {
     private String description;
     private Address address;
     private long price;
+    private String link;
 
     public String getHouseType() {
         return houseType;
@@ -58,6 +59,14 @@ public class NewspaperTransaction {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
     
     
