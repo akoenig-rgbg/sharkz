@@ -4,6 +4,7 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +28,7 @@ public class AccountModel implements Serializable {
     
     // Models & Services
     @Inject private AccountService accountService;
+    @Inject private Logger logger;
 
     public void init() {
         if (user instanceof Customer) {
@@ -55,10 +57,12 @@ public class AccountModel implements Serializable {
         user = null;
         name = null;
         
+        logger.info("User (" + user.getID() + ") logged out!");
+        
         return "logout";
     }
     
-    // Getter & Setter
+    //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
     public Account getUser() {
         return user;
     }
@@ -66,68 +70,69 @@ public class AccountModel implements Serializable {
     public void setUser(Account acc) {
         this.user = acc;
     }
-
+    
     public boolean isIsLoggedIn() {
         return isLoggedIn;
     }
-
+    
     public void setIsLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public String getFirstName() {
         return firstName;
     }
-
+    
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    
     public String getLastName() {
         return lastName;
     }
-
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
+    
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
+    
     public String getOldPassword() {
         return oldPassword;
     }
-
+    
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
-
+    
     public String getNewPassword() {
         return newPassword;
     }
-
+    
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+//</editor-fold>
 }

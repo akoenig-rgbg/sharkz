@@ -75,17 +75,43 @@ public class SearchService extends ServicePrototype implements Serializable {
         return q.getResultList();
     }
     
-    public List<Order> fetchBusiness(int amount) {
+    public List<Order> fetchBusinessOrders(int amount) {
         
         List<HouseType> types = HouseType.getTypesOf(UsageType.COMMERCIAL);
         
         TypedQuery<Order> q = em.createQuery(
-                "SELECT ord FROM Order AS ord WHERE ord.insertion.houseType "
-                        + "IN :types",
+                "SELECT ord FROM Order AS ord WHERE "
+                        + "ord.insertion.houseType IN :types",
                 Order.class)
                 .setParameter("types", types)
                 .setMaxResults(amount);
         
         return q.getResultList();
     }
+    
+    public List<Insertion> fetchBusiness(int amount) {
+        
+        List<HouseType> types = HouseType.getTypesOf(UsageType.COMMERCIAL);
+        
+        TypedQuery<Insertion> q = em.createQuery(
+                "SELECT ord.insertion FROM Order AS ord WHERE "
+                        + "ord.insertion.houseType IN :types",
+                Insertion.class)
+                .setParameter("types", types)
+                .setMaxResults(amount);
+        
+        return q.getResultList();
+    }
+    
+    public List<Insertion> fetchNewspaper(int amount) {
+        TypedQuery<Insertion> q = em.createQuery(
+                "SELECT ord.insertion FROM Order AS ord WHERE "
+                        + "ord.publishInNewspaper = :newspaper",
+                Insertion.class)
+                .setParameter("newspaper", true)
+                .setMaxResults(amount);
+        
+        return q.getResultList();
+    }
+            
 }

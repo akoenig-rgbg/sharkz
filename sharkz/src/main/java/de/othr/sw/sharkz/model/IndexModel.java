@@ -38,7 +38,7 @@ public class IndexModel {
     }
     
     public List<Order> fetchBusiness() {
-        return searchService.fetchBusiness(FETCH_AMOUNT);
+        return searchService.fetchBusinessOrders(FETCH_AMOUNT);
     }
     
     public int calcCardWidth() {

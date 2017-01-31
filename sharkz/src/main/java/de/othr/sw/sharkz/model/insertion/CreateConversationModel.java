@@ -21,13 +21,13 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -117,6 +117,8 @@ public class CreateConversationModel implements Serializable {
     @Inject private InsertionService insertionService;
     @Inject private AccountModel accountModel;
     @Inject private AccountService accountService;
+    @Inject private Logger logger;
+    
 //</editor-fold>
     
     @PostConstruct
@@ -149,7 +151,6 @@ public class CreateConversationModel implements Serializable {
                 break;
             case 3:
                 outcome = publishInsertion();
-                conversation.end();
                 break;
         }
         
@@ -389,10 +390,13 @@ public class CreateConversationModel implements Serializable {
         insertionId = insertionService.createInsertion(insertion,
                 accountModel.getUser().getID());
         
+        logger.info("User with ID " + accountModel.getUser().getID()
+                + " created a new Insertion!");
+        
         if (images.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("insertion_form",
-                    new FacesMessage("Bitte laden Sie mindestens ein Foto von"
-                            + "ihrem Objekt hoch!"));
+                    new FacesMessage("Bitte laden Sie mindestens ein Foto von "
+                            + "Ihrer Immobilie hoch!"));
             
             return null;
         }
@@ -506,352 +510,361 @@ public class CreateConversationModel implements Serializable {
         insertionService.publishInsertion(insertionId, duration,
                 publishInNewspaper);
         
+        logger.info("User with ID " + accountModel.getUser().getID()
+                + " published insertion (" + insertionId + ")!");
+        
+        
+        // No errors until here => end of conversation
+        conversation.end();
+        
         return "insertion.xhtml?faces-redirect=true&includeViewParams=true&insertion_id=" + insertionId;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
     public long getInsertionId() {
         return insertionId;
     }
-
+    
     public void setInsertionId(long insertionId) {
         this.insertionId = insertionId;
     }
-
+    
     public Insertion getInsertion() {
         return insertion;
     }
-
+    
     public void setInsertion(Insertion insertion) {
         this.insertion = insertion;
     }
-
+    
     public HouseType getHouseType() {
         return houseType;
     }
-
+    
     public void setHouseType(HouseType houseType) {
         this.houseType = houseType;
     }
-
+    
     public OfferType getOfferType() {
         return offerType;
     }
-
+    
     public void setOfferType(OfferType offerType) {
         this.offerType = offerType;
     }
-
+    
     public String getTitle() {
         return title;
     }
-
+    
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public Address getAddress() {
         return address;
     }
-
+    
     public void setAddress(Address address) {
         this.address = address;
     }
-
+    
     public String getHouseNumber() {
         return houseNumber;
     }
-
+    
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
-
+    
     public String getPrice() {
         return price;
     }
-
+    
     public void setPrice(String price) {
         this.price = price;
     }
-
+    
     public String getLivingArea() {
         return livingArea;
     }
-
+    
     public void setLivingArea(String livingArea) {
         this.livingArea = livingArea;
     }
-
+    
     public String getPlotArea() {
         return plotArea;
     }
-
+    
     public void setPlotArea(String plotArea) {
         this.plotArea = plotArea;
     }
-
+    
     public String getRooms() {
         return rooms;
     }
-
+    
     public void setRooms(String rooms) {
         this.rooms = rooms;
     }
-
+    
     public String getStages() {
         return stages;
     }
-
+    
     public void setStages(String stages) {
         this.stages = stages;
     }
-
+    
     public HeatingType getHeating() {
         return heating;
     }
-
+    
     public void setHeating(HeatingType heating) {
         this.heating = heating;
     }
-
+    
     public boolean isGuestToilette() {
         return guestToilette;
     }
-
+    
     public void setGuestToilette(boolean guestToilette) {
         this.guestToilette = guestToilette;
     }
-
+    
     public boolean isBasement() {
         return basement;
     }
-
+    
     public void setBasement(boolean basement) {
         this.basement = basement;
     }
-
+    
     public boolean isKitchen() {
         return kitchen;
     }
-
+    
     public void setKitchen(boolean kitchen) {
         this.kitchen = kitchen;
     }
-
+    
     public boolean isNewBuild() {
         return newBuild;
     }
-
+    
     public void setNewBuild(boolean newBuild) {
         this.newBuild = newBuild;
     }
-
+    
     public boolean isGarage() {
         return garage;
     }
-
+    
     public void setGarage(boolean garage) {
         this.garage = garage;
     }
-
+    
     public boolean isSteplessEntry() {
         return steplessEntry;
     }
-
+    
     public void setSteplessEntry(boolean steplessEntry) {
         this.steplessEntry = steplessEntry;
     }
-
+    
     public boolean isLift() {
         return lift;
     }
-
+    
     public void setLift(boolean lift) {
         this.lift = lift;
     }
-
+    
     public String getArea() {
         return area;
     }
-
+    
     public void setArea(String area) {
         this.area = area;
     }
-
+    
     public boolean isAircon() {
         return aircon;
     }
-
+    
     public void setAircon(boolean aircon) {
         this.aircon = aircon;
     }
-
+    
     public boolean isHeavyCurrent() {
         return heavyCurrent;
     }
-
+    
     public void setHeavyCurrent(boolean heavyCurrent) {
         this.heavyCurrent = heavyCurrent;
     }
-
+    
     public Part getFile() {
         return file;
     }
-
+    
     public void setFile(Part file) {
         this.file = file;
     }
-
+    
     public List<String> getFileNames() {
         return fileNames;
     }
-
+    
     public void setFileNames(List<String> fileNames) {
         this.fileNames = fileNames;
     }
-
+    
     public List<byte[]> getImages() {
         return images;
     }
-
+    
     public void setImages(List<byte[]> images) {
         this.images = images;
     }
-
+    
     public boolean isLivingInsertion() {
         return livingInsertion;
     }
-
+    
     public void setLivingInsertion(boolean livingInsertion) {
         this.livingInsertion = livingInsertion;
     }
-
+    
     public String getLoginButtonText() {
         return loginButtonText;
     }
-
+    
     public void setLoginButtonText(String loginButtonText) {
         this.loginButtonText = loginButtonText;
     }
-
+    
     public String getRegisterButtonText() {
         return registerButtonText;
     }
-
+    
     public void setRegisterButtonText(String registerButtonText) {
         this.registerButtonText = registerButtonText;
     }
-
+    
     public boolean isIsLogin() {
         return isLogin;
     }
-
+    
     public void setIsLogin(boolean isLogin) {
         this.isLogin = isLogin;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getPassword() {
         return password;
     }
-
+    
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
     public String getFirstName() {
         return firstName;
     }
-
+    
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    
     public String getLastName() {
         return lastName;
     }
-
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
     
     public boolean isLoginAction() {
-    return isLogin;
+        return isLogin;
     }
-
+    
     public void setLoginAction(boolean loginAction) {
-    this.isLogin = loginAction;
+        this.isLogin = loginAction;
     }
-
+    
     public int getFeatImgId() {
         return featImgId;
     }
-
+    
     public void setFeatImgId(int featImgId) {
         this.featImgId = featImgId;
     }
-
+    
     public int getDuration() {
         return duration;
     }
-
+    
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
+    
     public String getIban() {
         return iban;
     }
-
+    
     public void setIban(String iban) {
         this.iban = iban;
     }
-
+    
     public String getBic() {
         return bic;
     }
-
+    
     public void setBic(String bic) {
         this.bic = bic;
     }
-
+    
     public String getBankingPassword() {
         return bankingPassword;
     }
-
+    
     public void setBankingPassword(String bankingPassword) {
         this.bankingPassword = bankingPassword;
     }
-
+    
     public boolean isPublishInNewspaper() {
         return publishInNewspaper;
     }
-
+    
     public void setPublishInNewspaper(boolean publishInNewspaper) {
         this.publishInNewspaper = publishInNewspaper;
     }
-
+    
     public UIComponent getPublishButton() {
         return publishButton;
     }
-
+    
     public void setPublishButton(UIComponent publishButton) {
         this.publishButton = publishButton;
     }
+//</editor-fold>
     
     
 }

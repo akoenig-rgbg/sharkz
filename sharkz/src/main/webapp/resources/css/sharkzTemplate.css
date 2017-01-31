@@ -693,6 +693,14 @@
 }
 
 /* Insurance */
+#insurance_form_wrapper {
+    padding: 0 0 50px 0;
+    position: relative;
+    margin: 0px auto;
+    width: 1040px;
+    text-align: center;
+}
+
 #insurance_wrapper {
     padding: 0;
     position: relative;
@@ -725,6 +733,7 @@
 
 .insurance_button {
     float: right;
+    clear: both;
 }
 
 .insurance_select .title_p {

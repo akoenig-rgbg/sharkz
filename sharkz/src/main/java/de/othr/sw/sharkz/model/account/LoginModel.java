@@ -4,9 +4,11 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
+import de.othr.sw.sharkz.model.controller.LoginController;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -40,9 +42,11 @@ public class LoginModel implements Serializable {
     private Insertion insertion;
     
     // Models & Services
-    @Inject InsertionService insertionService;
-    @Inject AccountService accountService;
-    @Inject AccountModel accountModel;
+    @Inject private InsertionService insertionService;
+    @Inject private AccountService accountService;
+    @Inject private AccountModel accountModel;
+    @Inject private Logger logger;
+    @Inject private LoginController loginController;
 
     //</editor-fold>
     
@@ -58,7 +62,8 @@ public class LoginModel implements Serializable {
         
         // Process is a login
         if (isLogin) {
-            if (accountService.checkPassword(account.geteMail(), password)) {
+            if (account.geteMail() != null && 
+                    accountService.checkPassword(account.geteMail(), password)) {
                 accountModel.setIsLoggedIn(true);
                 accountModel.setUser(account);
             } else {
@@ -87,8 +92,10 @@ public class LoginModel implements Serializable {
             accountModel.setName("Administrator");
         }
         
-        // Check if login part of insertion creation process
+        logger.info("User with ID " + account.getID() + " " + this.lastName
+                + " logged in!");
         
+        loginController.test();
         
         // Normal login
         if (insertion == null)

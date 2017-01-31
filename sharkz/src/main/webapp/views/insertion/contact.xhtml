@@ -30,7 +30,7 @@
                     Inserat: #{contact.insertion.title}
                 </div>
 
-                <h:form>
+                <h:form id="contact_form">
                     <div class="inputContainer">
                         <h:inputText
                             value="#{contact.title}"
@@ -56,11 +56,16 @@
                             class="inputLabel"
                             value="Nachricht" />
                     </div>
+                    
+                    <h:messages styleClass="requiredMessage h_messages" />
 
                     <h:commandButton
                         class="button"
                         value="SENDEN"
-                        action="#{contact.sendMessage()}" />
+                        action="#{contact.sendMessage()}" >
+                       
+                        <f:param name="insertion_id" value="#{contact.insertion.ID}" />
+                    </h:commandButton>
 
                 </h:form>
             </div>

@@ -7,6 +7,8 @@ import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
 import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -26,6 +28,11 @@ public class ContactModel implements Serializable {
     @Inject AccountModel accountModel;
     @Inject InsertionService insertionService;
     
+    @PostConstruct
+    public void init() {
+        System.out.println(accountModel.getUser());
+    }
+    
     public void loadInsertion() {
         insertion = insertionService.findInsertion(Long.parseLong(
                 FacesContext.getCurrentInstance().getExternalContext()
@@ -34,6 +41,24 @@ public class ContactModel implements Serializable {
     }
 
     public String sendMessage() {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        
+        if (!accountModel.isIsLoggedIn())
+            ctx.addMessage("contact_form",
+                    new FacesMessage("Bitte loggen Sie sich ein, "
+                            + "um eine Nachricht zu versenden!"));
+            
+        if (title == null || title.equals(""))
+            ctx.addMessage("contact_form", new FacesMessage(
+                    "Bitte geben Sie einen Titel ein!"));
+        
+        if (content == null || content.equals(""))
+            ctx.addMessage("contact_form", new FacesMessage(
+                    "Bitte geben Sie eine Nachricht ein!"));
+            
+        if (!ctx.getMessageList().isEmpty())
+            return null;
+        
         Message message = new Message();
         
         message.setSendDate(new Date());
