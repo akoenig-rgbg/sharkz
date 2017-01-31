@@ -4,7 +4,7 @@ import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
-import de.othr.sw.sharkz.model.controller.LoginController;
+import de.othr.sw.sharkz.model.insertion.CreateConversationModel;
 import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
@@ -46,7 +46,7 @@ public class LoginModel implements Serializable {
     @Inject private AccountService accountService;
     @Inject private AccountModel accountModel;
     @Inject private Logger logger;
-    @Inject private LoginController loginController;
+    @Inject private CreateConversationModel createModel;
 
     //</editor-fold>
     
@@ -95,15 +95,11 @@ public class LoginModel implements Serializable {
         logger.info("User with ID " + account.getID() + " " + this.lastName
                 + " logged in!");
         
-        loginController.test();
-        
         // Normal login
-        if (insertion == null)
+        if (createModel.getConversation().isTransient())
             return "index";
         
-        // Login is required for insertion creation
-        insertionService.createInsertion(insertion,
-                accountModel.getUser().getID());
+        else
         
         return "upload";
     }

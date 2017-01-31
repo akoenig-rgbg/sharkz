@@ -130,7 +130,7 @@
         <navigation-case>
             <from-action>#{createCon.next()}</from-action>
             <from-outcome>logon</from-outcome>
-            <to-view-id>/views/insertion/login.xhtml</to-view-id>
+            <to-view-id>/views/account/login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -145,7 +145,7 @@
         </navigation-case>
         
         <navigation-case>
-            <from-action>#{createCon.next()}</from-action>
+            <from-action>#{login.login()}</from-action>
             <from-outcome>upload</from-outcome>
             <to-view-id>/views/insertion/upload.xhtml</to-view-id>
         </navigation-case>

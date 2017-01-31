@@ -6,11 +6,115 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-    
+
     <ui:define name="main">
-        <ui:include src="./../../resources/components/loginComponent.xhtml">
-            <ui:param name="bean" value="#{login}" />
-        </ui:include>
+        <div id="login_wrapper">
+
+            <!-- Login Box -->
+            <div id="login_container">
+
+                <!-- Sharkz logo -->
+                <h:graphicImage
+                    class="logo_text"
+                    value="#{resource['img/logo_text.png']}" />
+
+                <!-- Login form -->
+                <h:form id="login_form">
+
+
+                    <!-- E-Mail text field -->
+                    <div class="inputContainer login_inputText">
+                        <h:inputText
+                            id="login_input_email"
+                            value="#{login.email}"
+                            label="E-Mail"
+                            a:placeholder="E-Mail"
+                            styleClass="inputText">
+                        </h:inputText>
+                        <h:outputLabel
+                            class="inputLabel"
+                            value="E-Mail" />
+                    </div>
+
+                    <!-- Password text field -->
+                    <div class="inputContainer login_inputText">
+                        <h:inputSecret
+                            id="login_input_password"
+                            value="#{login.password}"
+                            label="Passwort"
+                            a:placeholder="Passwort"
+                            styleClass="inputText"/>
+                        <h:outputLabel
+                            class="inputLabel"
+                            value="Passwort" />
+                    </div>
+
+                    <!-- Registration text fields -->
+                    <h:panelGroup id="login_name_group">
+
+                        <!-- First Name text field -->
+
+                        <div class="inputContainer login_inputText">
+                            <h:inputText
+                                id="login_firstName"
+                                value="#{login.firstName}"
+                                label="Vorname"
+                                a:placeholder="Vorname"
+                                styleClass="inputText login_inputText"
+                                rendered="#{!login.loginAction}"/>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Vorname" />
+                        </div>
+
+                        <!-- Last Name text field -->
+                        <div class="inputContainer login_inputText">
+                            <h:inputText
+                                id="login_lastName"
+                                value="#{login.lastName}"
+                                label="Nachname"
+                                a:placeholder="Nachname"
+                                styleClass="inputText login_inputText"
+                                rendered="#{!login.loginAction}"/>
+                            <h:outputLabel
+                                class="inputLabel"
+                                value="Nachname" />
+                        </div>
+
+                    </h:panelGroup>
+
+                    <!-- Forgot & Register/Login links -->
+                    <div id="login_links">
+                        <h:commandLink
+                            id="register_link"
+                            value="#{login.registerButtonText}"
+                            styleClass="login_link_register"
+                            action="#{login.toggleAction()}">
+
+                            <f:ajax render="login_wrapper register_link login_button_group login_name_group" />
+                        </h:commandLink>
+
+                        <h:outputLink styleClass="login_link_forgot">
+                            Passwort vergessen?
+                        </h:outputLink>
+
+                    </div>
+                    <div style="clear:both"/>
+
+                    <!-- Validation messages -->
+                    <h:messages styleClass="h_messages" />
+
+                    <!-- Login button -->
+                    <h:panelGroup id="login_button_group">
+                        <h:commandButton
+                            action="#{login.login()}"
+                            value="#{login.loginButtonText}"
+                            styleClass="button login_button" />
+                    </h:panelGroup>
+
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

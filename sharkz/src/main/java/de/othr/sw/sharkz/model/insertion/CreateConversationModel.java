@@ -3,7 +3,6 @@ package de.othr.sw.sharkz.model.insertion;
 import de.mu.muckelbauerbank.service.*;
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Address;
-import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
@@ -31,7 +30,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
 
@@ -88,9 +86,6 @@ public class CreateConversationModel implements Serializable {
     
     // For Ajax events
     private boolean livingInsertion;
-    private String loginButtonText = "Login";
-    private String registerButtonText = "Registrieren";
-    private boolean isLogin = true;
     private int featImgId;
     
     // Login
@@ -138,6 +133,10 @@ public class CreateConversationModel implements Serializable {
         
     }
     
+    /**
+     * Proceed to the next step of the insertion creation.
+     * @return the outcome
+     */
     public String next() {
         String outcome = null;
         
@@ -175,7 +174,11 @@ public class CreateConversationModel implements Serializable {
         return "passive";
     }
     
-    public String createInsertion() {
+    /**
+     * Create a new insertion based on the input on create.xhtml
+     * @return the outcome (logon if required, upload else)
+     */
+    private String createInsertion() {
         
         if (houseType.isLiving()) {
             livingInsertion = true;
@@ -196,9 +199,11 @@ public class CreateConversationModel implements Serializable {
             return "upload";
         }
     }
-    
 
-    public void addInsertionAttributes() {
+    /**
+     * Set the attributes of the new insertion.
+     */
+    private void addInsertionAttributes() {
         if (livingInsertion) {
             LivingInsertion ins = new LivingInsertion();
 
@@ -236,154 +241,12 @@ public class CreateConversationModel implements Serializable {
         insertion.setOfferType(offerType);
         insertion.setPrice(Integer.parseInt(price));   
     }
-
-    public String login() {
-        
-        // Validate the form data
-        if (!validateData())
-            return "";
-        
-        // Process is a login
-        if (isLogin) {
-            if (accountService.checkPassword(account.geteMail(), password)) {
-                accountModel.setIsLoggedIn(true);
-                accountModel.setUser(account);
-            } else {
-                context.addMessage(null, new FacesMessage(
-                    "Falsche E-Mail oder falsches Passwort!"));
-                return "";
-            }
-        }
-        
-        // Process is a registration
-        else if (!isLogin) {
-            createCustomer();
-            
-            accountModel.setIsLoggedIn(true);
-            accountModel.setUser(account);
-        }
-        
-        // Set name depending on type of account
-        if (account instanceof Customer) {
-            accountModel.setName(accountService.getNameByID(
-                    account.getID()));
-            
-            accountModel.init();
-            
-        } else if (account instanceof Administrator) {
-            accountModel.setName("Administrator");
-        }
-        
-        return "upload";
-    }
     
     /**
-     * Validates if the login data is correct.
-     * @return <b>true</b> if data is correct
-     *         <b>false</b> otherwise
+     * Add the uploaded images to the insertion and persist them.
+     * @return the outcome
      */
-    public boolean validateData() {
-        context = FacesContext.getCurrentInstance();
-        
-        validateEmail();
-        validatePassword();
-        
-        if (!isLogin)
-            validateName();
-        
-        return context.getMessageList().isEmpty();
-    }
-    
-    private void createCustomer() {
-        Customer customer = new Customer();
-            
-        customer.seteMail(email);
-        customer.setPassword(password);
-        customer.setFirstName(firstName);
-        customer.setLastName(lastName);
-
-        System.out.println("Kunde angelegt");
-        System.out.println(customer.getFirstName() + " " + customer.getLastName());
-
-        long customerId = accountService.createCustomer(customer);
-        
-        account = accountService.findCustomer(customerId);
-    }
-
-    private void validateEmail() {
-        if (email == null || email.equals("")) {
-            context.addMessage(null, new FacesMessage(
-                    "Bitte tragen Sie Ihre E-Mail-Addresse ein!"));
-        }
-        
-        // Login: If email does not exist -> account does not exist
-        if (isLogin) {
-            try {
-                account = accountService.getAccountByEmail(email);
-            } catch (NoResultException e) {
-                context.addMessage(null, new FacesMessage(
-                        "Falsche E-Mail oder falsches Passwort!"));
-            }
-            
-        // Registration: If account exists -> choose other email
-        } else {
-            
-                account = accountService.getAccountByEmail(email);
-            
-            if (account == null) {
-                // email can be chosen
-                return;
-            }
-            
-            context.addMessage(null, new FacesMessage(
-                "Diese E-Mail Addresse ist bereits registriert!"));
-        }
-    }
-    
-    private void validatePassword() {
-        // No password entered
-        if (password == null || password.equals("")) {
-            context.addMessage(null, new FacesMessage(
-                    "Bitte tragen Sie Ihr Passwort ein!"));
-        }
-
-        if (!isLogin) {
-            // Other unfullfilled criteria
-            if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,}$"))
-                context.addMessage(null, new FacesMessage(
-                        "Ihr Passwort muss aus mindestens 5 Zeichen, "
-                                + "Groß- und Kleinbuchstaben und Sonderzeichen "
-                                + "(@#$%^&+=) bestehen und darf keinen "
-                                + "Whitespace enthalten!"));
-        }
-    }
-    
-    private void validateName() {
-        if (firstName == null || firstName.equals(""))
-            context.addMessage(null, new FacesMessage(
-                "Bitte tragen Sie Ihren Vornamen ein!"));
-        
-        if (lastName == null || lastName.equals(""))
-            context.addMessage(null, new FacesMessage(
-                "Bitte tragen Sie Ihren Nachnamen ein!"));
-    }
-    
-    /**
-     * Toggles between login and registration functionality.
-     */
-    public void toggleAction() {
-        if (isLogin) {
-            loginButtonText = "Registrieren";
-            registerButtonText = "Einloggen";
-        } else {
-            loginButtonText = "Login";
-            registerButtonText = "Registrieren";
-        }
-        
-        isLogin = !isLogin;
-    }
-    
-    public String addImages() {
+    private String addImages() {
         this.addInsertionAttributes();
         
         // Persist insertion as user is definitely logged in now
@@ -460,9 +323,15 @@ public class CreateConversationModel implements Serializable {
 
     }
     
-    public String publishInsertion() {
+    /**
+     * Execute a bank transaction and publish the created insertion.
+     * @return 
+     */
+    private String publishInsertion() {
         
+        // Check if all needed input is available
         FacesContext ctx = FacesContext.getCurrentInstance();
+        
         if (iban == null || iban.equals(""))
             ctx.addMessage(publishButton.getClientId(), new FacesMessage(
                     "Bitte geben Sie Ihre IBAN ein!"));
@@ -477,8 +346,40 @@ public class CreateConversationModel implements Serializable {
         
         if (ctx.getMessageList().size() > 0)
             return null;
+
+        // Do the bank transaction
+        try {
+            if (!doBankTransaction()) {
+                ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                        "Die Banktransaktion ist fehlgeschlagen! Bitte überprüfen "
+                                + "Sie Ihre Angaben!"));
+
+                return null;
+            }
+        } catch (Exception e) {
+            ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                    "Die Banktransaktion ist fehlgeschlagen! Der Service ist"
+                            + " im Moment nicht erreichbar!"));
+            
+            return null;
+        }
         
-        try { // Call Web Service Operation
+        // Publish insertion => persist Order
+        insertionService.publishInsertion(insertionId, duration,
+                publishInNewspaper);
+        
+        logger.info("User with ID " + accountModel.getUser().getID()
+                + " published insertion (" + insertionId + ")!");
+        
+        
+        // No errors until here => end of conversation
+        conversation.end();
+        
+        return "insertion.xhtml?faces-redirect=true&includeViewParams=true&insertion_id=" + insertionId;
+    }
+    
+    private boolean doBankTransaction() throws Exception {
+            // Call Web Service Operation
             TransactionService port = service.getTransactionServicePort();
             
             BankTransaction transaction = new BankTransaction();
@@ -496,31 +397,19 @@ public class CreateConversationModel implements Serializable {
             
             transaction.setID(12345123L);
             
-            boolean result = port.executeTransaction(transaction);
-            
-            System.out.println("Result = "+result);
-        } catch (Exception ex) {
-            ctx.addMessage(publishButton.getClientId(), new FacesMessage(
-                    "Die Banktransaktion ist fehlgeschlagen! Bitte überprüfen "
-                            + "Sie Ihre Angaben!"));
-            
-            return null;
-        }
-        
-        insertionService.publishInsertion(insertionId, duration,
-                publishInNewspaper);
-        
-        logger.info("User with ID " + accountModel.getUser().getID()
-                + " published insertion (" + insertionId + ")!");
-        
-        
-        // No errors until here => end of conversation
-        conversation.end();
-        
-        return "insertion.xhtml?faces-redirect=true&includeViewParams=true&insertion_id=" + insertionId;
+            return port.executeTransaction(transaction);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
+    }
+    
     public long getInsertionId() {
         return insertionId;
     }
@@ -745,30 +634,6 @@ public class CreateConversationModel implements Serializable {
         this.livingInsertion = livingInsertion;
     }
     
-    public String getLoginButtonText() {
-        return loginButtonText;
-    }
-    
-    public void setLoginButtonText(String loginButtonText) {
-        this.loginButtonText = loginButtonText;
-    }
-    
-    public String getRegisterButtonText() {
-        return registerButtonText;
-    }
-    
-    public void setRegisterButtonText(String registerButtonText) {
-        this.registerButtonText = registerButtonText;
-    }
-    
-    public boolean isIsLogin() {
-        return isLogin;
-    }
-    
-    public void setIsLogin(boolean isLogin) {
-        this.isLogin = isLogin;
-    }
-    
     public String getEmail() {
         return email;
     }
@@ -799,14 +664,6 @@ public class CreateConversationModel implements Serializable {
     
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-    
-    public boolean isLoginAction() {
-        return isLogin;
-    }
-    
-    public void setLoginAction(boolean loginAction) {
-        this.isLogin = loginAction;
     }
     
     public int getFeatImgId() {
