@@ -1,8 +1,10 @@
 package de.othr.sw.sharkz.service.web.commercialTransaction;
 
+import de.othr.sw.sharkz.entity.CommercialInsertion;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.SearchService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -14,19 +16,38 @@ public class CommercialTransactionService implements Serializable {
     @Inject private SearchService searchService;
     
     /**
-     * Retrieve a list of commercial insertions from Sharkz.
+     * Retrieve a list of CommercialTransaction objects from Sharkz.
      * 
-     * Cast insertion via:
-     * CommercialInsertion ins = (CommercialInsertion) insertion;
      * @param amount the amount of insertions wanted
      * @return a list with the most recent insertions
      */
-    public List<Insertion> getCommercialInsertions(int amount) {
-        List<Insertion> list = searchService.fetchBusiness(amount);
+    public List<CommercialTransaction> getCommercialInsertions(int amount) {
+        List<Insertion> insertions = searchService.fetchBusiness(amount);
         
-        for (Insertion in : list)
-            in.setVendor(null);
+        List<CommercialTransaction> result = new ArrayList<>();
         
-        return list;
+        for (Insertion in : insertions) {
+            if (in instanceof CommercialInsertion) {
+                CommercialInsertion c = (CommercialInsertion) in;
+            
+                CommercialTransaction t = new CommercialTransaction();
+
+                t.setAddress(c.getAddress());
+                t.setAircon(c.isAircon());
+                t.setArea(c.getArea());
+                t.setDescription(c.getDescription());
+                t.setHeavyCurrent(c.isHeavyCurrent());
+                t.setHouseType(c.getHouseType().getLabel());
+                t.setOfferType(c.getOfferType().getLabel());
+                t.setPrice(c.getPrice());
+                t.setTitle(c.getTitle());
+                t.setVendor(c.getVendor().getFirstName() + " "
+                        + c.getVendor().getLastName());
+                
+                result.add(t);
+            }
+        }
+        
+        return result;
     }
 }
