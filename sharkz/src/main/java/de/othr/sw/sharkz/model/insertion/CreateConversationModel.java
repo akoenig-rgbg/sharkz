@@ -248,6 +248,14 @@ public class CreateConversationModel implements Serializable {
      * @return the outcome
      */
     private String addImages() {
+        if (images.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("insertion_form",
+                    new FacesMessage("Bitte laden Sie mindestens ein Foto von "
+                            + "Ihrer Immobilie hoch!"));
+            
+            return null;
+        }
+        
         this.addInsertionAttributes();
         
         // Persist insertion as user is definitely logged in now
@@ -259,14 +267,6 @@ public class CreateConversationModel implements Serializable {
         
         logger.info("User with ID " + accountModel.getUser().getID()
                 + " created a new Insertion!");
-        
-        if (images.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage("insertion_form",
-                    new FacesMessage("Bitte laden Sie mindestens ein Foto von "
-                            + "Ihrer Immobilie hoch!"));
-            
-            return null;
-        }
         
         insertionService.setInsertionImages(insertionId, images);
         

@@ -145,10 +145,19 @@ a {
     border-bottom: 2px solid #1691F3;
     margin-top: 0px;
     padding: 13px 0px 11px 0px;
+    outline: none !important;
 }
 
 .inputText:focus + .inputLabel {
     visibility: visible;
+}
+
+.inputText:valid + .inputLabel {
+    visibility: visible;
+}
+
+.inputText:invalid {
+    box-shadow: none !important;
 }
 
 .inputFloatLeft {

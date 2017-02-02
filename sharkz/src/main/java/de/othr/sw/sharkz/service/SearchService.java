@@ -21,11 +21,12 @@ public class SearchService extends ServicePrototype implements Serializable {
 
         TypedQuery<Order> q = em.createQuery(
                 "SELECT ord FROM Order AS ord WHERE ord.insertion.offerType"
-                        + "= :offer AND ord.insertion.address.town = :location"
+                        + "= :offer AND (ord.insertion.address.town LIKE :location"
+                        + " OR ord.insertion.address.postCode = :location)"
                         + " AND ord.insertion.houseType IN :types",
                 Order.class)
                 .setParameter("types", types)
-                .setParameter("location", location)
+                .setParameter("location", "%" + location + "%")
                 .setParameter("offer", offer);
         
         return q.getResultList();
