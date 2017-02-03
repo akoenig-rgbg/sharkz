@@ -148,18 +148,6 @@ a {
     outline: none !important;
 }
 
-.inputText:focus + .inputLabel {
-    visibility: visible;
-}
-
-.inputText:valid + .inputLabel {
-    visibility: visible;
-}
-
-.inputText:invalid {
-    box-shadow: none !important;
-}
-
 .inputFloatLeft {
     display: flex;
     clear: both;

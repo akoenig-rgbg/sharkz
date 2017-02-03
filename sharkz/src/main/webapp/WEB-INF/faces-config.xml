@@ -98,12 +98,26 @@
             <to-view-id>/views/account/wishlist.xhtml</to-view-id>
         </navigation-case>
         
+        <!-- insertion/insertion.xhtml -->
         <navigation-case>
             <from-outcome>insertion</from-outcome>
             <to-view-id>/views/insertion/insertion.xhtml</to-view-id>
             <redirect include-view-params="true" />
         </navigation-case>
         
+        <!-- account/admin/insertionManagement.xhtml -->
+        <navigation-case>
+            <from-outcome>insertionManagement</from-outcome>
+            <to-view-id>/views/account/admin/insertionManagement.xhtml</to-view-id>
+        </navigation-case>
+        
+        <!-- account/admin/customerManagement.xhtml -->
+        <navigation-case>
+            <from-outcome>customerManagement</from-outcome>
+            <to-view-id>/views/account/admin/customerManagement.xhtml</to-view-id>
+        </navigation-case>
+        
+        <!-- insurance.xhtml -->
         <navigation-case>
             <from-outcome>insurance</from-outcome>
             <to-view-id>/views/insurance.xhtml</to-view-id>

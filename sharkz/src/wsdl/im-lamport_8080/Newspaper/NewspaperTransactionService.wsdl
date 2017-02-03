@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.newspaper.sw.othr.de/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="NewspaperTransactionServiceService" targetNamespace="http://service.newspaper.sw.othr.de/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.newspaper.sw.othr.de/" elementFormDefault="unqualified" targetNamespace="http://service.newspaper.sw.othr.de/" version="1.0">
+
+  <xs:element name="createRealEstateAd" type="tns:createRealEstateAd"/>
+
+  <xs:element name="createRealEstateAdResponse" type="tns:createRealEstateAdResponse"/>
+
+  <xs:element name="delete" type="tns:delete"/>
+
+  <xs:element name="deleteResponse" type="tns:deleteResponse"/>
+
+  <xs:element name="getAllRealEstateAd" type="tns:getAllRealEstateAd"/>
+
+  <xs:element name="getAllRealEstateAdResponse" type="tns:getAllRealEstateAdResponse"/>
+
+  <xs:element name="getImage" type="tns:getImage"/>
+
+  <xs:element name="getImageResponse" type="tns:getImageResponse"/>
+
+  <xs:element name="sendNewspaperInsertion" type="tns:sendNewspaperInsertion"/>
+
+  <xs:element name="sendNewspaperInsertionResponse" type="tns:sendNewspaperInsertionResponse"/>
+
+  <xs:complexType name="getAllRealEstateAd">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getAllRealEstateAdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:newspaperTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="newspaperTransaction">
+    <xs:complexContent>
+      <xs:extension base="tns:idEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="address" type="tns:address"/>
+          <xs:element minOccurs="0" name="description" type="xs:string"/>
+          <xs:element minOccurs="0" name="houseType" type="xs:string"/>
+          <xs:element minOccurs="0" name="link" type="xs:string"/>
+          <xs:element minOccurs="0" name="offerType" type="xs:string"/>
+          <xs:element name="price" type="xs:long"/>
+          <xs:element minOccurs="0" name="title" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="idEntity">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element name="additionalLetter" type="xs:unsignedShort"/>
+      <xs:element name="houseNumber" type="xs:int"/>
+      <xs:element minOccurs="0" name="postCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="street" type="xs:string"/>
+      <xs:element minOccurs="0" name="town" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="delete">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:newspaperTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getImage">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getImageResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:newspaperTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sendNewspaperInsertion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:newspaperTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sendNewspaperInsertionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createRealEstateAd">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:newspaperTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createRealEstateAdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:newspaperTransaction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getAllRealEstateAd">
+    <wsdl:part element="tns:getAllRealEstateAd" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllRealEstateAdResponse">
+    <wsdl:part element="tns:getAllRealEstateAdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteResponse">
+    <wsdl:part element="tns:deleteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRealEstateAdResponse">
+    <wsdl:part element="tns:createRealEstateAdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getImageResponse">
+    <wsdl:part element="tns:getImageResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendNewspaperInsertionResponse">
+    <wsdl:part element="tns:sendNewspaperInsertionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="delete">
+    <wsdl:part element="tns:delete" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getImage">
+    <wsdl:part element="tns:getImage" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendNewspaperInsertion">
+    <wsdl:part element="tns:sendNewspaperInsertion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRealEstateAd">
+    <wsdl:part element="tns:createRealEstateAd" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="NewspaperTransactionService">
+    <wsdl:operation name="getAllRealEstateAd">
+      <wsdl:input message="tns:getAllRealEstateAd" name="getAllRealEstateAd">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllRealEstateAdResponse" name="getAllRealEstateAdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete">
+      <wsdl:input message="tns:delete" name="delete">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteResponse" name="deleteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getImage">
+      <wsdl:input message="tns:getImage" name="getImage">
+    </wsdl:input>
+      <wsdl:output message="tns:getImageResponse" name="getImageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendNewspaperInsertion">
+      <wsdl:input message="tns:sendNewspaperInsertion" name="sendNewspaperInsertion">
+    </wsdl:input>
+      <wsdl:output message="tns:sendNewspaperInsertionResponse" name="sendNewspaperInsertionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createRealEstateAd">
+      <wsdl:input message="tns:createRealEstateAd" name="createRealEstateAd">
+    </wsdl:input>
+      <wsdl:output message="tns:createRealEstateAdResponse" name="createRealEstateAdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NewspaperTransactionServiceServiceSoapBinding" type="tns:NewspaperTransactionService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAllRealEstateAd">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllRealEstateAd">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllRealEstateAdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="delete">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getImage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getImage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getImageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendNewspaperInsertion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendNewspaperInsertion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendNewspaperInsertionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createRealEstateAd">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createRealEstateAd">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createRealEstateAdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NewspaperTransactionServiceService">
+    <wsdl:port binding="tns:NewspaperTransactionServiceServiceSoapBinding" name="NewspaperTransactionServicePort">
+      <soap:address location="http://im-lamport:8080/Newspaper/NewspaperTransactionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

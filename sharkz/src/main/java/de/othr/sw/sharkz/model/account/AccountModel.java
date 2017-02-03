@@ -3,6 +3,7 @@ package de.othr.sw.sharkz.model.account;
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.service.AccountService;
+import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -28,6 +29,7 @@ public class AccountModel implements Serializable {
     
     // Models & Services
     @Inject private AccountService accountService;
+    @Inject private InsertionService insertionService;
     @Inject private Logger logger;
 
     public void init() {
@@ -60,6 +62,14 @@ public class AccountModel implements Serializable {
         name = null;
         
         return "logout";
+    }
+    
+    public String getNumOfCustomers() {
+        return accountService.getNumOfCustomers();
+    }
+    
+    public String getNumOfInsertions() {
+        return insertionService.getNumOfInsertions();
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">

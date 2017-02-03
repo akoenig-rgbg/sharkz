@@ -5,6 +5,7 @@ import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -140,5 +141,11 @@ public class InsertionService extends ServicePrototype implements Serializable {
         }
         
         return false;
+    }
+    
+    public String getNumOfInsertions() {
+        Query q = em.createQuery("SELECT COUNT(ord) FROM Order AS ord");
+        
+        return String.valueOf(q.getSingleResult());
     }
 }

@@ -2,4 +2,5 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://im-lamport:8080/muckelbauerBank/TransactionService?wsdl" uri="wsdl/im-lamport_8080/muckelbauerBank/TransactionService.wsdl"/>
     <system systemId="http://im-lamport:8080/MarcelKirchner/LivingInsuranceService?wsdl" uri="wsdl/im-lamport_8080/MarcelKirchner/LivingInsuranceService.wsdl"/>
+    <system systemId="http://im-lamport:8080/Newspaper/NewspaperTransactionService?wsdl" uri="wsdl/im-lamport_8080/Newspaper/NewspaperTransactionService.wsdl"/>
 </catalog>

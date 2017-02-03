@@ -114,5 +114,12 @@ public class SearchService extends ServicePrototype implements Serializable {
         
         return q.getResultList();
     }
-            
+    
+    public List<Insertion> fetchAllInsertions() {
+        TypedQuery<Insertion> q = em.createQuery(
+                "SELECT ins FROM Insertion AS ins",
+                Insertion.class);
+        
+        return q.getResultList();
+    }
 }

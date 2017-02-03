@@ -1,7 +1,5 @@
 package de.othr.sw.sharkz.util;
 
-
-
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import java.io.IOException;
@@ -24,6 +22,11 @@ public class InitialDataProvider implements Servlet {
     @PersistenceContext
     EntityManager em;
     
+    /**
+     * Create an admin and a customer account as initial data for the database.
+     * @param config
+     * @throws ServletException 
+     */
     @Override
     public void init(ServletConfig config) throws ServletException {
         

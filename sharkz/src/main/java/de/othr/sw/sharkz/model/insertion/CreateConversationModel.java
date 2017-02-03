@@ -1,6 +1,7 @@
 package de.othr.sw.sharkz.model.insertion;
 
 import de.mu.muckelbauerbank.service.*;
+import de.othr.sw.newspaper.service.*;
 import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.Address;
 import de.othr.sw.sharkz.entity.BankingData;
@@ -37,6 +38,9 @@ import javax.xml.ws.WebServiceRef;
 @ConversationScoped
 @Named("createCon")
 public class CreateConversationModel implements Serializable {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/Newspaper/NewspaperTransactionService.wsdl")
+    private NewspaperTransactionServiceService service_1;
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/im-lamport_8080/muckelbauerBank/TransactionService.wsdl")
     private TransactionServiceService service;
@@ -143,7 +147,8 @@ public class CreateConversationModel implements Serializable {
         
         switch(this.step) {
             case 1:
-                conversation.begin();
+                if (this.conversation.isTransient())
+                    conversation.begin();
                 outcome = createInsertion();
                 break;
             case 2:
@@ -338,7 +343,7 @@ public class CreateConversationModel implements Serializable {
     
     /**
      * Execute a bank transaction and publish the created insertion.
-     * @return 
+     * @return the outcome of the insertion page
      */
     private String publishInsertion() {
         
@@ -377,6 +382,27 @@ public class CreateConversationModel implements Serializable {
             return null;
         }
         
+        if (publishInNewspaper) {
+            
+            try {
+                if (!doNewspaperTransaction()) {
+                    ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                            "Die Veröffentlichung in der Zeitung ist "
+                                    + "fehlgeschlagen! Ihr Inserat kann nur auf "
+                                    + "Sharkz veröffentlicht werden!"));
+                
+                    return null;
+                }
+            } catch (Exception e) {
+                ctx.addMessage(publishButton.getClientId(), new FacesMessage(
+                    "Der Service zum Veröffentlichen in der Zeitung steht im "
+                            + "Moment nicht zur Verfügung! Ihr Inserat kann "
+                            + "nur auf Sharkz veröffentlicht werden!"));
+            
+                return null;
+            }
+        }
+        
         // Publish insertion => persist Order
         insertionService.publishInsertion(insertionId, duration,
                 publishInNewspaper);
@@ -386,13 +412,20 @@ public class CreateConversationModel implements Serializable {
         
         
         // No errors until here => end of conversation
-        conversation.end();
+        if (!this.conversation.isTransient())
+            conversation.end();
         
         return "insertion.xhtml?faces-redirect=true&includeViewParams=true&insertion_id=" + insertionId;
     }
     
+    /**
+     * Transfers money from the customer's bank account to Sharkz as payment
+     * for the publishment of the insertion.
+     * @return true if everything worked
+     * false otherwise
+     * @throws Exception if BankTransactionService is not available 
+     */
     private boolean doBankTransaction() throws Exception {
-            // Call Web Service Operation
             TransactionService port = service.getTransactionServicePort();
             
             BankTransaction transaction = new BankTransaction();
@@ -423,6 +456,41 @@ public class CreateConversationModel implements Serializable {
             transaction.setID(12345123L);
             
             return port.executeTransaction(transaction);
+    }
+    
+    /**
+     * Send the insertion to publish to the newspaper
+     * @return true if everything worked
+     * false otherwise
+     * @throws Exception if NewspaperTransactionService is not available
+     */
+    private boolean doNewspaperTransaction() throws Exception {
+            NewspaperTransactionService port = 
+                    service_1.getNewspaperTransactionServicePort();
+            
+            NewspaperTransaction transaction = new NewspaperTransaction();
+            
+            Address adr = insertion.getAddress();
+            
+            de.othr.sw.newspaper.service.Address address = 
+                    new de.othr.sw.newspaper.service.Address();
+            
+            address.setAdditionalLetter(adr.getAdditionalLetter());
+            address.setHouseNumber(adr.getHouseNumber());
+            address.setPostCode(adr.getPostCode());
+            address.setStreet(adr.getStreet());
+            address.setTown(adr.getTown());
+            
+            transaction.setAddress(address);
+            transaction.setDescription(insertion.getTitle());
+            transaction.setHouseType(insertion.getHouseType().getLabel());
+            transaction.setLink("im-lamport:8080/Sharkz/insertion/insertion"
+                    + ".xhtml?insertion_id=" + insertionId);
+            transaction.setOfferType(insertion.getOfferType().getLabel());
+            transaction.setPrice(insertion.getPrice());
+            transaction.setTitle(insertion.getTitle());
+            
+            return port.sendNewspaperInsertion(transaction);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">

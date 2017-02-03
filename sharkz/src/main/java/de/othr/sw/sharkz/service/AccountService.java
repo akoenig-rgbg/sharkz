@@ -8,6 +8,8 @@ import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.entity.util.EntityUtils;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
@@ -260,5 +262,30 @@ public class AccountService extends ServicePrototype implements Serializable {
      */
     public Message findMessage(long msgId) {
         return em.find(Message.class, msgId);
+    }
+    
+    /**
+     * Fetch a list with all registered customers.
+     * @return 
+     */
+    public List<Customer> fetchAllCustomers() {
+        TypedQuery<Customer> q = em.createQuery(
+                "SELECT cus FROM Customer AS cus",
+                Customer.class);
+        
+        return q.getResultList();
+    }
+    
+    @Transactional(TxType.REQUIRED)
+    public void deleteCustomer(long customerId) {
+        Customer c = em.find(Customer.class, customerId);
+        
+        em.remove(c);
+    }
+    
+    public String getNumOfCustomers() {
+        Query q = em.createQuery("SELECT COUNT(cus) FROM Customer AS cus");
+        
+        return String.valueOf(q.getSingleResult());
     }
 }

@@ -1,72 +1,103 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <h:body>
         
         <!-- Side menu header -->
-        <div class="side_menu_header">
+            <div class="side_menu_header">
 
-            <!-- Profile pic -->
-            <div class="profile_pic_wrapper">
-                <h:graphicImage library="img" name="profile_pic.jpg" />
-            </div>
+                <!-- Profile pic -->
+                <div class="profile_pic_wrapper">
+                    <h:graphicImage library="img" name="profile_pic.png" />
+                </div>
 
-            <!-- Name & email -->
-            <div class="name">#{account.name}</div>
-            <div class="email">#{account.user.geteMail()}</div>
-        </div>
-
-        <!-- Mein Konto -->
-        <h:link class="side_menu_item" outcome="account">
-            <div class="icon">
-                <i class="fa fa-user" aria-hidden="true"/>
+                <!-- Name & email -->
+                <div class="name">#{account.name}</div>
+                <div class="email">#{account.user.geteMail()}</div>
             </div>
-            <div class="label">
-                Mein Konto
-            </div>
-        </h:link>
-
-        <!-- Meine Bankverbindung -->
-        <h:link class="side_menu_item" outcome="bankingData">
-            <div class="icon">
-                <i class="fa fa-credit-card-alt" aria-hidden="true"/>
-            </div>
-            <div class="label">
-                Meine Bankverbindung
-            </div>
-        </h:link>
-
-        <!-- Meine Inserate -->
-        <h:link class="side_menu_item" outcome="myInsertions">
-            <div class="icon">
-                <i class="fa fa-home" aria-hidden="true"/>
-            </div>
-            <div class="label">
-                Meine Inserate
-            </div>
-        </h:link>
-
-        <!-- Wunschzettel -->
-        <h:link class="side_menu_item" outcome="wishlist">
-            <div class="icon">
-                <i class="fa fa-sticky-note" aria-hidden="true"/>
-            </div>
-            <div class="label">
-                Wunschzettel
-            </div>
-        </h:link>
         
-        <!-- Wunschzettel -->
-        <h:link class="side_menu_item" outcome="inbox">
-            <div class="icon">
-                <i class="fa fa-envelope" aria-hidden="true"/>
-            </div>
-            <div class="label">
-                Posteingang
-            </div>
-        </h:link>
+        <!-- Admin menu -->
+        <c:if test="#{account.user['class'].simpleName eq 'Administrator'}" >
+            
+            <!-- Customer management -->
+            <h:link class="side_menu_item" outcome="customerManagement">
+                <div class="icon">
+                    <i class="fa fa-users" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Kundenverwaltung
+                </div>
+            </h:link>
+            
+            <!-- Insertion management -->
+            <h:link class="side_menu_item" outcome="insertionManagement">
+                <div class="icon">
+                    <i class="fa fa-home" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Inseratverwaltung
+                </div>
+            </h:link>
+            
+        </c:if>
+        
+        <!-- Customer menu -->
+        <c:if test="#{account.user['class'].simpleName eq 'Customer'}">
+            
+            <!-- Mein Konto -->
+            <h:link class="side_menu_item" outcome="account">
+                <div class="icon">
+                    <i class="fa fa-user" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Mein Konto
+                </div>
+            </h:link>
+
+            <!-- Meine Bankverbindung -->
+            <h:link class="side_menu_item" outcome="bankingData">
+                <div class="icon">
+                    <i class="fa fa-credit-card-alt" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Meine Bankverbindung
+                </div>
+            </h:link>
+
+            <!-- Meine Inserate -->
+            <h:link class="side_menu_item" outcome="myInsertions">
+                <div class="icon">
+                    <i class="fa fa-home" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Meine Inserate
+                </div>
+            </h:link>
+
+            <!-- Wunschzettel -->
+            <h:link class="side_menu_item" outcome="wishlist">
+                <div class="icon">
+                    <i class="fa fa-sticky-note" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Wunschzettel
+                </div>
+            </h:link>
+
+            <!-- Wunschzettel -->
+            <h:link class="side_menu_item" outcome="inbox">
+                <div class="icon">
+                    <i class="fa fa-envelope" aria-hidden="true"/>
+                </div>
+                <div class="label">
+                    Posteingang
+                </div>
+            </h:link>
+            
+        </c:if>
         
         <!-- Logout -->
         <h:form>
