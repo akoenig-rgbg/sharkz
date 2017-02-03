@@ -15,8 +15,8 @@ public abstract class Constants {
     public static final String SHARKZ_NAME = "Sharkz - Immobilienvergleichsportal";
     
     public static final String SHARKZ_BIC = "12345";
-    public static final String SHARKZ_IBAN = "DE6030";
-    public static final String SHARKZ_PASSWORD = "2338";
+    public static final String SHARKZ_IBAN = "DE7002";
+    public static final String SHARKZ_PASSWORD = "5046";
     
     // Error messages:
     public static final String ERR_BANK_WRONG_INPUT

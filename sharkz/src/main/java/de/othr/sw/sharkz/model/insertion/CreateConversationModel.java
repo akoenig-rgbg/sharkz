@@ -95,15 +95,6 @@ public class CreateConversationModel implements Serializable {
     private boolean livingInsertion;
     private int featImgId;
     
-    // Login
-    private Account account;
-    
-    // Form inputs
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
-    
     // For messages
     FacesContext context;
     
@@ -160,8 +151,6 @@ public class CreateConversationModel implements Serializable {
                 outcome = publishInsertion();
                 break;
         }
-        
-        System.out.println("Step: " + step + ", outcome: " + outcome);
         
         if (outcome != null && !outcome.equals(""))
             step++;
@@ -447,7 +436,7 @@ public class CreateConversationModel implements Serializable {
             transaction.setSenderBIC(this.bic);
             transaction.setSenderIBAN(this.iban);
             transaction.setSenderName(accountModel.getName());
-            transaction.setSenderPassword(this.password);
+            transaction.setSenderPassword(this.bankingPassword);
             
             transaction.setID(12345123L);
             
@@ -721,38 +710,6 @@ public class CreateConversationModel implements Serializable {
     
     public void setLivingInsertion(boolean livingInsertion) {
         this.livingInsertion = livingInsertion;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getFirstName() {
-        return firstName;
-    }
-    
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    public String getLastName() {
-        return lastName;
-    }
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
     
     public int getFeatImgId() {

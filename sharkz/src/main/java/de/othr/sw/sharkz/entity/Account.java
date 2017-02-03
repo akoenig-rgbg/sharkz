@@ -7,7 +7,7 @@ import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Account extends EntityPrototype {
     public static final String HASH_ALGORITHM = "SHA-512";
     

@@ -103,12 +103,13 @@ public class AccountService extends ServicePrototype implements Serializable {
      * @return the account with the email
      */
     public Account getAccountByEmail(String email) {
-        Query q = em.createNativeQuery("SELECT * FROM Account WHERE EMAIL='"
-                + email + "'", Account.class);
+        TypedQuery<Account> q = em.createQuery(
+                "SELECT acc FROM Account AS acc WHERE acc.eMail = :mail",
+                Account.class)
+                .setParameter("mail", email);
         
         try {
-            Account acc = (Account) q.getSingleResult();
-            return acc;
+            return q.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }

@@ -3,7 +3,6 @@ package de.othr.sw.sharkz.util;
 import de.othr.sw.sharkz.entity.Administrator;
 import de.othr.sw.sharkz.entity.Customer;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -30,13 +29,11 @@ public class InitialDataProvider implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         
-        System.out.println("INITIAL_DATA_PROVIDER");
+        Query q = em.createQuery("SELECT COUNT(acc) FROM Account AS acc");
         
-        Query q = em.createNativeQuery("SELECT COUNT(*) FROM Account");
+        long count = (long) q.getSingleResult();
         
-        BigInteger count = (BigInteger) q.getSingleResult();
-        
-        if (count.longValue() > 0) {
+        if (count > 0) {
             return;
         }
         

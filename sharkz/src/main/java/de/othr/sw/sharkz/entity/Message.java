@@ -13,7 +13,7 @@ public class Message extends EntityPrototype {
     private Date sendDate;
     
     @ManyToOne
-    private Account sender;
+    private Customer sender;
     
     @OneToOne
     private Insertion insertion;
@@ -37,7 +37,7 @@ public class Message extends EntityPrototype {
         return sender;
     }
 
-    public void setSender(Account sender) {
+    public void setSender(Customer sender) {
         this.sender = sender;
     }
 
