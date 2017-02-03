@@ -114,12 +114,12 @@ public class LoginModel implements Serializable {
         validateEmail();
         validatePassword();
         
-        if (!isLogin)
-            validateName();
-        
         return context.getMessageList().isEmpty();
     }
     
+    /**
+     * Creates and persists a new customer
+     */
     private void createCustomer() {
         Customer customer = new Customer();
             
@@ -136,6 +136,9 @@ public class LoginModel implements Serializable {
         account = accountService.findCustomer(customerId);
     }
 
+    /**
+     * Validates the email entered for login or registration
+     */
     private void validateEmail() {
         if (email == null || email.equals("")) {
             context.addMessage(null, new FacesMessage(
@@ -160,6 +163,10 @@ public class LoginModel implements Serializable {
         }
     }
     
+    /**
+     * Validates if a password chosen for registration meets the password
+     * criteria
+     */
     private void validatePassword() {
         // No password entered
         if (password == null || password.equals("")) {
@@ -176,16 +183,6 @@ public class LoginModel implements Serializable {
                                 + "(@#$%^&+=) bestehen und darf keinen "
                                 + "Whitespace enthalten!"));
         }
-    }
-    
-    private void validateName() {
-        if (firstName == null || firstName.equals(""))
-            context.addMessage(null, new FacesMessage(
-                "Bitte tragen Sie Ihren Vornamen ein!"));
-        
-        if (lastName == null || lastName.equals(""))
-            context.addMessage(null, new FacesMessage(
-                "Bitte tragen Sie Ihren Nachnamen ein!"));
     }
     
     /**

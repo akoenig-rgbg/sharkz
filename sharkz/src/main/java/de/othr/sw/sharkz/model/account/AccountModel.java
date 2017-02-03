@@ -43,17 +43,27 @@ public class AccountModel implements Serializable {
         }
     }
     
+    /**
+     * Updates the data of a customer
+     */
     public void changeData() {
         accountService.updateCustomerData(user.getID(), firstName, lastName,
                 phoneNumber, email);
     }
     
+    /**
+     * Changes the password of a customer
+     */
     public void changePassword() {
         if (accountService.checkPassword(user.geteMail(), oldPassword)) {
             accountService.updatePassword(user.getID(), newPassword);
         }
     }
     
+    /**
+     * Logs out the current user
+     * @return 
+     */
     public String logout() {
         logger.info("User (" + user.getID() + ") logged out!");
         
@@ -64,10 +74,18 @@ public class AccountModel implements Serializable {
         return "logout";
     }
     
+    /**
+     * Retrieves the number of registered customers
+     * @return 
+     */
     public String getNumOfCustomers() {
         return accountService.getNumOfCustomers();
     }
     
+    /**
+     * Retrieves the number of all published insertions
+     * @return 
+     */
     public String getNumOfInsertions() {
         return insertionService.getNumOfInsertions();
     }

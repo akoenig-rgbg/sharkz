@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:body>
         <ui:composition>
@@ -16,19 +17,16 @@
             
             <!-- Wohnen -->
             <h:link styleClass="menu_item" outcome="search">
-                <f:param name="usage" value="LIVING" />
-                <i class="fa fa-home" aria-hidden="true" />&nbsp;&nbsp;WOHNEN
+                <f:param name="usage" value="LIVING" />WOHNEN
             </h:link>
             
             <!-- Gewerbe -->
             <h:link styleClass="menu_item" outcome="search">
-                <f:param name="usage" value="COMMERCIAL" />
-                <i class="fa fa-building" aria-hidden="true" />&nbsp;&nbsp;GEWERBE
+                <f:param name="usage" value="COMMERCIAL" />GEWERBE
             </h:link>
             
             <!-- Anbieten -->
-            <h:link styleClass="menu_item" outcome="create">
-                <i class="fa fa-money" aria-hidden="true" />&nbsp;&nbsp;ANBIETEN
+            <h:link styleClass="menu_item" outcome="create">ANBIETEN
             </h:link>
             
             <!-- Versichern -->
@@ -40,8 +38,7 @@
             <h:panelGroup rendered="#{!account.isLoggedIn}">
                 <div class="menu_item_login">
                     
-                    <h:link class="menu_item" outcome="login">
-                        <i class="fa fa-user" aria-hidden="true" />&nbsp;&nbsp;LOGIN
+                    <h:link class="menu_item" outcome="login">LOGIN
                     </h:link>
 
                     <div class="menu_item_login_content">
@@ -86,7 +83,6 @@
                                 styleClass="button login_button_small" />
 
                         </h:form>
-
                     </div>
                 </div>
             </h:panelGroup>
@@ -96,7 +92,7 @@
 
                 <h:link styleClass="menu_item mein_konto" outcome="account">
                     <i class="fa fa-user" aria-hidden="true" />&nbsp;&nbsp;
-                    <h:outputText value="#{account.name}" />
+                    <h:outputText value="#{account.user}" converter="accountConverter" />
                 </h:link>
 
             </h:panelGroup>

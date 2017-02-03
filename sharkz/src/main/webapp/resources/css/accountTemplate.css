@@ -127,6 +127,7 @@ body {
     font-weight: 400;
     background-color: #1d4e89;
     color: #fff;
+    overflow: hidden;
 }
 
 .myInsertionWrapper img {
@@ -234,4 +235,13 @@ body {
 
 .empty {
     padding: 40px;
+}
+
+/* Customer Management */
+.customer_insertion {
+    padding: 20px;
+    font-size: 1.3em !important;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    font-weight: 400 !important;
 }

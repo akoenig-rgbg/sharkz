@@ -24,7 +24,7 @@ public class Customer extends Account {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Insertion> wishList;
     
-    @OneToMany(mappedBy="vendor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="vendor", fetch = FetchType.EAGER)
     private List<Insertion> insertions;
 
     public Customer() {

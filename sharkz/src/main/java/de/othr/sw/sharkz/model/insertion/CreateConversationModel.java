@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -87,7 +89,7 @@ public class CreateConversationModel implements Serializable {
     // Image Upload
     private Part file;
     private List<String> fileNames;
-    private List<byte[]> images;
+    private Set<byte[]> images;
     
     // For Ajax events
     private boolean livingInsertion;
@@ -134,7 +136,7 @@ public class CreateConversationModel implements Serializable {
         this.price = "";
         
         fileNames = new ArrayList<>();
-        images = new ArrayList<>();
+        images = new LinkedHashSet<>();
         
     }
     
@@ -369,35 +371,28 @@ public class CreateConversationModel implements Serializable {
         try {
             if (!doBankTransaction()) {
                 ctx.addMessage(publishButton.getClientId(), new FacesMessage(
-                        "Die Banktransaktion ist fehlgeschlagen! Bitte überprüfen "
-                                + "Sie Ihre Angaben!"));
+                        Constants.ERR_BANK_WRONG_INPUT));
 
                 return null;
             }
         } catch (Exception e) {
             ctx.addMessage(publishButton.getClientId(), new FacesMessage(
-                    "Die Banktransaktion ist fehlgeschlagen! Der Service ist"
-                            + " im Moment nicht erreichbar!"));
+                    Constants.ERR_BANK_SERVICE_UNAVAILABLE));
             
             return null;
         }
         
         if (publishInNewspaper) {
-            
             try {
                 if (!doNewspaperTransaction()) {
                     ctx.addMessage(publishButton.getClientId(), new FacesMessage(
-                            "Die Veröffentlichung in der Zeitung ist "
-                                    + "fehlgeschlagen! Ihr Inserat kann nur auf "
-                                    + "Sharkz veröffentlicht werden!"));
+                            Constants.ERR_NEWSPAPER_WRONG_INPUT));
                 
                     return null;
                 }
             } catch (Exception e) {
                 ctx.addMessage(publishButton.getClientId(), new FacesMessage(
-                    "Der Service zum Veröffentlichen in der Zeitung steht im "
-                            + "Moment nicht zur Verfügung! Ihr Inserat kann "
-                            + "nur auf Sharkz veröffentlicht werden!"));
+                    Constants.ERR_NEWSPAPER_SERVICE_UNAVAILABLE));
             
                 return null;
             }
@@ -415,7 +410,8 @@ public class CreateConversationModel implements Serializable {
         if (!this.conversation.isTransient())
             conversation.end();
         
-        return "insertion.xhtml?faces-redirect=true&includeViewParams=true&insertion_id=" + insertionId;
+        return "insertion.xhtml?faces-redirect=true&includeViewParams=true&"
+                + "insertion_id=" + insertionId;
     }
     
     /**
@@ -711,11 +707,11 @@ public class CreateConversationModel implements Serializable {
         this.fileNames = fileNames;
     }
     
-    public List<byte[]> getImages() {
+    public Set<byte[]> getImages() {
         return images;
     }
     
-    public void setImages(List<byte[]> images) {
+    public void setImages(Set<byte[]> images) {
         this.images = images;
     }
     

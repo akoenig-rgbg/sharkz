@@ -24,14 +24,18 @@ public class InsertionManagementModel implements Serializable {
         insertions = searchService.fetchAllInsertions();
     }
     
-    public void delete(long insertionId) {
-        insertionService.deleteInsertion(insertionId);
-    }
-    
-    public void edit(long insertionId) {
+    /**
+     * Deletes an insertion
+     * @param ins
+     * @return 
+     */
+    public String delete(Insertion ins) {
+        insertionService.deleteInsertion(ins.getID());
         
+        return "insertionManagement";
     }
 
+    // Getter & Setter
     public List<Insertion> getInsertions() {
         return insertions;
     }

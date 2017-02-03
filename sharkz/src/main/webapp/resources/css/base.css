@@ -13,7 +13,7 @@ body {
 body, a, p {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    font-weight: 100;
+    font-weight: 300;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -109,6 +109,14 @@ a {
     color: #fff;
 }
 
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 /* Input Fields */
 
 .inputContainer {
@@ -181,6 +189,7 @@ a {
 
 .button:hover {
     background-color: #00578d;
+    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
     cursor: pointer;
 }
 
@@ -248,14 +257,14 @@ a {
 
 .menu_item {
     float: left;
-    padding: 19px 30px;
+    padding: 19px 45px;
     font-size: 1.4em;
     font-weight: 400;
     color: #ffffff;
 }
 
 .menu_item:hover, .menu_item:active {
-    padding: 19px 30px 17px 30px;
+    padding: 19px 45px 17px 45px;
     border-bottom: 3px solid #fff;
 }
 

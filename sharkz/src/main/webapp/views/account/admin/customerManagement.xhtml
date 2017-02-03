@@ -26,20 +26,34 @@
 
                 <!-- Header bar -->
                 <div class="header">
-                    #{customerMgmt.getName(cus)}
+                    <div class="left">
+                        #{customerMgmt.getName(cus)}
+                    </div>
+                    <div class="right">
+                        #{cus.geteMail()}
+                    </div>
+                    
                 </div>
 
                 <!-- Content -->
                 <div class="content">
-
-                    <!-- Information -->
-                    <div class="information">
-                        <div class="email">
-                            Email-Adresse: #{cus.geteMail()}
-                            Telefonnummer #{customerMgmt.getPhoneNumber(cus)}
+                    <c:if test="#{empty cus.insertions}">
+                        <div class="customer_insertion">
+                            #{cus.firstName} #{cus.lastName} hat noch keine Inserate eingespeichert!
                         </div>
-                    </div>
+                    </c:if>
                     
+                    <c:forEach
+                        items="#{cus.insertions}"
+                        var="ins">
+                    
+                        <div class="customer_insertion">
+                            <h:link outcome="insertion">
+                                <f:param name="insertion_id" value="#{ins.ID}"/>
+                                #{ins.title}
+                            </h:link>
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <div class="footer">

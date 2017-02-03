@@ -32,13 +32,12 @@ public class MyInsertionsModel implements Serializable {
         if (insertions == null || insertions.isEmpty())
             hasNoResults = true;
     }
-
-    public String edit(long insertionId) {
-        // TODO: Create edit insertion page or use create page
-        
-        return null;
-    }
     
+    /**
+     * Deletes the specific insertion
+     * @param ins
+     * @return 
+     */
     public String delete(Insertion ins) {
         insertionService.deleteInsertion(ins.getID());
         
@@ -47,6 +46,7 @@ public class MyInsertionsModel implements Serializable {
         return "myInsertions";
     }
     
+    // Getter & Setter
     public List<Insertion> getInsertions() {
         return insertions;
     }

@@ -5,10 +5,10 @@ import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Order;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -86,7 +86,7 @@ public class InsertionService extends ServicePrototype implements Serializable {
     }
     
     @Transactional(TxType.REQUIRED)
-    public void setInsertionImages(long insertionId, List<byte[]> images) {
+    public void setInsertionImages(long insertionId, Set<byte[]> images) {
         Insertion in = em.find(Insertion.class, insertionId);
         
         in.setImages(images);
@@ -147,5 +147,16 @@ public class InsertionService extends ServicePrototype implements Serializable {
         Query q = em.createQuery("SELECT COUNT(ord) FROM Order AS ord");
         
         return String.valueOf(q.getSingleResult());
+    }
+    
+    public List<Insertion> fetchInsertionsByCustomer(long customerId) {
+        Customer c = em.find(Customer.class, customerId);
+        
+        TypedQuery<Insertion> q = em.createQuery(
+                "SELECT ins FROM Insertion AS ins WHERE ins.vendor = :customer",
+                Insertion.class)
+                .setParameter("customer", c);
+        
+        return q.getResultList();
     }
 }

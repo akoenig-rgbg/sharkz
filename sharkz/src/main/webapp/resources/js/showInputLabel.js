@@ -1,3 +1,6 @@
+/* jQuery function to display a label above an input field, if it is focused
+ * or if it contains text*/
+
 $(function(){
     $("input.inputText").focus(function() {
         $(this).next("label").css("visibility", "visible");

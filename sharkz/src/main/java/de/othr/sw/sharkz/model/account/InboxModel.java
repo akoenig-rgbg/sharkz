@@ -4,7 +4,6 @@ import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -39,12 +38,22 @@ public class InboxModel implements Serializable {
             hasNoResults = true;
     }
     
+    /**
+     * Deletes a message from a customer's inbox
+     * @param message
+     * @return 
+     */
     public String delete(Message message) {
         accountService.deleteMessage(message.getID());
         
         return "inbox";
     }
     
+    /**
+     * Forwards to the reply page
+     * @param message
+     * @return 
+     */
     public String reply(Message message) {
         this.messageId = message.getID();
         

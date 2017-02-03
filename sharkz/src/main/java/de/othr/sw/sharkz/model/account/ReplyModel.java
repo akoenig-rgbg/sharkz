@@ -1,6 +1,5 @@
 package de.othr.sw.sharkz.model.account;
 
-import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.service.AccountService;
 import java.io.Serializable;
@@ -28,12 +27,16 @@ public class ReplyModel implements Serializable {
     @Inject private AccountService accountService;
     @Inject private AccountModel accountModel;
     
-    public void loadInsertion() {
+    public void loadMessage() {
         message = accountService.findMessage(Long.parseLong(
                 FacesContext.getCurrentInstance().getExternalContext()
                         .getRequestParameterMap().get("message_id")));
     }
     
+    /**
+     * Creates a new messages and persists it in the database
+     * @return 
+     */
     public String sendMessage() {
         Message msg = new Message();
         

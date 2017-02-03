@@ -8,9 +8,9 @@ import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.entity.Message;
 import de.othr.sw.sharkz.entity.util.EntityUtils;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -21,6 +21,8 @@ import javax.transaction.Transactional.TxType;
 @Named
 @RequestScoped
 public class AccountService extends ServicePrototype implements Serializable {
+    
+    @Inject private InsertionService insertionService;
     
     /**
      * Create and persist a new Customer
@@ -279,6 +281,9 @@ public class AccountService extends ServicePrototype implements Serializable {
     @Transactional(TxType.REQUIRED)
     public void deleteCustomer(long customerId) {
         Customer c = em.find(Customer.class, customerId);
+        
+        for (Insertion in : c.getInsertions())
+            insertionService.deleteInsertion(in.getID());
         
         em.remove(c);
     }

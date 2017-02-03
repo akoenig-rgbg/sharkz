@@ -4,6 +4,8 @@ import de.othr.sw.sharkz.entity.Insertion;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,20 +37,22 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int image_id = 0;
+        int imageId = 0;
         
-        Long insertion_id = Long.parseLong(request.getParameter("insertion_id"));
+        Long insertionId = Long.parseLong(request.getParameter("insertion_id"));
         
         try {
-            image_id = Integer.parseInt(request.getParameter("image_id"));
+            imageId = Integer.parseInt(request.getParameter("image_id"));
         } catch (NumberFormatException e) {
             // image_id parameter can be left out. Default is '0' as there is
             // at least one image per insertion.
         }
         
-        Insertion ins = insertionService.findInsertion(insertion_id);
+        Insertion ins = insertionService.findInsertion(insertionId);
         
-        byte[] bytes = ins.getImages().get(image_id);
+        List<byte[]> images = new ArrayList<>(ins.getImages());
+        
+        byte[] bytes = images.get(imageId);
         
         String mimeType;
         

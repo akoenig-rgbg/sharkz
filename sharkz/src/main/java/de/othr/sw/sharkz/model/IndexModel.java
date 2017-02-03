@@ -3,7 +3,6 @@ package de.othr.sw.sharkz.model;
 import de.othr.sw.sharkz.entity.Order;
 import de.othr.sw.sharkz.service.SearchService;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;

@@ -39,11 +39,15 @@ public class BankingDataModel implements Serializable {
 
     }
     
+    /**
+     * Updates the BankingData of a customer
+     */
     public void changeBankingData() {
        accountService.updateBankingData(accountModel.getUser().getID(), iban,
                 bic, bankingPassword);
     }
-
+    
+    // Getter & Setter
     public String getIban() {
         return iban;
     }

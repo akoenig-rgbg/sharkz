@@ -9,6 +9,14 @@ import java.util.UUID;
 
 public class EntityUtils {
 
+    /**
+     * Create a hash from a password
+     * @param password
+     * @param salt
+     * @param algorithm
+     * @return
+     * @throws de.othr.sw.sharkz.entity.util.EntityUtils.EntityUtilException 
+     */
     public static String hashPassword(String password, String salt, String algorithm) throws EntityUtilException {
         try {
             MessageDigest hashAlgo = MessageDigest.getInstance(algorithm);
@@ -34,8 +42,6 @@ public class EntityUtils {
     public static String createRandomUUID() {
         return UUID.randomUUID().toString();
     }
-    
-    
     
     public static class EntityUtilException extends Exception {
         public EntityUtilException(String message, Throwable cause) {

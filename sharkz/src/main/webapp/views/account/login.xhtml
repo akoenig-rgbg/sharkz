@@ -61,7 +61,10 @@
                                 label="Vorname"
                                 a:placeholder="Vorname"
                                 styleClass="inputText login_inputText"
-                                rendered="#{!login.loginAction}"/>
+                                rendered="#{!login.loginAction}" >
+                                
+                                <f:validator id="requiredValidator" />
+                            </h:inputText>
                             <h:outputLabel
                                 class="inputLabel"
                                 value="Vorname" />
@@ -75,7 +78,10 @@
                                 label="Nachname"
                                 a:placeholder="Nachname"
                                 styleClass="inputText login_inputText"
-                                rendered="#{!login.loginAction}"/>
+                                rendered="#{!login.loginAction}">
+                                
+                                <f:validator id="requiredValidator" />
+                            </h:inputText>
                             <h:outputLabel
                                 class="inputLabel"
                                 value="Nachname" />

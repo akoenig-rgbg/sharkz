@@ -32,12 +32,18 @@ public class WishlistModel implements Serializable {
             hasNoResults = true;
     }
 
+    /**
+     * Deletes an insertion from the wishlist
+     * @param ins
+     * @return 
+     */
     public String delete(Insertion ins) {
         insertionService.deleteInsertion(ins.getID());
         
         return "wishlist";
     }
     
+    // Getter & Setter
     public Set<Insertion> getInsertions() {
         return wishlist;
     }

@@ -7,7 +7,6 @@ import de.othr.sw.sharkz.service.AccountService;
 import de.othr.sw.sharkz.service.InsertionService;
 import java.io.Serializable;
 import java.util.Date;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -35,6 +34,10 @@ public class ContactModel implements Serializable {
         
     }
 
+    /**
+     * Sends a message
+     * @return 
+     */
     public String sendMessage() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         

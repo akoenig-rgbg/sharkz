@@ -1,6 +1,5 @@
 package de.othr.sw.sharkz.model;
 
-import de.othr.sw.sharkz.entity.Account;
 import de.othr.sw.sharkz.entity.BankingData;
 import de.othr.sw.sharkz.entity.Customer;
 import de.othr.sw.sharkz.model.account.AccountModel;
@@ -75,6 +74,10 @@ public class InsuranceModel implements Serializable {
         }
     }
     
+    /**
+     * Proceeds to the next step (calculation -> buying) if criteria are met
+     * @return 
+     */
     public String next() {
         if (step == 2) {
             step = 0;

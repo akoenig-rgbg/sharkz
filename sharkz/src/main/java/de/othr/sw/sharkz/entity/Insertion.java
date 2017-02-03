@@ -4,8 +4,8 @@ import de.othr.sw.sharkz.entity.type.HouseType;
 import de.othr.sw.sharkz.entity.type.OfferType;
 import de.othr.sw.sharkz.util.Constants;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -36,7 +36,7 @@ public abstract class Insertion extends EntityPrototype {
     
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(length= 5 * 3200000)
-    private List<byte[]> images;
+    private Set<byte[]> images;
    
     @ManyToOne
     private Customer vendor;
@@ -92,11 +92,11 @@ public abstract class Insertion extends EntityPrototype {
         this.price = price;
     }
 
-    public List<byte[]> getImages() {
+    public Set<byte[]> getImages() {
         return images;
     }
 
-    public void setImages(List<byte[]> images) {
+    public void setImages(Set<byte[]> images) {
         this.images = images;
     }
 
