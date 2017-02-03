@@ -11,7 +11,9 @@ public class AddressConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Not needed
+        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

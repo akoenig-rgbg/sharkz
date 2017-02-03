@@ -12,6 +12,8 @@ public class AccountConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        // Not needed
+        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

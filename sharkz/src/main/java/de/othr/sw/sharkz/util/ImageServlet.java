@@ -56,6 +56,7 @@ public class ImageServlet extends HttpServlet {
         
         String mimeType;
         
+        // JMimeMagic library guesses mimetype of picture
         try {
             MagicMatch match = Magic.getMagicMatch(bytes);
             mimeType = match.getMimeType();

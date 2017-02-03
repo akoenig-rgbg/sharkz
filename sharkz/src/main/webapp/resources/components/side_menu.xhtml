@@ -15,7 +15,12 @@
                 </div>
 
                 <!-- Name & email -->
-                <div class="name">#{account.name}</div>
+                <div class="name">
+                    <h:outputText
+                        escape="false"
+                        value="#{account.user}"
+                        converter="accountConverter" />
+                </div>
                 <div class="email">#{account.user.geteMail()}</div>
             </div>
         
